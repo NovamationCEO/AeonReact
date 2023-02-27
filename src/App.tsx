@@ -2,6 +2,7 @@ import Box from '@mui/material/Box'
 import React, { CSSProperties } from 'react'
 import './App.css'
 import { Background } from './components/Background'
+import { Card } from './components/Card'
 import { Header } from './components/Header'
 import { LeftMenu } from './components/LeftMenu'
 import { RightMenu } from './components/RightMenu'
@@ -44,14 +45,16 @@ function App() {
         height={'calc(100vh - 2em)'}
       >
         <LeftMenu />
-        <RightMenu />
+        {/* <RightMenu /> */}
         <Box
           display={'flex'}
           flex={'1'}
           border={'2px solid red'}
           margin={'10px'}
           position={'relative'}
-        ></Box>
+        >
+          <Card value={'K'} />
+        </Box>
       </Box>
     </Box>
   )

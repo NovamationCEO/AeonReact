@@ -1,4 +1,5 @@
 export const Colors = {
   aeonWhite: 'white',
-  leftMenu: 'bisque',
+  menu: 'bisque',
+  card: 'antiquewhite',
 }

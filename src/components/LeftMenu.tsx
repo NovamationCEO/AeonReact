@@ -20,7 +20,7 @@ export function LeftMenu() {
       maxWidth={'500px'}
       left={0}
       top={0}
-      bgcolor={Colors.leftMenu}
+      bgcolor={Colors.menu}
       borderRadius={'0px 50px 50px 0px'}
       overflow={'visible'}
       display={'flex'}
@@ -32,7 +32,7 @@ export function LeftMenu() {
       zIndex={z.leftMenu}
     >
       <Box
-        bgcolor={Colors.leftMenu}
+        bgcolor={Colors.menu}
         color={Colors.aeonWhite}
         boxShadow={'none'}
         position={'absolute'}
