@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Colors } from '../theme/colors'
 import { z } from '../theme/z'
-import { Flame } from './Flame'
+import { Flames } from './Flames'
 
 export function Card(props: { value: string }) {
   const { value } = props
@@ -30,7 +30,7 @@ export function Card(props: { value: string }) {
         alignItems={'center'}
         bgcolor={Colors.card}
       >
-        <Flame color={'red'} />
+        <Flames set={0} />
         <Box
           fontWeight={'bold'}
           fontSize={'60px'}
