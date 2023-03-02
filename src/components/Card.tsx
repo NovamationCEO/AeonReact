@@ -25,19 +25,18 @@ export function Card(props: { cardValue: keyof typeof flameSets }) {
         height={0}
         paddingTop={'75%'}
         paddingBottom={'75%'}
-        border={'1px solid blue'}
         width={'100%'}
         justifyContent={'center'}
         alignItems={'center'}
-        // bgcolor={Colors.card}
       >
         <Box
           position={'absolute'}
+          display={'flex'}
           left={0}
           top={0}
           width={'100%'}
           height={0}
-          sx={cardStyles.loops}
+          sx={cardStyles.cracks(flameSets[cardValue][3])}
           paddingTop={'75%'}
           paddingBottom={'75%'}
           justifyContent={'center'}
