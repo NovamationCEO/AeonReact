@@ -5,7 +5,7 @@ export function Header() {
   return (
     <Box
       width={'100vw'}
-      bgcolor={'midnightblue'}
+      bgcolor={Colors.header}
       fontFamily={'Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif'}
       color={Colors.aeonWhite}
       display={'flex'}

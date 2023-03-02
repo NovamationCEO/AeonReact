@@ -2,10 +2,12 @@ import { faGear } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Box } from '@mui/material'
 import React from 'react'
+import { cardStyles } from '../theme/cardStyles'
 import { Colors } from '../theme/colors'
 import { z } from '../theme/z'
 import { CardStyle } from '../types/CardStyle'
 import { DeckType } from '../types/DeckType'
+import { StyleButton } from './StyleButton'
 
 export function LeftMenu(props: {
   baseDeck: DeckType
@@ -38,15 +40,28 @@ export function LeftMenu(props: {
         transform: `translateX(${xPos}%)`,
       }}
       zIndex={z.leftMenu}
+      flexDirection={'column'}
     >
-      <Box>
-        <Box>{cardStyle}</Box>
-        <Box border={'2px solid red'} onClick={() => setCardStyle('loops')}>
-          Hi
-        </Box>
-        <Box border={'2px solid blue'} onClick={() => setCardStyle('cracks')}>
-          Ho
-        </Box>
+      <Box
+        display={'grid'}
+        gridAutoRows={'60px'}
+        gridTemplateColumns={'repeat(auto-fill, 50px)'}
+        gap={'10px'}
+        alignItems={'center'}
+        padding={'10px'}
+        borderRadius={'40px'}
+        bgcolor={Colors.menuDark}
+      >
+        <StyleButton
+          cardStyle={cardStyle}
+          targetStyle={'loops'}
+          setCardStyle={setCardStyle}
+        />
+        <StyleButton
+          cardStyle={cardStyle}
+          targetStyle={'cracks'}
+          setCardStyle={setCardStyle}
+        />
       </Box>
       <Box
         bgcolor={Colors.menu}
@@ -55,6 +70,7 @@ export function LeftMenu(props: {
         position={'absolute'}
         display={'flex'}
         alignSelf={'center'}
+        top={'calc(50% - 25px)'}
         right={'-24px'}
         justifyContent={'center'}
         width={'50px'}

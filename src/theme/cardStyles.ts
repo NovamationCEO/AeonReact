@@ -12,7 +12,6 @@ function makeLoop(): CSSProperties {
       `radial-gradient(100% 100%,#0000 22%, ${loopColor} 23% 29%, #0000 30% 34%, ${loopColor} 35% 41%,#0000 42%) ` +
       `${cardColor}`,
     backgroundSize: `${textureSize * 2}px ${textureSize * 2}px`,
-    border: `1px solid ${loopColor}`,
     filter: 'blur(1px)',
   }
   return cardTexture
