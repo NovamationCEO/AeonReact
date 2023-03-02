@@ -28,6 +28,7 @@ export function Card(props: { cardValue: keyof typeof flameSets }) {
         width={'100%'}
         justifyContent={'center'}
         alignItems={'center'}
+        overflow={'hidden'}
       >
         <Box
           position={'absolute'}
@@ -61,6 +62,7 @@ export function Card(props: { cardValue: keyof typeof flameSets }) {
                 '1px -1px 10px darkslategray, -1px 1px 5px darkslategray,' +
                 '1px 1px 10px darkslategray',
             },
+            transition: '0.5s ease text-shadow',
           }}
         >
           {cardValue}

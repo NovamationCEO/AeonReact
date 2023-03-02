@@ -24,7 +24,7 @@ function App() {
           margin={'10px'}
           position={'relative'}
         >
-          <Card cardValue={'2'} />
+          <Card cardValue={'4'} />
         </Box>
       </Box>
     </Box>
