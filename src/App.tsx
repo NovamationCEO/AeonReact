@@ -1,9 +1,11 @@
 import Box from '@mui/material/Box'
 import React from 'react'
 import './App.css'
+import { ActionRow } from './components/ActionRow'
 import { CardRow } from './components/CardRow'
 import { Header } from './components/Header'
 import { LeftMenu } from './components/LeftMenu'
+import { LeftMenuScrim } from './components/LeftMenuScrim'
 import { decks, nemesisDecks } from './constants/decks'
 import { backgroundStyle } from './theme/backgroundStyle'
 import { CardStyle } from './types/CardStyle'
@@ -20,6 +22,7 @@ function App() {
   const [currentDeck, setCurrentDeck] = React.useState(
     undefined as CardValue[] | undefined
   )
+  const [menuVisible, setMenuVisible] = React.useState(false)
 
   React.useEffect(() => {
     if (!currentDeck) {
@@ -27,6 +30,12 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentDeck])
+
+  React.useEffect(() => {
+    setCurrentDeck(freshDeck())
+    setRevealed([])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [baseDeck, nemesisDeck])
 
   function freshDeck() {
     return shuffleDeck(
@@ -63,6 +72,7 @@ function App() {
         flex={1}
         display={'flex'}
         height={'calc(100vh - 2em)'}
+        flexDirection={'column'}
       >
         <LeftMenu
           baseDeck={baseDeck}
@@ -71,17 +81,19 @@ function App() {
           setCardStyle={setCardStyle}
           nemesisDeck={nemesisDeck}
           setNemesisDeck={setNemesisDeck}
+          menuVisible={menuVisible}
+          toggleMenu={() => setMenuVisible((prev) => !prev)}
         />
-        <Box
-          display={'flex'}
-          flex={1}
-          border={'2px solid red'}
-          margin={'10px'}
-          position={'relative'}
-          onClick={drawCard}
-        >
-          <CardRow revealed={revealed} cardStyle={cardStyle} />
-        </Box>
+        <LeftMenuScrim
+          menuVisible={menuVisible}
+          menuOff={() => setMenuVisible(false)}
+        />
+        <CardRow
+          revealed={revealed}
+          cardStyle={cardStyle}
+          drawCard={drawCard}
+        />
+        <ActionRow />
       </Box>
     </Box>
   )

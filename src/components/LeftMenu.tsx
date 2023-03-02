@@ -18,6 +18,8 @@ export function LeftMenu(props: {
   setCardStyle: (cs: CardStyle) => void
   nemesisDeck: NemesisDeckType
   setNemesisDeck: (nd: NemesisDeckType) => void
+  menuVisible: boolean
+  toggleMenu: () => void
 }) {
   const {
     baseDeck,
@@ -26,12 +28,11 @@ export function LeftMenu(props: {
     setCardStyle,
     nemesisDeck,
     setNemesisDeck,
+    menuVisible,
+    toggleMenu,
   } = props
-  const [xPos, setXPos] = React.useState(-100)
 
-  function moveDrawer() {
-    setXPos((prevXPos) => -1 * (prevXPos + 100))
-  }
+  const xPos = menuVisible ? 0 : -100
 
   return (
     <Box
@@ -101,7 +102,7 @@ export function LeftMenu(props: {
       <MenuRow>
         <NemesisDeckTypeButton
           nemesisDeck={nemesisDeck}
-          targetDeck={'nemesis'}
+          targetDeck={'base'}
           setNemesisDeck={setNemesisDeck}
           tooltip={'Standard Nemesis Deck'}
           title={'NN'}
@@ -135,7 +136,7 @@ export function LeftMenu(props: {
         height={'50px'}
         borderRadius={'50%'}
         alignItems={'center'}
-        onClick={moveDrawer}
+        onClick={() => toggleMenu()}
         sx={{
           transform: `rotate(${xPos * 2}deg)`,
           transition: '0.7s ease transform',

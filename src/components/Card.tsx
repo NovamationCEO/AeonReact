@@ -17,7 +17,7 @@ export function Card(props: { cardValue: CardValue; cardStyle: CardStyle }) {
       alignItems={'center'}
       minWidth={'120px'}
       position={'relative'}
-      maxWidth={'300px'}
+      maxWidth={'350px'}
       width={'12%'}
       zIndex={z.card}
       sx={{ userSelect: 'none' }}
