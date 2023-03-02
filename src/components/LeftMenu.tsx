@@ -2,11 +2,13 @@ import { faGear } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Box } from '@mui/material'
 import React from 'react'
-import { cardStyles } from '../theme/cardStyles'
 import { Colors } from '../theme/colors'
 import { z } from '../theme/z'
 import { CardStyle } from '../types/CardStyle'
-import { DeckType } from '../types/DeckType'
+import { DeckType, NemesisDeckType } from '../types/DeckType'
+import { DeckTypeButton } from './DeckTypeButton'
+import { MenuRow } from './MenuRow'
+import { NemesisDeckTypeButton } from './NemesisDeckTypeButton'
 import { StyleButton } from './StyleButton'
 
 export function LeftMenu(props: {
@@ -14,8 +16,17 @@ export function LeftMenu(props: {
   setBaseDeck: (dt: DeckType) => void
   cardStyle: CardStyle
   setCardStyle: (cs: CardStyle) => void
+  nemesisDeck: NemesisDeckType
+  setNemesisDeck: (nd: NemesisDeckType) => void
 }) {
-  const { baseDeck, setBaseDeck, cardStyle, setCardStyle } = props
+  const {
+    baseDeck,
+    setBaseDeck,
+    cardStyle,
+    setCardStyle,
+    nemesisDeck,
+    setNemesisDeck,
+  } = props
   const [xPos, setXPos] = React.useState(-100)
 
   function moveDrawer() {
@@ -42,27 +53,74 @@ export function LeftMenu(props: {
       zIndex={z.leftMenu}
       flexDirection={'column'}
     >
-      <Box
-        display={'grid'}
-        gridAutoRows={'60px'}
-        gridTemplateColumns={'repeat(auto-fill, 50px)'}
-        gap={'10px'}
-        alignItems={'center'}
-        padding={'10px'}
-        borderRadius={'40px'}
-        bgcolor={Colors.menuDark}
-      >
-        <StyleButton
-          cardStyle={cardStyle}
-          targetStyle={'loops'}
-          setCardStyle={setCardStyle}
-        />
+      <MenuRow>
         <StyleButton
           cardStyle={cardStyle}
           targetStyle={'cracks'}
           setCardStyle={setCardStyle}
         />
-      </Box>
+        <StyleButton
+          cardStyle={cardStyle}
+          targetStyle={'loops'}
+          setCardStyle={setCardStyle}
+        />
+      </MenuRow>
+
+      <MenuRow>
+        <DeckTypeButton
+          baseDeck={baseDeck}
+          setBaseDeck={setBaseDeck}
+          targetDeck={'oneplayer'}
+          title={'1'}
+        />
+        <DeckTypeButton
+          baseDeck={baseDeck}
+          setBaseDeck={setBaseDeck}
+          targetDeck={'twoplayer'}
+          title={'2'}
+        />
+        <DeckTypeButton
+          baseDeck={baseDeck}
+          setBaseDeck={setBaseDeck}
+          targetDeck={'threeplayer'}
+          title={'3'}
+        />
+        <DeckTypeButton
+          baseDeck={baseDeck}
+          setBaseDeck={setBaseDeck}
+          targetDeck={'fourplayer'}
+          title={'4'}
+        />
+        <DeckTypeButton
+          baseDeck={baseDeck}
+          setBaseDeck={setBaseDeck}
+          targetDeck={'fourplayerAB'}
+          title={'AB'}
+        />
+      </MenuRow>
+      <MenuRow>
+        <NemesisDeckTypeButton
+          nemesisDeck={nemesisDeck}
+          targetDeck={'nemesis'}
+          setNemesisDeck={setNemesisDeck}
+          tooltip={'Standard Nemesis Deck'}
+          title={'NN'}
+        />
+        <NemesisDeckTypeButton
+          nemesisDeck={nemesisDeck}
+          targetDeck={'nx'}
+          setNemesisDeck={setNemesisDeck}
+          title={'NX'}
+          tooltip={"I Don't Remember"}
+        />
+        <NemesisDeckTypeButton
+          nemesisDeck={nemesisDeck}
+          targetDeck={'nd'}
+          setNemesisDeck={setNemesisDeck}
+          title={'ND'}
+          tooltip={'Thief of Dreams'}
+        />
+      </MenuRow>
       <Box
         bgcolor={Colors.menu}
         color={Colors.aeonWhite}

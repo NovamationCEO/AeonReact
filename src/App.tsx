@@ -4,14 +4,17 @@ import './App.css'
 import { CardRow } from './components/CardRow'
 import { Header } from './components/Header'
 import { LeftMenu } from './components/LeftMenu'
-import { decks } from './constants/decks'
+import { decks, nemesisDecks } from './constants/decks'
 import { backgroundStyle } from './theme/backgroundStyle'
 import { CardStyle } from './types/CardStyle'
 import { CardValue } from './types/CardValue'
-import { DeckType } from './types/DeckType'
+import { DeckType, NemesisDeckType } from './types/DeckType'
 
 function App() {
   const [baseDeck, setBaseDeck] = React.useState('twoplayer' as DeckType)
+  const [nemesisDeck, setNemesisDeck] = React.useState(
+    'base' as NemesisDeckType
+  )
   const [cardStyle, setCardStyle] = React.useState('cracks' as CardStyle)
   const [revealed, setRevealed] = React.useState([] as CardValue[])
   const [currentDeck, setCurrentDeck] = React.useState(
@@ -20,18 +23,22 @@ function App() {
 
   React.useEffect(() => {
     if (!currentDeck) {
-      setCurrentDeck(shuffleDeck(decks[baseDeck]))
+      setCurrentDeck(freshDeck())
     }
-  }, [currentDeck, baseDeck])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentDeck])
+
+  function freshDeck() {
+    return shuffleDeck(
+      [...decks[baseDeck]].concat([...nemesisDecks[nemesisDeck]])
+    )
+  }
 
   function drawCard() {
-    if (!currentDeck) {
-      return
-    }
-    if (!currentDeck.length) {
-      const newDeck = shuffleDeck([...decks[baseDeck]])
-      setCurrentDeck([...newDeck])
+    if (!currentDeck || !currentDeck.length) {
+      setCurrentDeck(freshDeck())
       setRevealed([])
+      return
     }
 
     const newCard = currentDeck.pop()
@@ -62,6 +69,8 @@ function App() {
           setBaseDeck={setBaseDeck}
           cardStyle={cardStyle}
           setCardStyle={setCardStyle}
+          nemesisDeck={nemesisDeck}
+          setNemesisDeck={setNemesisDeck}
         />
         <Box
           display={'flex'}

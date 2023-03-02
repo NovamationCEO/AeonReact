@@ -14,12 +14,14 @@ export function CardRow(props: {
 
   return (
     <Box
-      border={'2px solid green'}
+      border={'2px solid cyan'}
       width={'100%'}
       alignItems={'center'}
-      justifyContent={'space-around'}
       position={'relative'}
-      display={'flex'}
+      display={'grid'}
+      gridTemplateColumns={'repeat(auto-fit, minmax(110px, 1fr))'}
+      gap={'10px'}
+      justifyItems={'center'}
     >
       {revealed.map((revealedValue, n) => {
         return <Card cardValue={revealedValue} cardStyle={cardStyle} key={n} />

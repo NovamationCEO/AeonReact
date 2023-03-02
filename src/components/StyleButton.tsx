@@ -18,7 +18,7 @@ export function StyleButton(props: {
       sx={cardStyles[targetStyle]('gray')}
       onClick={() => setCardStyle(targetStyle)}
       border={`3px solid ${
-        cardStyle === targetStyle ? 'green' : Colors.menuDark
+        cardStyle === targetStyle ? Colors.selectedItem : Colors.menuDark
       }`}
     />
   )
