@@ -4,8 +4,16 @@ import { Box } from '@mui/material'
 import React from 'react'
 import { Colors } from '../theme/colors'
 import { z } from '../theme/z'
+import { CardStyle } from '../types/CardStyle'
+import { DeckType } from '../types/DeckType'
 
-export function LeftMenu() {
+export function LeftMenu(props: {
+  baseDeck: DeckType
+  setBaseDeck: (dt: DeckType) => void
+  cardStyle: CardStyle
+  setCardStyle: (cs: CardStyle) => void
+}) {
+  const { baseDeck, setBaseDeck, cardStyle, setCardStyle } = props
   const [xPos, setXPos] = React.useState(-100)
 
   function moveDrawer() {
@@ -31,6 +39,15 @@ export function LeftMenu() {
       }}
       zIndex={z.leftMenu}
     >
+      <Box>
+        <Box>{cardStyle}</Box>
+        <Box border={'2px solid red'} onClick={() => setCardStyle('loops')}>
+          Hi
+        </Box>
+        <Box border={'2px solid blue'} onClick={() => setCardStyle('cracks')}>
+          Ho
+        </Box>
+      </Box>
       <Box
         bgcolor={Colors.menu}
         color={Colors.aeonWhite}

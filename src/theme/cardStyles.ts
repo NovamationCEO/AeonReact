@@ -39,7 +39,7 @@ function makeCracks(crackColor: string = '#20222a'): CSSProperties {
   return cardTexture
 }
 
-export const cardStyles: { [x: string]: (v?: any) => CSSProperties } = {
+export const cardStyles = {
   loops: makeLoop,
   cracks: makeCracks,
 }

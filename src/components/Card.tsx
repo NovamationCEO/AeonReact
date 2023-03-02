@@ -3,10 +3,12 @@ import Box from '@mui/material/Box'
 import { cardStyles } from '../theme/cardStyles'
 import { flameSets } from '../theme/flameSets'
 import { z } from '../theme/z'
+import { CardStyle } from '../types/CardStyle'
+import { CardValue } from '../types/CardValue'
 import { Flames } from './Flames'
 
-export function Card(props: { cardValue: keyof typeof flameSets }) {
-  const { cardValue } = props
+export function Card(props: { cardValue: CardValue; cardStyle: CardStyle }) {
+  const { cardValue, cardStyle } = props
   const theme = useTheme()
   return (
     <Box
@@ -18,6 +20,7 @@ export function Card(props: { cardValue: keyof typeof flameSets }) {
       maxWidth={'300px'}
       width={'12%'}
       zIndex={z.card}
+      sx={{ userSelect: 'none' }}
     >
       <Box
         position={'relative'}
@@ -37,7 +40,7 @@ export function Card(props: { cardValue: keyof typeof flameSets }) {
           top={0}
           width={'100%'}
           height={0}
-          sx={cardStyles.cracks(flameSets[cardValue][3])}
+          sx={cardStyles[cardStyle](flameSets[cardValue][3])}
           paddingTop={'75%'}
           paddingBottom={'75%'}
           justifyContent={'center'}

@@ -1,8 +1,9 @@
 import Box from '@mui/material/Box'
 import { flameSets } from '../theme/flameSets'
+import { CardValue } from '../types/CardValue'
 import { Flame } from './Flame'
 
-export function Flames(props: { cardValue: keyof typeof flameSets }) {
+export function Flames(props: { cardValue: CardValue }) {
   const { cardValue } = props
   const col = flameSets[cardValue]
 
