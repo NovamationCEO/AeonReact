@@ -1,6 +1,6 @@
 import { Box, Tooltip } from '@mui/material'
 import { Colors } from '../theme/colors'
-import { DeckType, NemesisDeckType } from '../types/DeckType'
+import { NemesisDeckType } from '../types/DeckType'
 
 export function NemesisDeckTypeButton(props: {
   nemesisDeck: NemesisDeckType

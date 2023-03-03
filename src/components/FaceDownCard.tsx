@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box'
 import { cardStyles } from '../theme/cardStyles'
-import { flameSets } from '../theme/flameSets'
 import { z } from '../theme/z'
 import { CardStyle } from '../types/CardStyle'
 
