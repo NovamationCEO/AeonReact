@@ -19,7 +19,7 @@ export function CardRow(props: {
       alignItems={'center'}
       position={'relative'}
       display={'grid'}
-      gridTemplateColumns={'repeat(auto-fit, minmax(200px, 1fr))'}
+      gridTemplateColumns={'repeat(auto-fit, minmax(120px, 1fr))'}
       gap={'10px'}
       justifyItems={'center'}
       flex={3}

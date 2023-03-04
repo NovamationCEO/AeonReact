@@ -4,4 +4,5 @@ export const z = {
   card: 1,
   cardFlame: 2,
   cardNumber: 3,
+  scrim: 99,
 }
