@@ -15,7 +15,7 @@ export function Card(props: { cardValue: CardValue; cardStyle: CardStyle }) {
       display={'flex'}
       justifyContent={'center'}
       alignItems={'center'}
-      minWidth={'120px'}
+      minWidth={'130px'}
       position={'relative'}
       maxWidth={'350px'}
       width={'12%'}
