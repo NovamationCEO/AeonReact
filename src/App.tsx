@@ -17,51 +17,55 @@ function App() {
     'base' as NemesisDeckType
   )
   const [cardStyle, setCardStyle] = React.useState('cracks' as CardStyle)
-  const [revealed, setRevealed] = React.useState([] as CardValue[])
-  const [currentDeck, setCurrentDeck] = React.useState(
-    undefined as CardValue[] | undefined
-  )
+  const [deck, setDeck] = React.useState([] as CardValue[])
+  const [deckIndex, setDeckIndex] = React.useState(0)
   const [menuVisible, setMenuVisible] = React.useState(false)
 
   React.useEffect(() => {
-    if (!currentDeck) {
-      setCurrentDeck(freshDeck())
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentDeck])
-
-  React.useEffect(() => {
-    setCurrentDeck(freshDeck())
-    setRevealed([])
+    freshDeck()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseDeck, nemesisDeck])
 
   function freshDeck() {
-    return shuffleDeck(
-      [...decks[baseDeck]].concat([...nemesisDecks[nemesisDeck]])
+    setDeck(
+      shuffleDeck([...decks[baseDeck]].concat([...nemesisDecks[nemesisDeck]]))
     )
   }
 
   function drawCard() {
-    if (!currentDeck || !currentDeck.length) {
-      setCurrentDeck(freshDeck())
-      setRevealed([])
-      return
+    const newIndex = (deckIndex + 1) % deck.length
+    setDeckIndex(newIndex)
+    if (!newIndex) {
+      freshDeck()
     }
-
-    const newCard = currentDeck.pop()
-    if (!newCard) return
-    setRevealed(revealed.concat([newCard]))
   }
 
   function shuffleDeck(deck: CardValue[]): CardValue[] {
-    // this.historySource.value.push("|");
     let tempDeck = [...deck]
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < 21; i++) {
       tempDeck = tempDeck.sort(() => Math.random() - 0.5)
     }
     return tempDeck
   }
+
+  function testOdds() {
+    const master: number[] = [0, 0, 0, 0, 0, 0]
+    const loops = 10000
+    for (let i = 0; i < loops; i++) {
+      const shuffledDeck = shuffleDeck(deck)
+      shuffledDeck.forEach((val, n) => {
+        if (val === 'N') {
+          master[n] = master[n] + 1
+        }
+      })
+    }
+    master.forEach((val, n) => {
+      master[n] = val / loops
+    })
+    console.log(master)
+  }
+
+  testOdds()
 
   return (
     <Box sx={backgroundStyle}>
@@ -88,7 +92,8 @@ function App() {
           menuOff={() => setMenuVisible(false)}
         />
         <CardRow
-          revealed={revealed}
+          deck={deck}
+          deckIndex={deckIndex}
           cardStyle={cardStyle}
           drawCard={drawCard}
         />

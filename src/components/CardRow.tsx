@@ -4,13 +4,12 @@ import { CardValue } from '../types/CardValue'
 import { Card } from './Card'
 
 export function CardRow(props: {
-  revealed: CardValue[]
+  deck: CardValue[]
+  deckIndex: number
   cardStyle: CardStyle
-  deckSize?: number
   drawCard: () => void
 }) {
-  const { revealed = [], cardStyle, deckSize = 6, drawCard } = props
-  const faceDownCards = Array.from(Array(deckSize - revealed.length).keys())
+  const { deck, cardStyle, deckIndex, drawCard } = props
 
   return (
     <Box
@@ -31,13 +30,15 @@ export function CardRow(props: {
         flex={3}
         onClick={drawCard}
       >
-        {revealed.map((revealedValue, n) => {
+        {deck.map((cardValue, n) => {
           return (
-            <Card cardValue={revealedValue} cardStyle={cardStyle} key={n} />
+            <Card
+              cardValue={cardValue}
+              cardStyle={cardStyle}
+              key={n}
+              isUp={deckIndex >= n}
+            />
           )
-        })}
-        {faceDownCards.map((_blankCard, j) => {
-          return <Card cardStyle={cardStyle} key={'b' + j} />
         })}
       </Box>
     </Box>

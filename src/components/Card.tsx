@@ -7,9 +7,14 @@ import { CardStyle } from '../types/CardStyle'
 import { CardValue } from '../types/CardValue'
 import { Flames } from './Flames'
 
-export function Card(props: { cardValue?: CardValue; cardStyle: CardStyle }) {
-  const { cardValue = '', cardStyle } = props
+export function Card(props: {
+  cardValue: CardValue
+  cardStyle: CardStyle
+  isUp: boolean
+}) {
+  const { cardValue, cardStyle, isUp } = props
   const theme = useTheme()
+
   return (
     <Box
       display={'flex'}
@@ -40,13 +45,17 @@ export function Card(props: { cardValue?: CardValue; cardStyle: CardStyle }) {
           top={0}
           width={'100%'}
           height={0}
-          sx={cardStyles[cardStyle](flameSets[cardValue][3])}
+          sx={
+            isUp
+              ? cardStyles[cardStyle](flameSets[cardValue][3])
+              : cardStyles[cardStyle]()
+          }
           paddingTop={'75%'}
           paddingBottom={'75%'}
           justifyContent={'center'}
           alignItems={'center'}
         />
-        {!!cardValue && (
+        {isUp && (
           <div>
             <Flames cardValue={cardValue} />
             <Box
