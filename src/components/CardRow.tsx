@@ -2,7 +2,6 @@ import { Box } from '@mui/material'
 import { CardStyle } from '../types/CardStyle'
 import { CardValue } from '../types/CardValue'
 import { Card } from './Card'
-import { FaceDownCard } from './FaceDownCard'
 
 export function CardRow(props: {
   revealed: CardValue[]
