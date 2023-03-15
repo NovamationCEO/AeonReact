@@ -10,10 +10,10 @@ export function FaceDownCard(props: { cardStyle: CardStyle }) {
       display={'flex'}
       justifyContent={'center'}
       alignItems={'center'}
-      minWidth={'120px'}
+      minWidth={'110px'}
       position={'relative'}
       maxWidth={'300px'}
-      width={'12%'}
+      width={'100%'}
       zIndex={z.card}
     >
       <Box

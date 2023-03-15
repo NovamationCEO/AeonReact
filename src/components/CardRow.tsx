@@ -15,23 +15,32 @@ export function CardRow(props: {
 
   return (
     <Box
-      // border={'2px solid cyan'}
-      alignItems={'center'}
-      position={'relative'}
-      display={'grid'}
-      gridTemplateColumns={'repeat(auto-fit, minmax(120px, 1fr))'}
-      gap={'10px'}
-      justifyItems={'center'}
-      flex={3}
+      height={'100%'}
+      alignContent={'center'}
+      display={'flex'}
+      flexWrap={'wrap'}
       margin={'10px'}
-      onClick={drawCard}
     >
-      {revealed.map((revealedValue, n) => {
-        return <Card cardValue={revealedValue} cardStyle={cardStyle} key={n} />
-      })}
-      {faceDownCards.map((blankCard, j) => {
-        return <FaceDownCard cardStyle={cardStyle} key={'b' + j} />
-      })}
+      <Box
+        alignItems={'center'}
+        position={'relative'}
+        display={'grid'}
+        gridTemplateColumns={'repeat(auto-fit, minmax(120px, 1fr))'}
+        gridAutoRows={'min-content'}
+        gap={'10px'}
+        justifyItems={'center'}
+        flex={3}
+        onClick={drawCard}
+      >
+        {revealed.map((revealedValue, n) => {
+          return (
+            <Card cardValue={revealedValue} cardStyle={cardStyle} key={n} />
+          )
+        })}
+        {faceDownCards.map((_blankCard, j) => {
+          return <Card cardStyle={cardStyle} key={'b' + j} />
+        })}
+      </Box>
     </Box>
   )
 }
