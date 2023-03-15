@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import React from 'react'
 import './App.css'
-import { ActionRow } from './components/ActionRow'
+import { BottomMenu } from './components/Bottom Menu'
 import { CardRow } from './components/CardRow'
 import { Header } from './components/Header'
 import { LeftMenu } from './components/LeftMenu'
@@ -93,7 +93,7 @@ function App() {
           cardStyle={cardStyle}
           drawCard={drawCard}
         />
-        <ActionRow />
+        <BottomMenu />
       </Box>
     </Box>
   )
