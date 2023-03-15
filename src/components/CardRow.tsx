@@ -28,7 +28,6 @@ export function CardRow(props: {
         gap={'10px'}
         justifyItems={'center'}
         flex={3}
-        onClick={drawCard}
       >
         {deck.map((cardValue, n) => {
           return (
@@ -37,6 +36,7 @@ export function CardRow(props: {
               cardStyle={cardStyle}
               key={n}
               isUp={deckIndex >= n}
+              drawCard={drawCard}
             />
           )
         })}

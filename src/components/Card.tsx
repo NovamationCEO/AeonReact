@@ -13,18 +13,20 @@ export function Card(props: {
   cardValue: CardValue
   cardStyle: CardStyle
   isUp: boolean
+  drawCard: () => void
 }) {
-  const { cardValue, cardStyle, isUp } = props
+  const { cardValue, cardStyle, isUp, drawCard } = props
   const theme = useTheme()
   const [showSpinner, setShowSpinner] = React.useState(false)
   const [progress, setProgress] = React.useState(0)
   const [peek, setPeek] = React.useState(false)
   const killIt = React.useRef(false)
-  const longLength = 1800
+  const longLength = 1600
   const longDelay = 300
   const segPercent = 5
 
   function startSpinner() {
+    if (isUp) return
     setProgress(0)
     killIt.current = false
     setTimeout(() => advanceSpinner(0), longDelay)
@@ -58,6 +60,10 @@ export function Card(props: {
       onCancel: () => {
         setShowSpinner(false)
         killIt.current = true
+        if (progress === 0) {
+          drawCard()
+        }
+        setProgress(0)
       },
       onFinish: () => {
         setPeek(false)
@@ -112,7 +118,7 @@ export function Card(props: {
           width={'100%'}
           height={0}
           sx={
-            isUp
+            isUp || peek
               ? cardStyles[cardStyle](flameSets[cardValue][3])
               : cardStyles[cardStyle]()
           }
@@ -123,7 +129,7 @@ export function Card(props: {
         />
         {(isUp || peek) && (
           <div>
-            <Flames cardValue={cardValue} />
+            {isUp && <Flames cardValue={cardValue} />}
             <Box
               fontWeight={'bold'}
               fontSize={'80px'}
