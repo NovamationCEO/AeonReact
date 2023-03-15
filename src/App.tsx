@@ -48,25 +48,6 @@ function App() {
     return tempDeck
   }
 
-  function testOdds() {
-    const master: number[] = [0, 0, 0, 0, 0, 0]
-    const loops = 10000
-    for (let i = 0; i < loops; i++) {
-      const shuffledDeck = shuffleDeck(deck)
-      shuffledDeck.forEach((val, n) => {
-        if (val === 'N') {
-          master[n] = master[n] + 1
-        }
-      })
-    }
-    master.forEach((val, n) => {
-      master[n] = val / loops
-    })
-    console.log(master)
-  }
-
-  testOdds()
-
   return (
     <Box sx={backgroundStyle}>
       <Header />

@@ -1,5 +1,7 @@
-import { useTheme } from '@mui/material'
+import { CircularProgress, useTheme } from '@mui/material'
+import React from 'react'
 import Box from '@mui/material/Box'
+import { useLongPress } from 'use-long-press'
 import { cardStyles } from '../theme/cardStyles'
 import { flameSets } from '../theme/flameSets'
 import { z } from '../theme/z'
@@ -14,6 +16,54 @@ export function Card(props: {
 }) {
   const { cardValue, cardStyle, isUp } = props
   const theme = useTheme()
+  const [showSpinner, setShowSpinner] = React.useState(false)
+  const [progress, setProgress] = React.useState(0)
+  const [peek, setPeek] = React.useState(false)
+  const killIt = React.useRef(false)
+  const longLength = 1800
+  const longDelay = 300
+  const segPercent = 5
+
+  function startSpinner() {
+    setProgress(0)
+    killIt.current = false
+    setTimeout(() => advanceSpinner(0), longDelay)
+  }
+
+  function advanceSpinner(amount: number) {
+    if (killIt.current) {
+      killIt.current = false
+      return
+    }
+    setShowSpinner(true)
+
+    setTimeout(() => {
+      if (amount >= 100) {
+        setProgress(100)
+        return
+      }
+      setProgress(Math.min(amount + segPercent, 100))
+      advanceSpinner(amount + segPercent + 1)
+    }, Math.floor((longLength - longDelay) / (100 / segPercent)))
+  }
+  const onPress = useLongPress(
+    () => {
+      setShowSpinner(false)
+      killIt.current = true
+      setPeek(true)
+    },
+    {
+      threshold: longLength,
+      onStart: startSpinner,
+      onCancel: () => {
+        setShowSpinner(false)
+        killIt.current = true
+      },
+      onFinish: () => {
+        setPeek(false)
+      },
+    }
+  )
 
   return (
     <Box
@@ -26,7 +76,23 @@ export function Card(props: {
       width={'100%'}
       zIndex={z.card}
       sx={{ userSelect: 'none' }}
+      {...onPress()}
     >
+      <Box
+        position={'absolute'}
+        left={0}
+        top={0}
+        width={'100%'}
+        height={'100%'}
+        display={'flex'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        zIndex={z.leftMenu}
+        color={'white'}
+        sx={{ opacity: showSpinner ? 1 : 0, transition: '0.3s ease opacity' }}
+      >
+        <CircularProgress variant="determinate" value={progress} size={80} />
+      </Box>
       <Box
         position={'relative'}
         display={'flex'}
@@ -55,7 +121,7 @@ export function Card(props: {
           justifyContent={'center'}
           alignItems={'center'}
         />
-        {isUp && (
+        {(isUp || peek) && (
           <div>
             <Flames cardValue={cardValue} />
             <Box
