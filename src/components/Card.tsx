@@ -25,6 +25,12 @@ export function Card(props: {
   const longDelay = 300
   const segPercent = 5
 
+  const refProgress = React.useRef(0)
+
+  React.useEffect(() => {
+    refProgress.current = progress
+  }, [progress])
+
   function startSpinner() {
     if (isUp) return
     setProgress(0)
@@ -40,11 +46,13 @@ export function Card(props: {
     setShowSpinner(true)
 
     setTimeout(() => {
-      if (amount >= 100) {
-        setProgress(100)
+      const newAmount = Math.min(amount + segPercent + 1, 100)
+      setProgress(newAmount)
+      if (newAmount === 100) {
+        setProgress(0)
         return
       }
-      setProgress(Math.min(amount + segPercent, 100))
+
       advanceSpinner(amount + segPercent + 1)
     }, Math.floor((longLength - longDelay) / (100 / segPercent)))
   }
@@ -60,7 +68,7 @@ export function Card(props: {
     onStart: startSpinner,
     onCancel: () => {
       updateSpinner(false)
-      if (progress === 0) {
+      if (refProgress.current === 0) {
         drawCard()
       }
       setProgress(0)
