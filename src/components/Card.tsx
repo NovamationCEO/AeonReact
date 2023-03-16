@@ -35,26 +35,24 @@ export function Card(props: {
     if (isUp) return
     setProgress(0)
     killIt.current = false
+    setShowSpinner(true)
     setTimeout(() => advanceSpinner(0), longDelay)
   }
 
   function advanceSpinner(amount: number) {
     if (killIt.current) {
-      killIt.current = false
       return
     }
-    setShowSpinner(true)
 
-    setTimeout(() => {
-      const newAmount = Math.min(amount + segPercent + 1, 100)
-      setProgress(newAmount)
-      if (newAmount === 100) {
-        setProgress(0)
-        return
-      }
+    const newAmount = Math.min(amount + segPercent + 1, 100)
+    const ticks = Math.floor((longLength - longDelay) / (100 / segPercent))
+    setProgress(newAmount)
 
-      advanceSpinner(amount + segPercent + 1)
-    }, Math.floor((longLength - longDelay) / (100 / segPercent)))
+    if (newAmount !== 100) {
+      setTimeout(() => {
+        advanceSpinner(newAmount)
+      }, ticks)
+    }
   }
 
   function updateSpinner(peekStatus: boolean = false) {
