@@ -20,6 +20,7 @@ function App() {
   const [deck, setDeck] = React.useState([] as CardValue[])
   const [deckIndex, setDeckIndex] = React.useState(0)
   const [menuVisible, setMenuVisible] = React.useState(false)
+  const [isDebouncing, setIsDebouncing] = React.useState(false)
 
   React.useEffect(() => {
     freshDeck()
@@ -33,11 +34,18 @@ function App() {
   }
 
   function drawCard() {
+    if (isDebouncing) {
+      return
+    }
+    setIsDebouncing(true)
     const newIndex = (deckIndex + 1) % deck.length
     setDeckIndex(newIndex)
     if (!newIndex) {
       freshDeck()
     }
+    setTimeout(() => {
+      setIsDebouncing(false)
+    }, 500)
   }
 
   function shuffleDeck(deck: CardValue[]): CardValue[] {

@@ -48,28 +48,28 @@ export function Card(props: {
       advanceSpinner(amount + segPercent + 1)
     }, Math.floor((longLength - longDelay) / (100 / segPercent)))
   }
-  const onPress = useLongPress(
-    () => {
-      setShowSpinner(false)
-      killIt.current = true
-      setPeek(true)
+
+  function updateSpinner(peekStatus: boolean = false) {
+    setShowSpinner(false)
+    killIt.current = true
+    setPeek(peekStatus)
+  }
+
+  const onPress = useLongPress(() => updateSpinner(true), {
+    threshold: longLength,
+    onStart: startSpinner,
+    onCancel: () => {
+      updateSpinner(false)
+      if (progress === 0) {
+        drawCard()
+      }
+      setProgress(0)
     },
-    {
-      threshold: longLength,
-      onStart: startSpinner,
-      onCancel: () => {
-        setShowSpinner(false)
-        killIt.current = true
-        if (progress === 0) {
-          drawCard()
-        }
-        setProgress(0)
-      },
-      onFinish: () => {
-        setPeek(false)
-      },
-    }
-  )
+    onFinish: () => {
+      updateSpinner(false)
+    },
+    cancelOnMovement: 20,
+  })
 
   return (
     <Box
