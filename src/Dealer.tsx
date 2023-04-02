@@ -1,29 +1,9 @@
-import React, { Dispatch, SetStateAction } from 'react'
-import { createContext } from 'react'
+import React from 'react'
 import { CardStyle } from './types/CardStyle'
 import { CardValue } from './types/CardValue'
 import { DeckType, NemesisDeckType } from './types/DeckType'
 import { decks, nemesisDecks } from './constants/decks'
-
-export const MyContext = createContext({
-  baseDeck: 'twoplayer' as DeckType,
-  setBaseDeck: (dt: DeckType) => null,
-  nemesisDeck: 'base' as NemesisDeckType,
-  setNemesisDeck: (nd: NemesisDeckType) => null,
-  cardStyle: 'cracks' as CardStyle,
-  setCardStyle: (cs: CardStyle) => null,
-  deck: [] as CardValue[],
-  setDeck: (cv: CardValue[]) => null,
-  deckIndex: 0,
-  setDeckIndex: (n: number) => null,
-  menuVisible: false,
-  setMenuVisible: (mv: boolean) => null,
-  isDebouncing: false,
-  setIsDebouncing: (isd: boolean) => null,
-  drawCard: () => {
-    return
-  },
-})
+import { DealerContext } from './DealerContext'
 
 export function Dealer(props: { children: any }) {
   const { children } = props
@@ -47,6 +27,7 @@ export function Dealer(props: { children: any }) {
     setDeck(
       shuffleDeck([...decks[baseDeck]].concat([...nemesisDecks[nemesisDeck]]))
     )
+    setDeckIndex(0)
   }
 
   function drawCard() {
@@ -74,44 +55,25 @@ export function Dealer(props: { children: any }) {
 
   const bundledValues = {
     baseDeck,
-    setBaseDeck: (bd: DeckType) => {
-      setBaseDeck(bd)
-      return null
-    },
+    setBaseDeck,
     nemesisDeck,
-    setNemesisDeck: (nd: NemesisDeckType) => {
-      setNemesisDeck(nd)
-      return null
-    },
+    setNemesisDeck,
     cardStyle,
-    setCardStyle: (cs: CardStyle) => {
-      setCardStyle(cs)
-      return null
-    },
+    setCardStyle,
     deck,
-    setDeck: (d: CardValue[]) => {
-      setDeck(d)
-      return null
-    },
+    setDeck,
     deckIndex,
-    setDeckIndex: (n: number) => {
-      setDeckIndex(n)
-      return null
-    },
+    setDeckIndex,
     menuVisible,
-    setMenuVisible: (mv: boolean) => {
-      setMenuVisible(mv)
-      return null
-    },
+    setMenuVisible,
     isDebouncing,
-    setIsDebouncing: (isd: boolean) => {
-      setIsDebouncing(isd)
-      return null
-    },
+    setIsDebouncing,
     drawCard,
   }
 
   return (
-    <MyContext.Provider value={bundledValues}>{children}</MyContext.Provider>
+    <DealerContext.Provider value={bundledValues}>
+      {children}
+    </DealerContext.Provider>
   )
 }

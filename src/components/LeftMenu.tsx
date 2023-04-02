@@ -2,15 +2,13 @@ import { faGear } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Box } from '@mui/material'
 import React, { useContext } from 'react'
-import { Dealer, MyContext } from '../Dealer'
 import { Colors } from '../theme/colors'
 import { z } from '../theme/z'
-import { CardStyle } from '../types/CardStyle'
-import { DeckType, NemesisDeckType } from '../types/DeckType'
 import { DeckTypeButton } from './DeckTypeButton'
 import { MenuRow } from './MenuRow'
 import { NemesisDeckTypeButton } from './NemesisDeckTypeButton'
 import { StyleButton } from './StyleButton'
+import { DealerContext } from '../DealerContext'
 
 export function LeftMenu(props: {}) {
   const {
@@ -22,7 +20,7 @@ export function LeftMenu(props: {}) {
     setNemesisDeck,
     menuVisible,
     setMenuVisible,
-  } = useContext(MyContext)
+  } = useContext(DealerContext)
 
   const xPos = menuVisible ? 0 : -100
 

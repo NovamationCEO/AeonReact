@@ -1,10 +1,10 @@
 import { Box } from '@mui/material'
 import { z } from '../theme/z'
 import { useContext } from 'react'
-import { MyContext } from '../Dealer'
+import { DealerContext } from '../DealerContext'
 
 export function LeftMenuScrim() {
-  const Context = useContext(MyContext)
+  const Context = useContext(DealerContext)
 
   return (
     <Box

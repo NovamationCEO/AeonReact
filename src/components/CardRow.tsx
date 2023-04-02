@@ -1,10 +1,10 @@
 import { Box } from '@mui/material'
 import { Card } from './Card'
-import { MyContext } from '../Dealer'
 import { useContext } from 'react'
+import { DealerContext } from '../DealerContext'
 
 export function CardRow() {
-  const { deck, cardStyle, deckIndex, drawCard } = useContext(MyContext)
+  const { deck, cardStyle, deckIndex, drawCard } = useContext(DealerContext)
 
   return (
     <Box
