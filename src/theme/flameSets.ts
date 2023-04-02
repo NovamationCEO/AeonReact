@@ -13,5 +13,7 @@ export const flameSets = {
   B: ['indigo', 'lightsalmon', 'lavender', 'darkorange'],
   '0': ['white', 'black', 'white', 'black'],
   D: ['violet', 'black', 'red', 'yellow'],
+  Myth: ['red', 'black', 'white', 'red'],
+  Bone: ['red', 'white', 'lightSalmon', 'khaki'],
   '': [],
 }

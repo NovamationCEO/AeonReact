@@ -107,6 +107,13 @@ export function LeftMenu(props: {}) {
           title={'ND'}
           tooltip={'Thief of Dreams'}
         />
+        <NemesisDeckTypeButton
+          nemesisDeck={nemesisDeck}
+          targetDeck={'mb'}
+          setNemesisDeck={setNemesisDeck}
+          title={'MB'}
+          tooltip={'Paradox of Myth and Bone'}
+        />
       </MenuRow>
       <Box
         bgcolor={Colors.menu}
