@@ -11,14 +11,7 @@ import { StyleButton } from './StyleButton'
 import { DealerContext } from '../DealerContext'
 
 export function LeftMenu(props: {}) {
-  const {
-    baseDeck,
-    setBaseDeck,
-    nemesisDeck,
-    setNemesisDeck,
-    menuVisible,
-    setMenuVisible,
-  } = useContext(DealerContext)
+  const { menuVisible, setMenuVisible } = useContext(DealerContext)
 
   const xPos = menuVisible ? 0 : -100
 
