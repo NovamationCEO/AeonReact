@@ -1,7 +1,8 @@
 import { faGear } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Box } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
+import { Dealer, MyContext } from '../Dealer'
 import { Colors } from '../theme/colors'
 import { z } from '../theme/z'
 import { CardStyle } from '../types/CardStyle'
@@ -11,16 +12,7 @@ import { MenuRow } from './MenuRow'
 import { NemesisDeckTypeButton } from './NemesisDeckTypeButton'
 import { StyleButton } from './StyleButton'
 
-export function LeftMenu(props: {
-  baseDeck: DeckType
-  setBaseDeck: (dt: DeckType) => void
-  cardStyle: CardStyle
-  setCardStyle: (cs: CardStyle) => void
-  nemesisDeck: NemesisDeckType
-  setNemesisDeck: (nd: NemesisDeckType) => void
-  menuVisible: boolean
-  toggleMenu: () => void
-}) {
+export function LeftMenu(props: {}) {
   const {
     baseDeck,
     setBaseDeck,
@@ -29,10 +21,14 @@ export function LeftMenu(props: {
     nemesisDeck,
     setNemesisDeck,
     menuVisible,
-    toggleMenu,
-  } = props
+    setMenuVisible,
+  } = useContext(MyContext)
 
   const xPos = menuVisible ? 0 : -100
+
+  function toggleMenu() {
+    setMenuVisible(!menuVisible)
+  }
 
   return (
     <Box

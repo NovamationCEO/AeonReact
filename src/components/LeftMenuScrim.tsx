@@ -1,26 +1,25 @@
 import { Box } from '@mui/material'
 import { z } from '../theme/z'
+import { useContext } from 'react'
+import { MyContext } from '../Dealer'
 
-export function LeftMenuScrim(props: {
-  menuVisible: boolean
-  menuOff: () => void
-}) {
-  const { menuVisible, menuOff } = props
+export function LeftMenuScrim() {
+  const Context = useContext(MyContext)
 
   return (
     <Box
       width={'100%'}
       height={'100%'}
       bgcolor="black"
-      onClick={menuOff}
+      onClick={() => Context.setMenuVisible(false)}
       position={'absolute'}
       left={0}
       right={0}
       zIndex={z.scrim}
       sx={{
-        opacity: menuVisible ? 0.7 : 0,
+        opacity: Context.menuVisible ? 0.7 : 0,
         transition: '0.75s ease opacity',
-        pointerEvents: menuVisible ? 'auto' : 'none',
+        pointerEvents: Context.menuVisible ? 'auto' : 'none',
       }}
     />
   )

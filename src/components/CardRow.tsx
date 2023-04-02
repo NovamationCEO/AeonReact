@@ -1,15 +1,10 @@
 import { Box } from '@mui/material'
-import { CardStyle } from '../types/CardStyle'
-import { CardValue } from '../types/CardValue'
 import { Card } from './Card'
+import { MyContext } from '../Dealer'
+import { useContext } from 'react'
 
-export function CardRow(props: {
-  deck: CardValue[]
-  deckIndex: number
-  cardStyle: CardStyle
-  drawCard: () => void
-}) {
-  const { deck, cardStyle, deckIndex, drawCard } = props
+export function CardRow() {
+  const { deck, cardStyle, deckIndex, drawCard } = useContext(MyContext)
 
   return (
     <Box
