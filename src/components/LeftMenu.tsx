@@ -14,8 +14,6 @@ export function LeftMenu(props: {}) {
   const {
     baseDeck,
     setBaseDeck,
-    cardStyle,
-    setCardStyle,
     nemesisDeck,
     setNemesisDeck,
     menuVisible,
@@ -54,63 +52,30 @@ export function LeftMenu(props: {}) {
       </MenuRow>
 
       <MenuRow>
-        <DeckTypeButton
-          baseDeck={baseDeck}
-          setBaseDeck={setBaseDeck}
-          targetDeck={'oneplayer'}
-          title={'1'}
-        />
-        <DeckTypeButton
-          baseDeck={baseDeck}
-          setBaseDeck={setBaseDeck}
-          targetDeck={'twoplayer'}
-          title={'2'}
-        />
-        <DeckTypeButton
-          baseDeck={baseDeck}
-          setBaseDeck={setBaseDeck}
-          targetDeck={'threeplayer'}
-          title={'3'}
-        />
-        <DeckTypeButton
-          baseDeck={baseDeck}
-          setBaseDeck={setBaseDeck}
-          targetDeck={'fourplayer'}
-          title={'4'}
-        />
-        <DeckTypeButton
-          baseDeck={baseDeck}
-          setBaseDeck={setBaseDeck}
-          targetDeck={'fourplayerAB'}
-          title={'AB'}
-        />
+        <DeckTypeButton targetDeck={'oneplayer'} title={'1'} />
+        <DeckTypeButton targetDeck={'twoplayer'} title={'2'} />
+        <DeckTypeButton targetDeck={'threeplayer'} title={'3'} />
+        <DeckTypeButton targetDeck={'fourplayer'} title={'4'} />
+        <DeckTypeButton targetDeck={'fourplayerAB'} title={'AB'} />
       </MenuRow>
       <MenuRow>
         <NemesisDeckTypeButton
-          nemesisDeck={nemesisDeck}
           targetDeck={'base'}
-          setNemesisDeck={setNemesisDeck}
           tooltip={'Standard Nemesis Deck'}
           title={'NN'}
         />
         <NemesisDeckTypeButton
-          nemesisDeck={nemesisDeck}
           targetDeck={'nx'}
-          setNemesisDeck={setNemesisDeck}
           title={'NX'}
           tooltip={"I Don't Remember"}
         />
         <NemesisDeckTypeButton
-          nemesisDeck={nemesisDeck}
           targetDeck={'nd'}
-          setNemesisDeck={setNemesisDeck}
           title={'ND'}
           tooltip={'Thief of Dreams'}
         />
         <NemesisDeckTypeButton
-          nemesisDeck={nemesisDeck}
           targetDeck={'mb'}
-          setNemesisDeck={setNemesisDeck}
           title={'MB'}
           tooltip={'Paradox of Myth and Bone'}
         />

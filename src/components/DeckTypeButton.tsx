@@ -1,14 +1,13 @@
 import { Box } from '@mui/material'
 import { Colors } from '../theme/colors'
 import { DeckType } from '../types/DeckType'
+import { useContext } from 'react'
+import { DealerContext } from '../DealerContext'
 
-export function DeckTypeButton(props: {
-  baseDeck: DeckType
-  targetDeck: DeckType
-  setBaseDeck: (dt: DeckType) => void
-  title: string
-}) {
-  const { baseDeck, targetDeck, setBaseDeck, title } = props
+export function DeckTypeButton(props: { targetDeck: DeckType; title: string }) {
+  const { targetDeck, title } = props
+  const { baseDeck, setBaseDeck } = useContext(DealerContext)
+
   const isOn = baseDeck === targetDeck
   return (
     <Box

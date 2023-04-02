@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import { DealerContext } from '../DealerContext'
 
 export function CardRow() {
-  const { deck, cardStyle, deckIndex, drawCard } = useContext(DealerContext)
+  const { deck, deckIndex } = useContext(DealerContext)
 
   return (
     <Box

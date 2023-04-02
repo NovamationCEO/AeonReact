@@ -1,15 +1,17 @@
 import { Box, Tooltip } from '@mui/material'
 import { Colors } from '../theme/colors'
 import { NemesisDeckType } from '../types/DeckType'
+import { DealerContext } from '../DealerContext'
+import { useContext } from 'react'
 
 export function NemesisDeckTypeButton(props: {
-  nemesisDeck: NemesisDeckType
   targetDeck: NemesisDeckType
-  setNemesisDeck: (dt: NemesisDeckType) => void
   title: string
   tooltip: string
 }) {
-  const { nemesisDeck, targetDeck, setNemesisDeck, title, tooltip } = props
+  const { targetDeck, title, tooltip } = props
+  const { nemesisDeck, setNemesisDeck } = useContext(DealerContext)
+
   const isOn = nemesisDeck === targetDeck
   return (
     <Tooltip title={tooltip}>
