@@ -51,26 +51,19 @@ export function LeftMenu(props: {}) {
         <DeckTypeButton targetDeck={'fourplayer'} title={'4'} />
         <DeckTypeButton targetDeck={'fourplayerAB'} title={'AB'} />
       </MenuRow>
-      <MenuRow>
+      <MenuRow colWidth={'100%'}>
         <NemesisDeckTypeButton
           targetDeck={'base'}
-          tooltip={'Standard Nemesis Deck'}
-          title={'NN'}
+          title={'Standard Nemesis Deck'}
         />
         <NemesisDeckTypeButton
           targetDeck={'nx'}
-          title={'NX'}
-          tooltip={"I Don't Remember"}
+          title={'Charged Nemesis Card'}
         />
-        <NemesisDeckTypeButton
-          targetDeck={'nd'}
-          title={'ND'}
-          tooltip={'Thief of Dreams'}
-        />
+        <NemesisDeckTypeButton targetDeck={'nd'} title={'Thief of Dreams'} />
         <NemesisDeckTypeButton
           targetDeck={'mb'}
-          title={'MB'}
-          tooltip={'Paradox of Myth and Bone'}
+          title={'Paradox of Myth and Bone'}
         />
       </MenuRow>
       <Box

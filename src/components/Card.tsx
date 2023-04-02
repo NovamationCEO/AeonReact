@@ -135,7 +135,7 @@ export function Card(props: { cardValue: CardValue; isUp: boolean }) {
             {isUp && <Flames cardValue={cardValue} />}
             <Box
               fontWeight={'bold'}
-              fontSize={'80px'}
+              fontSize={`${710 - 100 * cardValue.length}%`}
               alignSelf={'center'}
               display={'flex'}
               color={'white'}
