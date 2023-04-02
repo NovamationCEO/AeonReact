@@ -2,13 +2,13 @@ import { Box } from '@mui/material'
 import { cardStyles } from '../theme/cardStyles'
 import { Colors } from '../theme/colors'
 import { CardStyle } from '../types/CardStyle'
+import { useContext } from 'react'
+import { DealerContext } from '../DealerContext'
 
-export function StyleButton(props: {
-  cardStyle: CardStyle
-  targetStyle: CardStyle
-  setCardStyle: (cs: CardStyle) => void
-}) {
-  const { cardStyle, targetStyle, setCardStyle } = props
+export function StyleButton(props: { targetStyle: CardStyle }) {
+  const { targetStyle } = props
+  const { cardStyle, setCardStyle } = useContext(DealerContext)
+
   return (
     <Box
       display={'flex'}

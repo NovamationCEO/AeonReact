@@ -1,21 +1,18 @@
 import { CircularProgress, useTheme } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
 import Box from '@mui/material/Box'
 import { useLongPress } from 'use-long-press'
 import { cardStyles } from '../theme/cardStyles'
 import { flameSets } from '../theme/flameSets'
 import { z } from '../theme/z'
-import { CardStyle } from '../types/CardStyle'
 import { CardValue } from '../types/CardValue'
 import { Flames } from './Flames'
+import { DealerContext } from '../DealerContext'
 
-export function Card(props: {
-  cardValue: CardValue
-  cardStyle: CardStyle
-  isUp: boolean
-  drawCard: () => void
-}) {
-  const { cardValue, cardStyle, isUp, drawCard } = props
+export function Card(props: { cardValue: CardValue; isUp: boolean }) {
+  const { cardValue, isUp } = props
+  const { cardStyle, drawCard } = useContext(DealerContext)
+
   const theme = useTheme()
   const [showSpinner, setShowSpinner] = React.useState(false)
   const [progress, setProgress] = React.useState(0)

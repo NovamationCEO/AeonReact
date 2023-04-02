@@ -49,16 +49,8 @@ export function LeftMenu(props: {}) {
       flexDirection={'column'}
     >
       <MenuRow>
-        <StyleButton
-          cardStyle={cardStyle}
-          targetStyle={'cracks'}
-          setCardStyle={setCardStyle}
-        />
-        <StyleButton
-          cardStyle={cardStyle}
-          targetStyle={'loops'}
-          setCardStyle={setCardStyle}
-        />
+        <StyleButton targetStyle={'cracks'} />
+        <StyleButton targetStyle={'loops'} />
       </MenuRow>
 
       <MenuRow>
