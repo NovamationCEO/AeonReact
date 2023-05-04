@@ -18,6 +18,7 @@ export function Dealer(props: { children: any }) {
   const [menuVisible, setMenuVisible] = React.useState(false)
   const [isDebouncing, setIsDebouncing] = React.useState(false)
   const [editModeOn, setEditModeOn] = React.useState(false)
+  const [forcePeek, setForcePeek] = React.useState([] as boolean[])
 
   React.useEffect(() => {
     freshDeck()
@@ -72,6 +73,8 @@ export function Dealer(props: { children: any }) {
     editModeOn,
     setEditModeOn,
     drawCard,
+    forcePeek,
+    setForcePeek,
   }
 
   return (

@@ -16,7 +16,8 @@ export function Card(props: {
   currentIndex: number
 }) {
   const { cardValue, isUp, currentIndex } = props
-  const { cardStyle, drawCard, editModeOn } = useContext(DealerContext)
+  const { cardStyle, drawCard, editModeOn, forcePeek } =
+    useContext(DealerContext)
 
   const theme = useTheme()
   const [showSpinner, setShowSpinner] = React.useState(false)
@@ -143,7 +144,7 @@ export function Card(props: {
             justifyContent={'center'}
             alignItems={'center'}
           />
-          {(isUp || peek) && (
+          {(isUp || peek || forcePeek[currentIndex]) && (
             <div>
               {isUp && <Flames cardValue={cardValue} />}
               <Box

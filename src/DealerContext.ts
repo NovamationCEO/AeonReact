@@ -39,4 +39,8 @@ export const DealerContext = createContext({
   drawCard: () => {
     return
   },
+  forcePeek: [] as boolean[],
+  setForcePeek: (ba: boolean[]) => {
+    return
+  },
 })

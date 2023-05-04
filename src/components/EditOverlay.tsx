@@ -11,14 +11,18 @@ import { DealerContext } from '../DealerContext'
 
 export function EditOverlay(props: { currentIndex: number }) {
   const { currentIndex } = props
-  const { deck, setDeck, deckIndex, setDeckIndex } = useContext(DealerContext)
+  const { deck, setDeck, deckIndex, setDeckIndex, forcePeek, setForcePeek } =
+    useContext(DealerContext)
   const isUp = currentIndex <= deckIndex
 
   function sendToTop() {
-    setDeckIndex(deckIndex - 1)
     const tempDeck = [...deck]
     const value = tempDeck.splice(currentIndex, 1)
     tempDeck.splice(deckIndex, 0, value[0])
+    const newPeek = [...forcePeek]
+    newPeek[currentIndex] = true
+    setForcePeek(newPeek)
+    setDeckIndex(Math.max(deckIndex - 1, 0))
     setDeck(tempDeck)
   }
   function sendLeft() {
@@ -28,10 +32,10 @@ export function EditOverlay(props: { currentIndex: number }) {
     console.log('RIGHT')
   }
   function sendToBottom() {
-    setDeckIndex(deckIndex - 1)
     const tempDeck = [...deck]
     const value = tempDeck.splice(currentIndex, 1)
     tempDeck.push(value[0])
+    setDeckIndex(Math.max(deckIndex - 1, 0))
     setDeck(tempDeck)
   }
 
@@ -51,7 +55,6 @@ export function EditOverlay(props: { currentIndex: number }) {
         >
           <FontAwesomeIcon icon={faLayerGroup} size={'1x'} color={'white'} />
         </IconButton>
-
         <IconButton
           sx={{
             position: 'absolute',
