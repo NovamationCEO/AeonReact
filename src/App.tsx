@@ -7,6 +7,7 @@ import { LeftMenu } from './components/LeftMenu'
 import { LeftMenuScrim } from './components/LeftMenuScrim'
 import { Dealer } from './Dealer'
 import { backgroundStyle } from './theme/backgroundStyle'
+import { EditToggle } from './components/EditToggle'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <LeftMenu />
           <LeftMenuScrim />
           <CardRow />
+          <EditToggle />
         </Box>
       </Box>
     </Dealer>

@@ -25,7 +25,14 @@ export function CardRow() {
         flex={3}
       >
         {deck.map((cardValue, n) => {
-          return <Card cardValue={cardValue} key={n} isUp={deckIndex >= n} />
+          return (
+            <Card
+              cardValue={cardValue}
+              key={n}
+              isUp={deckIndex >= n}
+              currentIndex={n}
+            />
+          )
         })}
       </Box>
     </Box>

@@ -17,6 +17,7 @@ export function Dealer(props: { children: any }) {
   const [deckIndex, setDeckIndex] = React.useState(0)
   const [menuVisible, setMenuVisible] = React.useState(false)
   const [isDebouncing, setIsDebouncing] = React.useState(false)
+  const [editModeOn, setEditModeOn] = React.useState(false)
 
   React.useEffect(() => {
     freshDeck()
@@ -68,6 +69,8 @@ export function Dealer(props: { children: any }) {
     setMenuVisible,
     isDebouncing,
     setIsDebouncing,
+    editModeOn,
+    setEditModeOn,
     drawCard,
   }
 

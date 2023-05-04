@@ -8,10 +8,15 @@ import { z } from '../theme/z'
 import { CardValue } from '../types/CardValue'
 import { Flames } from './Flames'
 import { DealerContext } from '../DealerContext'
+import { EditOverlay } from './EditOverlay'
 
-export function Card(props: { cardValue: CardValue; isUp: boolean }) {
-  const { cardValue, isUp } = props
-  const { cardStyle, drawCard } = useContext(DealerContext)
+export function Card(props: {
+  cardValue: CardValue
+  isUp: boolean
+  currentIndex: number
+}) {
+  const { cardValue, isUp, currentIndex } = props
+  const { cardStyle, drawCard, editModeOn } = useContext(DealerContext)
 
   const theme = useTheme()
   const [showSpinner, setShowSpinner] = React.useState(false)
@@ -84,81 +89,90 @@ export function Card(props: { cardValue: CardValue; isUp: boolean }) {
       maxWidth={'350px'}
       width={'100%'}
       zIndex={z.card}
-      sx={{ userSelect: 'none' }}
-      {...onPress()}
     >
+      {editModeOn && <EditOverlay currentIndex={currentIndex} />}
       <Box
-        position={'absolute'}
-        left={0}
-        top={0}
         width={'100%'}
         height={'100%'}
-        display={'flex'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        zIndex={z.leftMenu}
-        color={'white'}
-        sx={{ opacity: showSpinner ? 1 : 0, transition: '0.3s ease opacity' }}
-      >
-        <CircularProgress variant="determinate" value={progress} size={80} />
-      </Box>
-      <Box
-        position={'relative'}
-        display={'flex'}
-        height={0}
-        paddingTop={'75%'}
-        paddingBottom={'75%'}
-        width={'100%'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        overflow={'hidden'}
+        sx={{ userSelect: 'none' }}
+        {...onPress()}
       >
         <Box
           position={'absolute'}
-          display={'flex'}
           left={0}
           top={0}
           width={'100%'}
-          height={0}
-          sx={
-            isUp || peek
-              ? cardStyles[cardStyle](flameSets[cardValue][3])
-              : cardStyles[cardStyle]()
-          }
-          paddingTop={'75%'}
-          paddingBottom={'75%'}
+          height={'100%'}
+          display={'flex'}
           justifyContent={'center'}
           alignItems={'center'}
-        />
-        {(isUp || peek) && (
-          <div>
-            {isUp && <Flames cardValue={cardValue} />}
-            <Box
-              fontWeight={'bold'}
-              fontSize={`${710 - 100 * cardValue.length}%`}
-              alignSelf={'center'}
-              display={'flex'}
-              color={'white'}
-              zIndex={z.cardNumber}
-              position={'relative'}
-              sx={{
-                textShadow:
-                  '-1px -1px 15px darkslategray,' +
-                  '1px -1px 15px darkslategray, -1px 1px 25px darkslategray,' +
-                  '1px 1px 15px darkslategray',
-                [theme.breakpoints.down('sm')]: {
+          zIndex={z.leftMenu}
+          color={'white'}
+          sx={{
+            opacity: showSpinner ? 1 : 0,
+            transition: '0.3s ease opacity',
+          }}
+        >
+          <CircularProgress variant="determinate" value={progress} size={80} />
+        </Box>
+        <Box
+          position={'relative'}
+          display={'flex'}
+          height={0}
+          paddingTop={'75%'}
+          paddingBottom={'75%'}
+          width={'100%'}
+          justifyContent={'center'}
+          alignItems={'center'}
+          overflow={'hidden'}
+        >
+          <Box
+            position={'absolute'}
+            display={'flex'}
+            left={0}
+            top={0}
+            width={'100%'}
+            height={0}
+            sx={
+              isUp || peek
+                ? cardStyles[cardStyle](flameSets[cardValue][3])
+                : cardStyles[cardStyle]()
+            }
+            paddingTop={'75%'}
+            paddingBottom={'75%'}
+            justifyContent={'center'}
+            alignItems={'center'}
+          />
+          {(isUp || peek) && (
+            <div>
+              {isUp && <Flames cardValue={cardValue} />}
+              <Box
+                fontWeight={'bold'}
+                fontSize={`${710 - 100 * cardValue.length}%`}
+                alignSelf={'center'}
+                display={'flex'}
+                color={'white'}
+                zIndex={z.cardNumber}
+                position={'relative'}
+                sx={{
                   textShadow:
-                    '-1px -1px 10px darkslategray,' +
-                    '1px -1px 10px darkslategray, -1px 1px 5px darkslategray,' +
-                    '1px 1px 10px darkslategray',
-                },
-                transition: '0.5s ease text-shadow',
-              }}
-            >
-              {cardValue}
-            </Box>
-          </div>
-        )}
+                    '-1px -1px 15px darkslategray,' +
+                    '1px -1px 15px darkslategray, -1px 1px 25px darkslategray,' +
+                    '1px 1px 15px darkslategray',
+                  [theme.breakpoints.down('sm')]: {
+                    textShadow:
+                      '-1px -1px 10px darkslategray,' +
+                      '1px -1px 10px darkslategray, -1px 1px 5px darkslategray,' +
+                      '1px 1px 10px darkslategray',
+                  },
+                  transition: '0.5s ease text-shadow',
+                }}
+              >
+                {cardValue}
+              </Box>
+            </div>
+          )}
+        </Box>
       </Box>
     </Box>
   )

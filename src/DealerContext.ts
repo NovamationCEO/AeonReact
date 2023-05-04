@@ -32,6 +32,10 @@ export const DealerContext = createContext({
   setIsDebouncing: (isd: boolean) => {
     return
   },
+  editModeOn: false,
+  setEditModeOn: (b: boolean) => {
+    return
+  },
   drawCard: () => {
     return
   },
