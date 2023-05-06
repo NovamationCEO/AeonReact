@@ -6,7 +6,7 @@ export const backgroundStyle: CSSProperties = {
   width: '100%',
   height: '100vh',
   maxWidth: '100vw',
-  maxHeight: '100vh',
+  maxHeight: '-webkit-fill-available',
   flex: 1,
   flexDirection: 'column',
   background:
