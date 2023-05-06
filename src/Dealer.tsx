@@ -25,10 +25,22 @@ export function Dealer(props: { children: any }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseDeck, nemesisDeck])
 
+  React.useEffect(() => {
+    resetPeek()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editModeOn])
+
+  function resetPeek() {
+    const newPeek = deck.map((_card) => {
+      return false
+    })
+    setForcePeek(newPeek)
+  }
   function freshDeck() {
     setDeck(
       shuffleDeck([...decks[baseDeck]].concat([...nemesisDecks[nemesisDeck]]))
     )
+    resetPeek()
     setDeckIndex(0)
   }
 
@@ -44,7 +56,7 @@ export function Dealer(props: { children: any }) {
     }
     setTimeout(() => {
       setIsDebouncing(false)
-    }, 500)
+    }, 400)
   }
 
   function shuffleDeck(deck: CardValue[]): CardValue[] {

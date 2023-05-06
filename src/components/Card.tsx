@@ -16,7 +16,7 @@ export function Card(props: {
   currentIndex: number
 }) {
   const { cardValue, isUp, currentIndex } = props
-  const { cardStyle, drawCard, editModeOn, forcePeek } =
+  const { cardStyle, drawCard, editModeOn, forcePeek, setForcePeek } =
     useContext(DealerContext)
 
   const theme = useTheme()
@@ -33,6 +33,12 @@ export function Card(props: {
   React.useEffect(() => {
     refProgress.current = progress
   }, [progress])
+
+  function forcePeekMe() {
+    const newForcePeek = [...forcePeek]
+    newForcePeek[currentIndex] = true
+    setForcePeek(newForcePeek)
+  }
 
   function startSpinner() {
     if (isUp) return
@@ -70,12 +76,13 @@ export function Card(props: {
     onCancel: () => {
       updateSpinner(false)
       if (refProgress.current === 0) {
-        drawCard()
+        editModeOn ? forcePeekMe() : drawCard()
       }
       setProgress(0)
     },
     onFinish: () => {
       updateSpinner(false)
+      if (editModeOn) forcePeekMe()
     },
     cancelOnMovement: 20,
   })

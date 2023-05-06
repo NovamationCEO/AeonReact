@@ -15,28 +15,61 @@ export function EditOverlay(props: { currentIndex: number }) {
     useContext(DealerContext)
   const isUp = currentIndex <= deckIndex
 
-  function sendToTop() {
-    const tempDeck = [...deck]
+  function doSendToTop(deckArr: any[], setTrue?: boolean) {
+    const tempDeck = [...deckArr]
+    if (setTrue) {
+      tempDeck[currentIndex] = true
+    }
     const value = tempDeck.splice(currentIndex, 1)
     tempDeck.splice(deckIndex, 0, value[0])
-    const newPeek = [...forcePeek]
-    newPeek[currentIndex] = true
+    return tempDeck
+  }
+
+  function sendToTop() {
+    const newDeck = doSendToTop(deck)
+    const newPeek = doSendToTop(forcePeek, true)
+
     setForcePeek(newPeek)
     setDeckIndex(Math.max(deckIndex - 1, 0))
-    setDeck(tempDeck)
+    setDeck(newDeck)
   }
-  function sendLeft() {
-    console.log('LEFT')
+
+  function doShift(deckArr: any[], shift: number, setTrue?: boolean) {
+    const tempDeck = [...deckArr]
+    if (setTrue) {
+      tempDeck[currentIndex] = true
+    }
+    const value = tempDeck.splice(currentIndex, 1)
+    tempDeck.splice(currentIndex + shift, 0, value[0])
+    return tempDeck
   }
-  function sendRight() {
-    console.log('RIGHT')
+
+  function slide(isRight: boolean) {
+    const shift = isRight ? 1 : -1
+    const newDeck = doShift(deck, shift)
+    const newPeek = doShift(forcePeek, shift, true)
+
+    setForcePeek(newPeek)
+    setDeck(newDeck)
   }
-  function sendToBottom() {
-    const tempDeck = [...deck]
+
+  function doSendToBottom(deckArr: any[], setTrue?: boolean) {
+    const tempDeck = [...deckArr]
+    if (setTrue) {
+      tempDeck[currentIndex] = true
+    }
     const value = tempDeck.splice(currentIndex, 1)
     tempDeck.push(value[0])
+    return tempDeck
+  }
+
+  function sendToBottom() {
+    const newDeck = doSendToBottom(deck)
+    const newPeek = doSendToBottom(forcePeek, true)
+
     setDeckIndex(Math.max(deckIndex - 1, 0))
-    setDeck(tempDeck)
+    setDeck(newDeck)
+    setForcePeek(newPeek)
   }
 
   if (isUp) {
@@ -76,37 +109,45 @@ export function EditOverlay(props: { currentIndex: number }) {
     )
   }
 
-  return (
-    <Box zIndex={z.editOverlay}>
-      <IconButton
-        sx={{
-          position: 'absolute',
-          left: '3px',
-          top: 'calc(50% - 20px)',
-          background: 'black',
-        }}
-        size={'medium'}
-        onClick={sendLeft}
-      >
-        <FontAwesomeIcon icon={faArrowCircleLeft} size={'1x'} color={'white'} />
-      </IconButton>
+  if (forcePeek[currentIndex]) {
+    return (
+      <Box zIndex={z.editOverlay}>
+        <IconButton
+          sx={{
+            position: 'absolute',
+            left: '3px',
+            top: 'calc(50% - 20px)',
+            background: 'black',
+          }}
+          size={'medium'}
+          onClick={() => slide(false)}
+        >
+          <FontAwesomeIcon
+            icon={faArrowCircleLeft}
+            size={'1x'}
+            color={'white'}
+          />
+        </IconButton>
 
-      <IconButton
-        sx={{
-          position: 'absolute',
-          right: '3px',
-          top: 'calc(50% - 20px)',
-          background: 'black',
-        }}
-        size={'medium'}
-        onClick={sendRight}
-      >
-        <FontAwesomeIcon
-          icon={faArrowCircleRight}
-          size={'1x'}
-          color={'white'}
-        />
-      </IconButton>
-    </Box>
-  )
+        <IconButton
+          sx={{
+            position: 'absolute',
+            right: '3px',
+            top: 'calc(50% - 20px)',
+            background: 'black',
+          }}
+          size={'medium'}
+          onClick={() => slide(true)}
+        >
+          <FontAwesomeIcon
+            icon={faArrowCircleRight}
+            size={'1x'}
+            color={'white'}
+          />
+        </IconButton>
+      </Box>
+    )
+  }
+
+  return null
 }

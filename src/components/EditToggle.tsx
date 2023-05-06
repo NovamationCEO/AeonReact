@@ -11,7 +11,7 @@ export function EditToggle() {
         sx={{ borderRadius: '15px', width: '200px', lineHeight: 2 }}
         onClick={() => setEditModeOn(!editModeOn)}
       >
-        Sort
+        {editModeOn ? 'Return to Game' : 'Reorder'}
       </Button>
     </Box>
   )
