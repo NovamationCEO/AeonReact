@@ -8,6 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { z } from '../theme/z'
 import { DealerContext } from '../DealerContext'
+import { Colors } from '../theme/colors'
 
 export function EditOverlay(props: { currentIndex: number }) {
   const { currentIndex } = props
@@ -81,12 +82,16 @@ export function EditOverlay(props: { currentIndex: number }) {
             top: '3px',
             left: 'calc(50% - 20px)',
             background: 'black',
-            zIndex: z.editOverlay,
+            outline: '2px solid black',
           }}
           size={'medium'}
           onClick={sendToTop}
         >
-          <FontAwesomeIcon icon={faLayerGroup} size={'1x'} color={'white'} />
+          <FontAwesomeIcon
+            icon={faLayerGroup}
+            size={'1x'}
+            color={Colors.aeonWhite}
+          />
         </IconButton>
         <IconButton
           sx={{
@@ -94,6 +99,7 @@ export function EditOverlay(props: { currentIndex: number }) {
             bottom: '3px',
             left: 'calc(50% - 20px)',
             background: 'black',
+            outline: '2px solid black',
           }}
           size={'medium'}
           onClick={sendToBottom}
@@ -102,7 +108,7 @@ export function EditOverlay(props: { currentIndex: number }) {
             icon={faLayerGroup}
             rotation={180}
             size={'1x'}
-            color={'white'}
+            color={Colors.aeonWhite}
           />
         </IconButton>
       </Box>
@@ -118,6 +124,7 @@ export function EditOverlay(props: { currentIndex: number }) {
             left: '3px',
             top: 'calc(50% - 20px)',
             background: 'black',
+            outline: '2px solid black',
           }}
           size={'medium'}
           onClick={() => slide(false)}
@@ -125,7 +132,7 @@ export function EditOverlay(props: { currentIndex: number }) {
           <FontAwesomeIcon
             icon={faArrowCircleLeft}
             size={'1x'}
-            color={'white'}
+            color={Colors.aeonWhite}
           />
         </IconButton>
 
@@ -135,6 +142,7 @@ export function EditOverlay(props: { currentIndex: number }) {
             right: '3px',
             top: 'calc(50% - 20px)',
             background: 'black',
+            outline: '2px solid black',
           }}
           size={'medium'}
           onClick={() => slide(true)}
@@ -142,7 +150,7 @@ export function EditOverlay(props: { currentIndex: number }) {
           <FontAwesomeIcon
             icon={faArrowCircleRight}
             size={'1x'}
-            color={'white'}
+            color={Colors.aeonWhite}
           />
         </IconButton>
       </Box>
