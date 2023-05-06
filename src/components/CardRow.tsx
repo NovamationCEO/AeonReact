@@ -5,6 +5,12 @@ import { DealerContext } from '../DealerContext'
 
 export function CardRow() {
   const { deck, deckIndex } = useContext(DealerContext)
+  const smallScreen = window.innerWidth < 500
+  const columnValues = `repeat(auto-fit, minmax(${
+    smallScreen ? '98' : '120'
+  }px, 1fr))`
+
+  console.log(window.innerWidth, smallScreen, columnValues)
 
   return (
     <Box
@@ -18,7 +24,7 @@ export function CardRow() {
         alignItems={'center'}
         position={'relative'}
         display={'grid'}
-        gridTemplateColumns={'repeat(auto-fit, minmax(120px, 1fr))'}
+        gridTemplateColumns={columnValues}
         gridAutoRows={'min-content'}
         gap={'10px'}
         justifyItems={'center'}
