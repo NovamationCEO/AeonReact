@@ -19,11 +19,13 @@ export function Dealer(props: { children: any }) {
   const [isDebouncing, setIsDebouncing] = React.useState(false)
   const [editModeOn, setEditModeOn] = React.useState(false)
   const [forcePeek, setForcePeek] = React.useState([] as boolean[])
+  const [hasFriend, setHasFriend] = React.useState(false)
+  const [hasFoe, setHasFoe] = React.useState(false)
 
   React.useEffect(() => {
     freshDeck()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [baseDeck, nemesisDeck])
+  }, [baseDeck, nemesisDeck, hasFriend, hasFoe])
 
   React.useEffect(() => {
     resetPeek()
@@ -38,7 +40,12 @@ export function Dealer(props: { children: any }) {
   }
   function freshDeck() {
     setDeck(
-      shuffleDeck([...decks[baseDeck]].concat([...nemesisDecks[nemesisDeck]]))
+      shuffleDeck(
+        [...decks[baseDeck]]
+          .concat([...nemesisDecks[nemesisDeck]])
+          .concat(hasFriend ? ['+'] : [])
+          .concat(hasFoe ? ['-'] : [])
+      )
     )
     resetPeek()
     setDeckIndex(0)
@@ -87,6 +94,10 @@ export function Dealer(props: { children: any }) {
     drawCard,
     forcePeek,
     setForcePeek,
+    hasFriend,
+    setHasFriend,
+    hasFoe,
+    setHasFoe,
   }
 
   return (

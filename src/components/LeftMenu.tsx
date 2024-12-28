@@ -1,7 +1,7 @@
 import { faGear } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Box } from '@mui/material'
-import React, { useContext } from 'react'
+import { Box, FormControlLabel, Switch } from '@mui/material'
+import { useContext } from 'react'
 import { Colors } from '../theme/colors'
 import { z } from '../theme/z'
 import { DeckTypeButton } from './DeckTypeButton'
@@ -10,8 +10,15 @@ import { NemesisDeckTypeButton } from './NemesisDeckTypeButton'
 import { StyleButton } from './StyleButton'
 import { DealerContext } from '../DealerContext'
 
-export function LeftMenu(props: {}) {
-  const { menuVisible, setMenuVisible } = useContext(DealerContext)
+export function LeftMenu() {
+  const {
+    menuVisible,
+    setMenuVisible,
+    hasFriend,
+    setHasFriend,
+    hasFoe,
+    setHasFoe,
+  } = useContext(DealerContext)
 
   const xPos = menuVisible ? 0 : -100
 
@@ -64,6 +71,23 @@ export function LeftMenu(props: {}) {
         <NemesisDeckTypeButton
           targetDeck={'mb'}
           title={'Paradox of Myth and Bone'}
+        />
+      </MenuRow>
+      <MenuRow colWidth={'100%'}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={hasFriend}
+              onChange={(_evt, val) => setHasFriend(val)}
+            />
+          }
+          label="Friend"
+        />
+        <FormControlLabel
+          control={
+            <Switch checked={hasFoe} onChange={(_evt, val) => setHasFoe(val)} />
+          }
+          label="Foe"
         />
       </MenuRow>
       <Box

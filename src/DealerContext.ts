@@ -43,4 +43,12 @@ export const DealerContext = createContext({
   setForcePeek: (ba: boolean[]) => {
     return
   },
+  hasFriend: false,
+  setHasFriend: (b: boolean) => {
+    return
+  },
+  hasFoe: false,
+  setHasFoe: (b: boolean) => {
+    return
+  },
 })

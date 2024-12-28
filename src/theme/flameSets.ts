@@ -16,4 +16,6 @@ export const flameSets = {
   Myth: ['red', 'black', 'white', 'red'],
   Bone: ['red', 'white', 'lightSalmon', 'khaki'],
   '': [],
+  '+': ['lightblue', 'lightgreen', 'cyan', 'yellow'],
+  '-': ['gray', 'crimson', 'violet', 'gray'],
 }
