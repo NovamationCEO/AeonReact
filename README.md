@@ -1,46 +1,37 @@
-# Getting Started with Create React App
+# AeonReact
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A digital card-deck manager for the cooperative board game [Aeon's End](https://boardgamegeek.com/boardgame/191189/aeons-end).
 
-## Available Scripts
+## What it does
 
-In the project directory, you can run:
+Aeon's End uses a small shuffled deck of cards (typically 6–8) to control turn order each round. This app replaces the physical deck — players configure their setup once, then tap cards to reveal them in sequence. When the last card is revealed the deck automatically reshuffles and resets.
 
-### `npm start`
+### Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Player count** — 1, 2, 3, or 4 players (including two-team AB mode)
+- **Nemesis deck variants** — Standard, Charged (N/X), Thief of Dreams, Paradox of Myth and Bone
+- **Friend / Foe** — optional extra cards toggled per session
+- **Peek** — long-press any face-down card to preview it without advancing the deck
+- **Reorder mode** — rearrange the remaining draw order mid-round
+- **Card back styles** — two CSS-texture options (Cracks and Loops)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Interaction
 
-### `npm test`
+| Action | Result |
+|--------|--------|
+| Tap a card | Reveal the next card in the deck |
+| Long-press a face-down card | Peek at it (temporarily) |
+| Gear icon (left edge) | Open settings menu |
+| Reorder button (bottom) | Enter reorder mode |
+| Reorder mode — arrows | Slide a card left or right in the remaining deck |
+| Reorder mode — stack icon | Move a card to the next-to-draw position or bottom |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Development
 
-### `npm run build`
+```bash
+yarn start    # dev server at http://localhost:3000
+yarn build    # production build
+yarn test     # run tests
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Built with React 18, TypeScript, MUI 5, and Create React App.

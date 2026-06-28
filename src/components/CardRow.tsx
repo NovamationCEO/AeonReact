@@ -1,16 +1,12 @@
-import { Box } from '@mui/material'
+import { Box, useMediaQuery } from '@mui/material'
 import { Card } from './Card'
 import { useContext } from 'react'
 import { DealerContext } from '../DealerContext'
 
 export function CardRow() {
   const { deck, deckIndex } = useContext(DealerContext)
-  const smallScreen = window.innerWidth < 500
-  const columnValues = `repeat(auto-fit, minmax(${
-    smallScreen ? '98' : '120'
-  }px, 1fr))`
-
-  console.log(window.innerWidth, smallScreen, columnValues)
+  const smallScreen = useMediaQuery('(max-width: 499px)')
+  const columnValues = `repeat(auto-fit, minmax(${smallScreen ? '98' : '120'}px, 1fr))`
 
   return (
     <Box

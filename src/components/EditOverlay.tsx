@@ -9,6 +9,7 @@ import {
 import { z } from '../theme/z'
 import { DealerContext } from '../DealerContext'
 import { Colors } from '../theme/colors'
+import { CardValue } from '../types/CardValue'
 
 export function EditOverlay(props: { currentIndex: number }) {
   const { currentIndex } = props
@@ -16,61 +17,52 @@ export function EditOverlay(props: { currentIndex: number }) {
     useContext(DealerContext)
   const isUp = currentIndex <= deckIndex
 
-  function doSendToTop(deckArr: any[], setTrue?: boolean) {
-    const tempDeck = [...deckArr]
-    if (setTrue) {
-      tempDeck[currentIndex] = true
-    }
-    const value = tempDeck.splice(currentIndex, 1)
-    tempDeck.splice(deckIndex, 0, value[0])
-    return tempDeck
+  function doSendToTop(arr: CardValue[]): CardValue[]
+  function doSendToTop(arr: boolean[], setTrue: true): boolean[]
+  function doSendToTop(arr: (CardValue | boolean)[], setTrue?: boolean) {
+    const result = [...arr]
+    if (setTrue) result[currentIndex] = true
+    const [value] = result.splice(currentIndex, 1)
+    result.splice(deckIndex, 0, value)
+    return result
   }
 
   function sendToTop() {
-    const newDeck = doSendToTop(deck)
-    const newPeek = doSendToTop(forcePeek, true)
-
-    setForcePeek(newPeek)
+    setForcePeek(doSendToTop(forcePeek, true))
     setDeckIndex(Math.max(deckIndex - 1, 0))
-    setDeck(newDeck)
+    setDeck(doSendToTop(deck))
   }
 
-  function doShift(deckArr: any[], shift: number, setTrue?: boolean) {
-    const tempDeck = [...deckArr]
-    if (setTrue) {
-      tempDeck[currentIndex] = true
-    }
-    const value = tempDeck.splice(currentIndex, 1)
-    tempDeck.splice(currentIndex + shift, 0, value[0])
-    return tempDeck
+  function doShift(arr: CardValue[], shift: number): CardValue[]
+  function doShift(arr: boolean[], shift: number, setTrue: true): boolean[]
+  function doShift(arr: (CardValue | boolean)[], shift: number, setTrue?: boolean) {
+    const result = [...arr]
+    if (setTrue) result[currentIndex] = true
+    const [value] = result.splice(currentIndex, 1)
+    result.splice(currentIndex + shift, 0, value)
+    return result
   }
 
   function slide(isRight: boolean) {
     const shift = isRight ? 1 : -1
-    const newDeck = doShift(deck, shift)
-    const newPeek = doShift(forcePeek, shift, true)
-
-    setForcePeek(newPeek)
-    setDeck(newDeck)
+    setForcePeek(doShift(forcePeek, shift, true))
+    setDeck(doShift(deck, shift))
   }
 
-  function doSendToBottom(deckArr: any[], setTrue?: boolean) {
-    const tempDeck = [...deckArr]
-    if (setTrue) {
-      tempDeck[currentIndex] = true
-    }
-    const value = tempDeck.splice(currentIndex, 1)
-    tempDeck.push(value[0])
-    return tempDeck
+  function doSendToBottom(arr: CardValue[]): CardValue[]
+  function doSendToBottom(arr: boolean[], setTrue: true): boolean[]
+  function doSendToBottom(arr: (CardValue | boolean)[], setTrue?: boolean) {
+    const result = [...arr]
+    if (setTrue) result[currentIndex] = true
+    const [value] = result.splice(currentIndex, 1)
+    result.push(value)
+    return result
   }
 
   function sendToBottom() {
-    const newDeck = doSendToBottom(deck)
-    const newPeek = doSendToBottom(forcePeek, true)
-
     setDeckIndex(Math.max(deckIndex - 1, 0))
-    setDeck(newDeck)
-    setForcePeek(newPeek)
+    setDeck(doSendToBottom(deck))
+    setForcePeek(doSendToBottom(forcePeek, true))
   }
 
   if (isUp) {

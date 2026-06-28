@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box'
 import React from 'react'
-import './App.css'
 import { CardRow } from './components/CardRow'
 import { Header } from './components/Header'
 import { LeftMenu } from './components/LeftMenu'
