@@ -5,73 +5,65 @@ import { DeckType, NemesisDeckType } from './types/DeckType'
 import { decks, nemesisDecks } from './constants/decks'
 import { DealerContext } from './DealerContext'
 
-export function Dealer(props: { children: any }) {
+function shuffleDeck(cards: CardValue[]): CardValue[] {
+  const result = [...cards]
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[result[i], result[j]] = [result[j], result[i]]
+  }
+  return result
+}
+
+function buildDeck(
+  base: DeckType,
+  nemesis: NemesisDeckType,
+  friend: boolean,
+  foe: boolean
+): CardValue[] {
+  return shuffleDeck(
+    [...decks[base], ...nemesisDecks[nemesis]]
+      .concat(friend ? ['+' as CardValue] : [])
+      .concat(foe ? ['-' as CardValue] : [])
+  )
+}
+
+export function Dealer(props: { children: React.ReactNode }) {
   const { children } = props
 
-  const [baseDeck, setBaseDeck] = React.useState('twoplayer' as DeckType)
-  const [nemesisDeck, setNemesisDeck] = React.useState(
-    'base' as NemesisDeckType
-  )
-  const [cardStyle, setCardStyle] = React.useState('cracks' as CardStyle)
-  const [deck, setDeck] = React.useState([] as CardValue[])
+  const [baseDeck, setBaseDeck] = React.useState<DeckType>('twoplayer')
+  const [nemesisDeck, setNemesisDeck] = React.useState<NemesisDeckType>('base')
+  const [cardStyle, setCardStyle] = React.useState<CardStyle>('cracks')
+  const [deck, setDeck] = React.useState<CardValue[]>([])
   const [deckIndex, setDeckIndex] = React.useState(0)
   const [menuVisible, setMenuVisible] = React.useState(false)
   const [isDebouncing, setIsDebouncing] = React.useState(false)
   const [editModeOn, setEditModeOn] = React.useState(false)
-  const [forcePeek, setForcePeek] = React.useState([] as boolean[])
+  const [forcePeek, setForcePeek] = React.useState<boolean[]>([])
   const [hasFriend, setHasFriend] = React.useState(false)
   const [hasFoe, setHasFoe] = React.useState(false)
 
   React.useEffect(() => {
-    freshDeck()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const newDeck = buildDeck(baseDeck, nemesisDeck, hasFriend, hasFoe)
+    setDeck(newDeck)
+    setForcePeek(newDeck.map(() => false))
+    setDeckIndex(0)
   }, [baseDeck, nemesisDeck, hasFriend, hasFoe])
 
   React.useEffect(() => {
-    resetPeek()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setForcePeek((current) => current.map(() => false))
   }, [editModeOn])
 
-  function resetPeek() {
-    const newPeek = deck.map((_card) => {
-      return false
-    })
-    setForcePeek(newPeek)
-  }
-  function freshDeck() {
-    setDeck(
-      shuffleDeck(
-        [...decks[baseDeck]]
-          .concat([...nemesisDecks[nemesisDeck]])
-          .concat(hasFriend ? ['+'] : [])
-          .concat(hasFoe ? ['-'] : [])
-      )
-    )
-    resetPeek()
-    setDeckIndex(0)
-  }
-
   function drawCard() {
-    if (isDebouncing) {
-      return
-    }
+    if (isDebouncing) return
     setIsDebouncing(true)
     const newIndex = (deckIndex + 1) % deck.length
     setDeckIndex(newIndex)
     if (!newIndex) {
-      freshDeck()
+      const newDeck = buildDeck(baseDeck, nemesisDeck, hasFriend, hasFoe)
+      setDeck(newDeck)
+      setForcePeek(newDeck.map(() => false))
     }
-    setTimeout(() => {
-      setIsDebouncing(false)
-    }, 400)
-  }
-
-  function shuffleDeck(deck: CardValue[]): CardValue[] {
-    let tempDeck = [...deck]
-    for (let i = 0; i < 21; i++) {
-      tempDeck = tempDeck.sort(() => Math.random() - 0.5)
-    }
-    return tempDeck
+    setTimeout(() => setIsDebouncing(false), 400)
   }
 
   const bundledValues = {
