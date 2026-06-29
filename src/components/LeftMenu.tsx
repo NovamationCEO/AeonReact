@@ -10,6 +10,23 @@ import { NemesisDeckTypeButton } from './NemesisDeckTypeButton'
 import { StyleButton } from './StyleButton'
 import { DealerContext } from '../DealerContext'
 
+function SectionLabel({ label }: { label: string }) {
+  return (
+    <Box
+      fontFamily={'sans-serif'}
+      fontSize={'0.7em'}
+      color={'rgba(0,0,0,0.5)'}
+      letterSpacing={'0.08em'}
+      sx={{ textTransform: 'uppercase' }}
+      paddingLeft={'14px'}
+      paddingTop={'10px'}
+      paddingBottom={'2px'}
+    >
+      {label}
+    </Box>
+  )
+}
+
 export function LeftMenu() {
   const {
     menuVisible,
@@ -46,11 +63,25 @@ export function LeftMenu() {
       zIndex={z.leftMenu}
       flexDirection={'column'}
     >
+      <Box
+        fontFamily={
+          'Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif'
+        }
+        fontWeight={'bold'}
+        fontSize={'1.15em'}
+        color={'rgba(0,0,0,0.65)'}
+        padding={'4px 10px 4px'}
+      >
+        Setup
+      </Box>
+
+      <SectionLabel label="Card Style" />
       <MenuRow>
         <StyleButton targetStyle={'cracks'} />
         <StyleButton targetStyle={'loops'} />
       </MenuRow>
 
+      <SectionLabel label="Players" />
       <MenuRow>
         <DeckTypeButton targetDeck={'oneplayer'} title={'1'} />
         <DeckTypeButton targetDeck={'twoplayer'} title={'2'} />
@@ -58,6 +89,8 @@ export function LeftMenu() {
         <DeckTypeButton targetDeck={'fourplayer'} title={'4'} />
         <DeckTypeButton targetDeck={'fourplayerAB'} title={'AB'} />
       </MenuRow>
+
+      <SectionLabel label="Nemesis Variant" />
       <MenuRow colWidth={'100%'}>
         <NemesisDeckTypeButton
           targetDeck={'base'}
@@ -73,6 +106,8 @@ export function LeftMenu() {
           title={'Paradox of Myth and Bone'}
         />
       </MenuRow>
+
+      <SectionLabel label="Optional Cards" />
       <MenuRow colWidth={'100%'}>
         <FormControlLabel
           control={
@@ -90,6 +125,7 @@ export function LeftMenu() {
           label="Foe"
         />
       </MenuRow>
+
       <Box
         bgcolor={Colors.menu}
         color={Colors.aeonWhite}
@@ -104,8 +140,11 @@ export function LeftMenu() {
         height={'50px'}
         borderRadius={'50%'}
         alignItems={'center'}
-        onClick={() => toggleMenu()}
+        onClick={toggleMenu}
+        role={'button'}
+        aria-label={menuVisible ? 'Close settings' : 'Open settings'}
         sx={{
+          cursor: 'pointer',
           transform: `rotate(${xPos * 2}deg)`,
           transition: '0.7s ease transform',
         }}
