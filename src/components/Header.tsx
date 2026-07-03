@@ -33,41 +33,47 @@ export function Header() {
 
   return (
     <Box
-      width={'100%'}
-      bgcolor={Colors.header}
-      color={Colors.aeonWhite}
-      display={'flex'}
-      alignItems={'center'}
-      justifyContent={'space-between'}
-      padding={'8px 16px'}
+      sx={{
+        width: '100%',
+        bgcolor: Colors.header,
+        color: Colors.aeonWhite,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '8px 16px',
+      }}
     >
       <Box>
         <Box
-          fontFamily={
-            'Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif'
-          }
-          fontWeight={'bold'}
-          fontSize={'1.25em'}
-          letterSpacing={'0.05em'}
-          lineHeight={1.2}
+          sx={{
+            fontFamily: 'Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif',
+            fontWeight: 'bold',
+            fontSize: '1.25em',
+            letterSpacing: '0.05em',
+            lineHeight: 1.2,
+          }}
         >
           Aeon's End
         </Box>
         <Box
-          fontFamily={'sans-serif'}
-          fontSize={'0.7em'}
-          lineHeight={1.4}
-          sx={{ opacity: 0.7 }}
+          sx={{
+            fontFamily: 'sans-serif',
+            fontSize: '0.7em',
+            lineHeight: 1.4,
+            opacity: 0.7,
+          }}
         >
           {config}
         </Box>
       </Box>
       {progress && (
         <Box
-          fontFamily={'monospace'}
-          fontSize={'1.15em'}
-          fontWeight={'bold'}
-          sx={{ opacity: 0.85 }}
+          sx={{
+            fontFamily: 'monospace',
+            fontSize: '1.15em',
+            fontWeight: 'bold',
+            opacity: 0.85,
+          }}
         >
           {progress}
         </Box>

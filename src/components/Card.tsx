@@ -89,34 +89,34 @@ export function Card(props: {
 
   return (
     <Box
-      display={'flex'}
-      justifyContent={'center'}
-      alignItems={'center'}
-      minWidth={'110px'}
-      position={'relative'}
-      maxWidth={'350px'}
-      width={'100%'}
-      zIndex={z.card}
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minWidth: '110px',
+        position: 'relative',
+        maxWidth: '350px',
+        width: '100%',
+        zIndex: z.card,
+      }}
     >
       {editModeOn && <EditOverlay currentIndex={currentIndex} />}
       <Box
-        width={'100%'}
-        height={'100%'}
-        sx={{ userSelect: 'none' }}
+        sx={{ width: '100%', height: '100%', userSelect: 'none' }}
         {...onPress()}
       >
         <Box
-          position={'absolute'}
-          left={0}
-          top={0}
-          width={'100%'}
-          height={'100%'}
-          display={'flex'}
-          justifyContent={'center'}
-          alignItems={'center'}
-          zIndex={z.leftMenu}
-          color={'white'}
           sx={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: z.leftMenu,
+            color: 'white',
             opacity: showSpinner ? 1 : 0,
             transition: '0.3s ease opacity',
           }}
@@ -124,45 +124,47 @@ export function Card(props: {
           <CircularProgress variant="determinate" value={progress} size={80} />
         </Box>
         <Box
-          position={'relative'}
-          display={'flex'}
-          height={0}
-          paddingTop={'75%'}
-          paddingBottom={'75%'}
-          width={'100%'}
-          justifyContent={'center'}
-          alignItems={'center'}
-          overflow={'hidden'}
+          sx={{
+            position: 'relative',
+            display: 'flex',
+            height: 0,
+            paddingTop: '75%',
+            paddingBottom: '75%',
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            overflow: 'hidden',
+          }}
         >
           <Box
-            position={'absolute'}
-            display={'flex'}
-            left={0}
-            top={0}
-            width={'100%'}
-            height={0}
-            sx={
-              isUp || peek
+            sx={{
+              position: 'absolute',
+              display: 'flex',
+              left: 0,
+              top: 0,
+              width: '100%',
+              height: 0,
+              paddingTop: '75%',
+              paddingBottom: '75%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              ...(isUp || peek
                 ? cardStyles[cardStyle](flameSets[cardValue][3])
-                : cardStyles[cardStyle]()
-            }
-            paddingTop={'75%'}
-            paddingBottom={'75%'}
-            justifyContent={'center'}
-            alignItems={'center'}
+                : cardStyles[cardStyle]()),
+            }}
           />
           {(isUp || peek || forcePeek[currentIndex]) && (
             <div>
               {isUp && <Flames cardValue={cardValue} />}
               <Box
-                fontWeight={'bold'}
-                fontSize={`${710 - 100 * cardValue.length}%`}
-                alignSelf={'center'}
-                display={'flex'}
-                color={'white'}
-                zIndex={z.cardNumber}
-                position={'relative'}
                 sx={{
+                  fontWeight: 'bold',
+                  fontSize: `${710 - 100 * cardValue.length}%`,
+                  alignSelf: 'center',
+                  display: 'flex',
+                  color: 'white',
+                  zIndex: z.cardNumber,
+                  position: 'relative',
                   textShadow:
                     '-1px -1px 15px darkslategray,' +
                     '1px -1px 15px darkslategray, -1px 1px 25px darkslategray,' +

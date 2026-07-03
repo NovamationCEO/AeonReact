@@ -67,7 +67,7 @@ export function EditOverlay(props: { currentIndex: number }) {
 
   if (isUp) {
     return (
-      <Box zIndex={z.editOverlay}>
+      <Box sx={{ zIndex: z.editOverlay }}>
         <IconButton
           sx={{
             position: 'absolute',
@@ -109,7 +109,7 @@ export function EditOverlay(props: { currentIndex: number }) {
 
   if (forcePeek[currentIndex]) {
     return (
-      <Box zIndex={z.editOverlay}>
+      <Box sx={{ zIndex: z.editOverlay }}>
         <IconButton
           sx={{
             position: 'absolute',

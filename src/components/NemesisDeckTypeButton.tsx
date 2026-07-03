@@ -14,17 +14,19 @@ export function NemesisDeckTypeButton(props: {
   const isOn = nemesisDeck === targetDeck
   return (
     <Box
-      display={'flex'}
-      borderRadius={'25px'}
-      // width={'300px'}
-      height={'50px'}
       onClick={() => setNemesisDeck(targetDeck)}
-      border={`3px solid ${isOn ? Colors.selectedItem : Colors.menuDark}`}
-      justifyContent={'center'}
-      alignItems={'center'}
-      fontFamily={'sans-serif'}
-      fontSize={'20px'}
-      bgcolor={isOn ? Colors.aeonWhite : Colors.menu}
+      sx={{
+        display: 'flex',
+        borderRadius: '25px',
+        height: '50px',
+        border: `3px solid ${isOn ? Colors.selectedItem : Colors.menuDark}`,
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontFamily: 'sans-serif',
+        fontSize: '20px',
+        bgcolor: isOn ? Colors.aeonWhite : Colors.menu,
+        cursor: 'pointer',
+      }}
     >
       <Box>{title}</Box>
     </Box>

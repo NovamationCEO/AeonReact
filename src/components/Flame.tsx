@@ -14,24 +14,24 @@ export function Flame(props: {
 
   return (
     <Box
-      position={'absolute'}
-      left={pos}
-      top={pos}
-      height={size}
-      width={size}
       sx={{
+        position: 'absolute',
+        left: pos,
+        top: pos,
+        height: size,
+        width: size,
         filter: 'blur(6px)',
         animation: `pulse ${pulse}s linear infinite alternate`,
       }}
     >
       <Box
-        borderRadius={'75% 50%'}
-        height={'100%'}
-        width={'100%'}
         sx={{
+          borderRadius: '75% 50%',
+          height: '100%',
+          width: '100%',
+          bgcolor: color,
           animation: `wobble ${wobble}s linear infinite alternate`,
         }}
-        bgcolor={color}
       />
     </Box>
   )

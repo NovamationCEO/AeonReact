@@ -13,14 +13,16 @@ import { DealerContext } from '../DealerContext'
 function SectionLabel({ label }: { label: string }) {
   return (
     <Box
-      fontFamily={'sans-serif'}
-      fontSize={'0.7em'}
-      color={'rgba(0,0,0,0.5)'}
-      letterSpacing={'0.08em'}
-      sx={{ textTransform: 'uppercase' }}
-      paddingLeft={'14px'}
-      paddingTop={'10px'}
-      paddingBottom={'2px'}
+      sx={{
+        fontFamily: 'sans-serif',
+        fontSize: '0.7em',
+        color: 'rgba(0,0,0,0.5)',
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        paddingLeft: '14px',
+        paddingTop: '10px',
+        paddingBottom: '2px',
+      }}
     >
       {label}
     </Box>
@@ -45,32 +47,32 @@ export function LeftMenu() {
 
   return (
     <Box
-      height={'100%'}
-      position={'absolute'}
-      width={'80%'}
-      maxWidth={'500px'}
-      left={0}
-      top={0}
-      bgcolor={Colors.menu}
-      borderRadius={'0px 50px 50px 0px'}
-      overflow={'visible'}
-      display={'flex'}
-      padding={'20px'}
       sx={{
+        height: '100%',
+        position: 'absolute',
+        width: '80%',
+        maxWidth: '500px',
+        left: 0,
+        top: 0,
+        bgcolor: Colors.menu,
+        borderRadius: '0px 50px 50px 0px',
+        overflow: 'visible',
+        display: 'flex',
+        padding: '20px',
         transition: '0.5s transform ease',
         transform: `translateX(${xPos}%)`,
+        zIndex: z.leftMenu,
+        flexDirection: 'column',
       }}
-      zIndex={z.leftMenu}
-      flexDirection={'column'}
     >
       <Box
-        fontFamily={
-          'Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif'
-        }
-        fontWeight={'bold'}
-        fontSize={'1.15em'}
-        color={'rgba(0,0,0,0.65)'}
-        padding={'4px 10px 4px'}
+        sx={{
+          fontFamily: 'Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif',
+          fontWeight: 'bold',
+          fontSize: '1.15em',
+          color: 'rgba(0,0,0,0.65)',
+          padding: '4px 10px 4px',
+        }}
       >
         Setup
       </Box>
@@ -127,22 +129,22 @@ export function LeftMenu() {
       </MenuRow>
 
       <Box
-        bgcolor={Colors.menu}
-        color={Colors.aeonWhite}
-        boxShadow={'none'}
-        position={'absolute'}
-        display={'flex'}
-        top={'60px'}
-        right={'-24px'}
-        justifyContent={'center'}
-        width={'50px'}
-        height={'50px'}
-        borderRadius={'50%'}
-        alignItems={'center'}
         onClick={toggleMenu}
         role={'button'}
         aria-label={menuVisible ? 'Close settings' : 'Open settings'}
         sx={{
+          bgcolor: Colors.menu,
+          color: Colors.aeonWhite,
+          boxShadow: 'none',
+          position: 'absolute',
+          display: 'flex',
+          top: '60px',
+          right: '-24px',
+          justifyContent: 'center',
+          width: '50px',
+          height: '50px',
+          borderRadius: '50%',
+          alignItems: 'center',
           cursor: 'pointer',
           transform: `rotate(${xPos * 2}deg)`,
           transition: '0.7s ease transform',

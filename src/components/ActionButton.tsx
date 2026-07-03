@@ -11,15 +11,15 @@ export function ActionButton(props: {
 
   return (
     <Box
-      width={'50px'}
-      height={'50px'}
-      display={'flex'}
-      justifyContent={'center'}
-      alignItems={'center'}
-      bgcolor={Colors.menuDark}
-      borderRadius={'50%'}
       onClick={clickAction}
       sx={{
+        width: '50px',
+        height: '50px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        bgcolor: Colors.menuDark,
+        borderRadius: '50%',
         cursor: 'pointer',
         transition: '0.5s ease background',
         ':hover': { background: Colors.menu },

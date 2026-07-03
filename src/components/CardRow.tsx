@@ -10,16 +10,16 @@ export function CardRow() {
 
   return (
     <Box
-      width={'100%'}
-      height={'100%'}
-      alignContent={'center'}
-      display={'grid'}
-      gridTemplateColumns={columnValues}
-      gridAutoRows={'min-content'}
-      gap={'10px'}
-      justifyItems={'center'}
-      padding={'10px'}
       sx={{
+        width: '100%',
+        height: '100%',
+        alignContent: 'center',
+        display: 'grid',
+        gridTemplateColumns: columnValues,
+        gridAutoRows: 'min-content',
+        gap: '10px',
+        justifyItems: 'center',
+        padding: '10px',
         boxShadow: editModeOn
           ? '0 0 0 2px rgba(100,100,220,0.7), 0 0 20px rgba(100,100,220,0.12)'
           : '0 0 0 0px transparent',

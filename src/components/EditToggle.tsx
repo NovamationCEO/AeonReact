@@ -6,14 +6,16 @@ export function EditToggle() {
   const { editModeOn, setEditModeOn } = useContext(DealerContext)
   return (
     <Box
-      position={'absolute'}
-      left={0}
-      bottom={0}
-      width={'100%'}
-      display={'flex'}
-      justifyContent={'center'}
-      padding={'14px'}
-      sx={{ pointerEvents: 'none' }}
+      sx={{
+        position: 'absolute',
+        left: 0,
+        bottom: 0,
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '14px',
+        pointerEvents: 'none',
+      }}
     >
       <Button
         onClick={() => setEditModeOn(!editModeOn)}

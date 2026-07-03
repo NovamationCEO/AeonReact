@@ -9,13 +9,15 @@ export function Flames(props: { cardValue: CardValue }) {
 
   return (
     <Box
-      width={'100%'}
-      height={0}
-      paddingTop={'75%'}
-      paddingBottom={'75%'}
-      position={'absolute'}
-      left={0}
-      top={0}
+      sx={{
+        width: '100%',
+        height: 0,
+        paddingTop: '75%',
+        paddingBottom: '75%',
+        position: 'absolute',
+        left: 0,
+        top: 0,
+      }}
     >
       <Flame percent={100} color={col[0]} pulse={1.3} wobble={2.3} />
       <Flame percent={90} color={col[1]} pulse={1.5} wobble={2.5} />

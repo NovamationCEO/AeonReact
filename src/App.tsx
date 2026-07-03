@@ -14,11 +14,13 @@ function App() {
       <Box sx={backgroundStyle}>
         <Header />
         <Box
-          position={'relative'}
-          flex={1}
-          display={'flex'}
-          overflow={'hidden'}
-          flexDirection={'column'}
+          sx={{
+            position: 'relative',
+            flex: 1,
+            display: 'flex',
+            overflow: 'hidden',
+            flexDirection: 'column',
+          }}
         >
           <LeftMenu />
           <LeftMenuScrim />
