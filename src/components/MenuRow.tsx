@@ -1,7 +1,8 @@
 import { Box } from '@mui/material'
+import { ReactNode } from 'react'
 import { Colors } from '../theme/colors'
 
-export function MenuRow(props: { children: any; colWidth?: string }) {
+export function MenuRow(props: { children: ReactNode; colWidth?: string }) {
   const { children, colWidth = '50px' } = props
   return (
     <Box

@@ -5,50 +5,26 @@ import { createContext } from 'react'
 
 export const DealerContext = createContext({
   baseDeck: 'twoplayer' as DeckType,
-  setBaseDeck: (dt: DeckType) => {
-    return
-  },
+  setBaseDeck: (_: DeckType) => {},
   nemesisDeck: 'base' as NemesisDeckType,
-  setNemesisDeck: (nd: NemesisDeckType) => {
-    return
-  },
+  setNemesisDeck: (_: NemesisDeckType) => {},
   cardStyle: 'cracks' as CardStyle,
-  setCardStyle: (cs: CardStyle) => {
-    return
-  },
+  setCardStyle: (_: CardStyle) => {},
   deck: [] as CardValue[],
-  setDeck: (cv: CardValue[]) => {
-    return
-  },
+  setDeck: (_: CardValue[]) => {},
   deckIndex: 0,
-  setDeckIndex: (n: number) => {
-    return
-  },
+  setDeckIndex: (_: number) => {},
   menuVisible: false,
-  setMenuVisible: (mv: boolean) => {
-    return
-  },
+  setMenuVisible: (_: boolean) => {},
   isDebouncing: false,
-  setIsDebouncing: (isd: boolean) => {
-    return
-  },
+  setIsDebouncing: (_: boolean) => {},
   editModeOn: false,
-  setEditModeOn: (b: boolean) => {
-    return
-  },
-  drawCard: () => {
-    return
-  },
+  setEditModeOn: (_: boolean) => {},
+  drawCard: () => {},
   forcePeek: [] as boolean[],
-  setForcePeek: (ba: boolean[]) => {
-    return
-  },
+  setForcePeek: (_: boolean[]) => {},
   hasFriend: false,
-  setHasFriend: (b: boolean) => {
-    return
-  },
+  setHasFriend: (_: boolean) => {},
   hasFoe: false,
-  setHasFoe: (b: boolean) => {
-    return
-  },
+  setHasFoe: (_: boolean) => {},
 })

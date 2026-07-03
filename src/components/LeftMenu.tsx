@@ -67,7 +67,8 @@ export function LeftMenu() {
     >
       <Box
         sx={{
-          fontFamily: 'Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif',
+          fontFamily:
+            'Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif',
           fontWeight: 'bold',
           fontSize: '1.15em',
           color: 'rgba(0,0,0,0.65)',

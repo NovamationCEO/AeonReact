@@ -35,7 +35,11 @@ export function EditOverlay(props: { currentIndex: number }) {
 
   function doShift(arr: CardValue[], shift: number): CardValue[]
   function doShift(arr: boolean[], shift: number, setTrue: true): boolean[]
-  function doShift(arr: (CardValue | boolean)[], shift: number, setTrue?: boolean) {
+  function doShift(
+    arr: (CardValue | boolean)[],
+    shift: number,
+    setTrue?: boolean
+  ) {
     const result = [...arr]
     if (setTrue) result[currentIndex] = true
     const [value] = result.splice(currentIndex, 1)

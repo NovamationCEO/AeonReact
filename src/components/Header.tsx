@@ -26,7 +26,11 @@ export function Header() {
   const extras = [hasFriend && 'Friend', hasFoe && 'Foe']
     .filter(Boolean)
     .join(' · ')
-  const config = [deckLabels[baseDeck], nemesisLabels[nemesisDeck], extras || null]
+  const config = [
+    deckLabels[baseDeck],
+    nemesisLabels[nemesisDeck],
+    extras || null,
+  ]
     .filter(Boolean)
     .join(' · ')
   const progress = deck.length > 0 ? `${deckIndex + 1} / ${deck.length}` : ''
@@ -46,7 +50,8 @@ export function Header() {
       <Box>
         <Box
           sx={{
-            fontFamily: 'Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif',
+            fontFamily:
+              'Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif',
             fontWeight: 'bold',
             fontSize: '1.25em',
             letterSpacing: '0.05em',

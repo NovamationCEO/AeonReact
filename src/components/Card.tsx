@@ -76,7 +76,11 @@ export function Card(props: {
     onCancel: () => {
       updateSpinner(false)
       if (refProgress.current === 0) {
-        editModeOn ? forcePeekMe() : drawCard()
+        if (editModeOn) {
+          forcePeekMe()
+        } else {
+          drawCard()
+        }
       }
       setProgress(0)
     },
