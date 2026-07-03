@@ -58,7 +58,6 @@ export function LeftMenu() {
         borderRadius: '0px 50px 50px 0px',
         overflow: 'visible',
         display: 'flex',
-        padding: '20px',
         transition: '0.5s transform ease',
         transform: `translateX(${xPos}%)`,
         zIndex: z.leftMenu,
@@ -67,67 +66,89 @@ export function LeftMenu() {
     >
       <Box
         sx={{
-          fontFamily:
-            'Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif',
-          fontWeight: 'bold',
-          fontSize: '1.15em',
-          color: 'rgba(0,0,0,0.65)',
-          padding: '4px 10px 4px',
+          flex: 1,
+          overflowY: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          direction: 'rtl',
         }}
       >
-        Setup
+        <Box
+          sx={{
+            direction: 'ltr',
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '20px',
+          }}
+        >
+        <Box
+          sx={{
+            fontFamily:
+              'Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif',
+            fontWeight: 'bold',
+            fontSize: '1.15em',
+            color: 'rgba(0,0,0,0.65)',
+            padding: '4px 10px 4px',
+          }}
+        >
+          Setup
+        </Box>
+
+        <SectionLabel label="Card Style" />
+        <MenuRow>
+          <StyleButton targetStyle={'cracks'} />
+          <StyleButton targetStyle={'loops'} />
+        </MenuRow>
+
+        <SectionLabel label="Players" />
+        <MenuRow>
+          <DeckTypeButton targetDeck={'oneplayer'} title={'1'} />
+          <DeckTypeButton targetDeck={'twoplayer'} title={'2'} />
+          <DeckTypeButton targetDeck={'threeplayer'} title={'3'} />
+          <DeckTypeButton targetDeck={'fourplayer'} title={'4'} />
+          <DeckTypeButton targetDeck={'fourplayerAB'} title={'AB'} />
+        </MenuRow>
+
+        <SectionLabel label="Nemesis Variant" />
+        <MenuRow colWidth={'100%'}>
+          <NemesisDeckTypeButton
+            targetDeck={'base'}
+            title={'Standard Nemesis Deck'}
+          />
+          <NemesisDeckTypeButton
+            targetDeck={'nx'}
+            title={'Charged Nemesis Card'}
+          />
+          <NemesisDeckTypeButton targetDeck={'nd'} title={'Thief of Dreams'} />
+          <NemesisDeckTypeButton
+            targetDeck={'mb'}
+            title={'Paradox of Myth and Bone'}
+          />
+        </MenuRow>
+
+        <SectionLabel label="Optional Cards" />
+        <MenuRow colWidth={'100%'}>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={hasFriend}
+                onChange={(_evt, val) => setHasFriend(val)}
+              />
+            }
+            label="Friend"
+          />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={hasFoe}
+                onChange={(_evt, val) => setHasFoe(val)}
+              />
+            }
+            label="Foe"
+          />
+        </MenuRow>
+        </Box>
       </Box>
-
-      <SectionLabel label="Card Style" />
-      <MenuRow>
-        <StyleButton targetStyle={'cracks'} />
-        <StyleButton targetStyle={'loops'} />
-      </MenuRow>
-
-      <SectionLabel label="Players" />
-      <MenuRow>
-        <DeckTypeButton targetDeck={'oneplayer'} title={'1'} />
-        <DeckTypeButton targetDeck={'twoplayer'} title={'2'} />
-        <DeckTypeButton targetDeck={'threeplayer'} title={'3'} />
-        <DeckTypeButton targetDeck={'fourplayer'} title={'4'} />
-        <DeckTypeButton targetDeck={'fourplayerAB'} title={'AB'} />
-      </MenuRow>
-
-      <SectionLabel label="Nemesis Variant" />
-      <MenuRow colWidth={'100%'}>
-        <NemesisDeckTypeButton
-          targetDeck={'base'}
-          title={'Standard Nemesis Deck'}
-        />
-        <NemesisDeckTypeButton
-          targetDeck={'nx'}
-          title={'Charged Nemesis Card'}
-        />
-        <NemesisDeckTypeButton targetDeck={'nd'} title={'Thief of Dreams'} />
-        <NemesisDeckTypeButton
-          targetDeck={'mb'}
-          title={'Paradox of Myth and Bone'}
-        />
-      </MenuRow>
-
-      <SectionLabel label="Optional Cards" />
-      <MenuRow colWidth={'100%'}>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={hasFriend}
-              onChange={(_evt, val) => setHasFriend(val)}
-            />
-          }
-          label="Friend"
-        />
-        <FormControlLabel
-          control={
-            <Switch checked={hasFoe} onChange={(_evt, val) => setHasFoe(val)} />
-          }
-          label="Foe"
-        />
-      </MenuRow>
 
       <Box
         onClick={toggleMenu}

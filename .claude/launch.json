@@ -3,10 +3,9 @@
   "configurations": [
     {
       "name": "aeon-dev",
-      "runtimeExecutable": "yarn",
-      "runtimeArgs": ["dev", "--port", "${PORT}"],
-      "port": 5173,
-      "autoPort": true
+      "runtimeExecutable": "/Users/nova/Code/AeonReact/.claude/start-dev.sh",
+      "runtimeArgs": [],
+      "port": 5173
     }
   ]
 }
