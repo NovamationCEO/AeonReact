@@ -10,38 +10,31 @@ export function CardRow() {
 
   return (
     <Box
+      width={'100%'}
       height={'100%'}
       alignContent={'center'}
-      display={'flex'}
-      flexWrap={'wrap'}
-      margin={'10px'}
+      display={'grid'}
+      gridTemplateColumns={columnValues}
+      gridAutoRows={'min-content'}
+      gap={'10px'}
+      justifyItems={'center'}
+      padding={'10px'}
+      sx={{
+        boxShadow: editModeOn
+          ? '0 0 0 2px rgba(100,100,220,0.7), 0 0 20px rgba(100,100,220,0.12)'
+          : '0 0 0 0px transparent',
+        borderRadius: '12px',
+        transition: '0.4s ease box-shadow',
+      }}
     >
-      <Box
-        alignItems={'center'}
-        position={'relative'}
-        display={'grid'}
-        gridTemplateColumns={columnValues}
-        gridAutoRows={'min-content'}
-        gap={'10px'}
-        justifyItems={'center'}
-        flex={3}
-        sx={{
-          boxShadow: editModeOn
-            ? '0 0 0 2px rgba(100,100,220,0.7), 0 0 20px rgba(100,100,220,0.12)'
-            : '0 0 0 0px transparent',
-          borderRadius: '12px',
-          transition: '0.4s ease box-shadow',
-        }}
-      >
-        {deck.map((cardValue, n) => (
-          <Card
-            cardValue={cardValue}
-            key={n}
-            isUp={deckIndex >= n}
-            currentIndex={n}
-          />
-        ))}
-      </Box>
+      {deck.map((cardValue, n) => (
+        <Card
+          cardValue={cardValue}
+          key={n}
+          isUp={deckIndex >= n}
+          currentIndex={n}
+        />
+      ))}
     </Box>
   )
 }

@@ -132,8 +132,7 @@ export function LeftMenu() {
         boxShadow={'none'}
         position={'absolute'}
         display={'flex'}
-        alignSelf={'center'}
-        top={'calc(50% - 25px)'}
+        top={'60px'}
         right={'-24px'}
         justifyContent={'center'}
         width={'50px'}

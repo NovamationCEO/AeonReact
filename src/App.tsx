@@ -17,7 +17,7 @@ function App() {
           position={'relative'}
           flex={1}
           display={'flex'}
-          height={'calc(100vh - 2em)'}
+          overflow={'hidden'}
           flexDirection={'column'}
         >
           <LeftMenu />
