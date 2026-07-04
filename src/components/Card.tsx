@@ -126,10 +126,34 @@ export function Card(props: {
 
   // ── Swipe gesture handlers ────────────────────────────────────────────────
 
+  function startEditSpinner() {
+    setProgress(0)
+    killIt.current = false
+    setShowSpinner(true)
+    advanceEditSpinner(0)
+  }
+
+  function advanceEditSpinner(amount: number) {
+    if (killIt.current) return
+    const newAmount = Math.min(amount + segPercent + 1, 100)
+    const ticks = Math.floor(editPeekLength / (100 / segPercent))
+    setProgress(newAmount)
+    if (newAmount !== 100) {
+      setTimeout(() => advanceEditSpinner(newAmount), ticks)
+    }
+  }
+
+  function stopEditSpinner() {
+    killIt.current = true
+    setShowSpinner(false)
+    setProgress(0)
+  }
+
   function onPointerDown(e: React.PointerEvent) {
     swipeStart.current = { x: e.clientX, y: e.clientY }
     pointerDownTime.current = Date.now()
     ;(e.currentTarget as Element).setPointerCapture(e.pointerId)
+    if (!isUp && !forcePeek[currentIndex]) startEditSpinner()
   }
 
   function onPointerMove(e: React.PointerEvent) {
@@ -142,6 +166,8 @@ export function Card(props: {
       setSwipeDir(null)
       return
     }
+    // Movement detected — a swipe is in progress, not a hold
+    if (!killIt.current) stopEditSpinner()
     if (isUp) {
       setSwipeDir(absDy >= absDx ? (dy < 0 ? 'up' : 'down') : null)
     } else if (forcePeek[currentIndex]) {
@@ -155,6 +181,7 @@ export function Card(props: {
     const dy = e.clientY - swipeStart.current.y
     swipeStart.current = null
     setSwipeDir(null)
+    stopEditSpinner()
 
     const dist = Math.max(Math.abs(dx), Math.abs(dy))
 
@@ -178,6 +205,7 @@ export function Card(props: {
   function onPointerCancel() {
     swipeStart.current = null
     setSwipeDir(null)
+    stopEditSpinner()
   }
 
   // ── Long-press / draw (normal mode only) ──────────────────────────────────
