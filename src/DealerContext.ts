@@ -38,4 +38,9 @@ export const DealerContext = createContext({
   setIntensityValue: (_: number | ((prev: number) => number)) => {},
   cycleCount: 1,
   setCycleCount: (_: number) => {},
+  history: [] as CardValue[][],
+  setHistory: (_: CardValue[][] | ((prev: CardValue[][]) => CardValue[][])) => {},
+  historyOpen: false,
+  setHistoryOpen: (_: boolean) => {},
+  endGame: () => {},
 })

@@ -14,7 +14,7 @@ const deckLabels: Record<DeckType, string> = {
 }
 
 export function Header() {
-  const { baseDeck, nemesisDeck, deck, deckIndex, hasFriend, hasFoe, cycleCount } =
+  const { baseDeck, nemesisDeck, deck, deckIndex, hasFriend, hasFoe, cycleCount, historyOpen, setHistoryOpen } =
     useContext(DealerContext)
 
   const extras = [hasFriend && 'Friend', hasFoe && 'Foe']
@@ -71,7 +71,23 @@ export function Header() {
         </Box>
       </Box>
       {progress && (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '1px' }}>
+        <Box
+          onClick={() => setHistoryOpen(!historyOpen)}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            gap: '1px',
+            cursor: 'pointer',
+            userSelect: 'none',
+            padding: '4px 6px',
+            borderRadius: '6px',
+            transition: 'background 0.15s ease',
+            background: historyOpen ? 'rgba(255,255,255,0.08)' : 'transparent',
+            ':hover': { background: 'rgba(255,255,255,0.07)' },
+            ':active': { background: 'rgba(255,255,255,0.12)' },
+          }}
+        >
           <Box
             sx={{
               fontFamily: 'monospace',

@@ -57,6 +57,8 @@ export function Dealer(props: { children: React.ReactNode }) {
   const [pendingShuffle, setPendingShuffle] = React.useState<{
     deck: CardValue[], deckIds: string[], forcePeek: boolean[]
   } | null>(null)
+  const [history, setHistory] = React.useState<CardValue[][]>([])
+  const [historyOpen, setHistoryOpen] = React.useState(false)
 
   React.useEffect(() => {
     const newDeck = buildDeck(baseDeck, nemesisDeck, hasFriend, hasFoe)
@@ -66,6 +68,8 @@ export function Dealer(props: { children: React.ReactNode }) {
     setDeckIndex(0)
     setIntensityValue(1)
     setCycleCount(1)
+    setHistory([[newDeck[0]]])
+    setHistoryOpen(false)
   }, [baseDeck, nemesisDeck, hasFriend, hasFoe])
 
   React.useEffect(() => {
@@ -102,11 +106,26 @@ export function Dealer(props: { children: React.ReactNode }) {
       applyIntensityCard(newDeck[0])
       setCycleCount(c => c + 1)
       vibrate([30, 15, 30, 15, 30])
+      setHistory(h => [...h, [newDeck[0]]])
     } else {
       applyIntensityCard(deck[newIndex])
       vibrate(isNemesisCard(deck[newIndex]) ? 60 : 20)
+      setHistory(h => [...h.slice(0, -1), [...(h[h.length - 1] ?? []), deck[newIndex]]])
     }
     setTimeout(() => setIsDebouncing(false), 400)
+  }
+
+  function endGame() {
+    const newDeck = buildDeck(baseDeck, nemesisDeck, hasFriend, hasFoe)
+    setDeck(newDeck)
+    setDeckIds(newDeck.map((_, i) => `${Date.now()}-${i}`))
+    setForcePeek(newDeck.map(() => false))
+    setDeckIndex(0)
+    setIntensityValue(1)
+    setCycleCount(1)
+    setHistory([[newDeck[0]]])
+    setHistoryOpen(false)
+    setEditModeOn(false)
   }
 
   const bundledValues = {
@@ -143,6 +162,11 @@ export function Dealer(props: { children: React.ReactNode }) {
     setCycleCount,
     pendingShuffle,
     setPendingShuffle,
+    history,
+    setHistory,
+    historyOpen,
+    setHistoryOpen,
+    endGame,
   }
 
   return (

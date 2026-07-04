@@ -6,4 +6,5 @@ export const z = {
   cardNumber: 3,
   editOverlay: 101,
   scrim: 99,
+  historyPanel: 90,
 }
