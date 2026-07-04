@@ -53,6 +53,13 @@ export function Dealer(props: { children: React.ReactNode }) {
     setForcePeek((current) => current.map(() => false))
   }, [editModeOn])
 
+  React.useEffect(() => {
+    if (!editModeOn) return
+    const prevent = (e: TouchEvent) => e.preventDefault()
+    document.addEventListener('touchmove', prevent, { passive: false })
+    return () => document.removeEventListener('touchmove', prevent)
+  }, [editModeOn])
+
   function drawCard() {
     if (isDebouncing) return
     setIsDebouncing(true)
