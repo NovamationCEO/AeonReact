@@ -14,6 +14,8 @@ export const DealerContext = createContext({
   setDeck: (_: CardValue[]) => {},
   deckIds: [] as string[],
   setDeckIds: (_: string[]) => {},
+  pendingShuffle: null as { deck: CardValue[], deckIds: string[], forcePeek: boolean[] } | null,
+  setPendingShuffle: (_: { deck: CardValue[], deckIds: string[], forcePeek: boolean[] } | null) => {},
   deckIndex: 0,
   setDeckIndex: (_: number) => {},
   menuVisible: false,

@@ -42,6 +42,9 @@ export function Dealer(props: { children: React.ReactNode }) {
   const [forcePeek, setForcePeek] = React.useState<boolean[]>([])
   const [hasFriend, setHasFriend] = React.useState(false)
   const [hasFoe, setHasFoe] = React.useState(false)
+  const [pendingShuffle, setPendingShuffle] = React.useState<{
+    deck: CardValue[], deckIds: string[], forcePeek: boolean[]
+  } | null>(null)
 
   React.useEffect(() => {
     const newDeck = buildDeck(baseDeck, nemesisDeck, hasFriend, hasFoe)
@@ -102,6 +105,8 @@ export function Dealer(props: { children: React.ReactNode }) {
     setHasFriend,
     hasFoe,
     setHasFoe,
+    pendingShuffle,
+    setPendingShuffle,
   }
 
   return (
