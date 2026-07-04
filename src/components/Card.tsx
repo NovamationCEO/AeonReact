@@ -44,11 +44,13 @@ export function Card(props: {
   const [peek, setPeek] = React.useState(false)
   const [swipeDir, setSwipeDir] = React.useState<'up' | 'down' | 'left' | 'right' | null>(null)
   const killIt = React.useRef(false)
-  const longLength = 1600
+  const longLength = 1000
+  const editPeekLength = 500
   const longDelay = 300
   const segPercent = 5
   const refProgress = React.useRef(0)
   const swipeStart = React.useRef<{ x: number; y: number } | null>(null)
+  const pointerDownTime = React.useRef(0)
 
   React.useEffect(() => {
     refProgress.current = progress
@@ -68,7 +70,7 @@ export function Card(props: {
 
   function sendToTop() {
     setForcePeek(doSendToTop(forcePeek, true))
-    setDeckIndex(Math.max(deckIndex - 1, 0))
+    setDeckIndex(deckIndex - 1)
     setDeck(doSendToTop(deck))
     setDeckIds(prev => {
       const r = [...prev]
@@ -111,7 +113,7 @@ export function Card(props: {
   }
 
   function sendToBottom() {
-    setDeckIndex(Math.max(deckIndex - 1, 0))
+    setDeckIndex(deckIndex - 1)
     setDeck(doSendToBottom(deck))
     setForcePeek(doSendToBottom(forcePeek, true))
     setDeckIds(prev => {
@@ -126,6 +128,7 @@ export function Card(props: {
 
   function onPointerDown(e: React.PointerEvent) {
     swipeStart.current = { x: e.clientX, y: e.clientY }
+    pointerDownTime.current = Date.now()
     ;(e.currentTarget as Element).setPointerCapture(e.pointerId)
   }
 
@@ -156,7 +159,8 @@ export function Card(props: {
     const dist = Math.max(Math.abs(dx), Math.abs(dy))
 
     if (dist < SWIPE_THRESHOLD) {
-      if (!isUp && !forcePeek[currentIndex]) forcePeekMe()
+      const held = Date.now() - pointerDownTime.current
+      if (!isUp && !forcePeek[currentIndex] && held >= editPeekLength) forcePeekMe()
       return
     }
 
