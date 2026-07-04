@@ -39,7 +39,11 @@ export function Header() {
     <Box
       sx={{
         width: '100%',
-        bgcolor: Colors.header,
+        background: 'rgba(8, 10, 40, 0.78)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 2px 24px rgba(0, 0, 0, 0.5)',
         color: Colors.aeonWhite,
         display: 'flex',
         alignItems: 'center',
@@ -56,6 +60,7 @@ export function Header() {
             fontSize: '1.25em',
             letterSpacing: '0.05em',
             lineHeight: 1.2,
+            textShadow: '0 0 14px rgba(140, 180, 255, 0.5)',
           }}
         >
           Aeon's End
@@ -65,7 +70,7 @@ export function Header() {
             fontFamily: 'sans-serif',
             fontSize: '0.7em',
             lineHeight: 1.4,
-            opacity: 0.7,
+            color: 'rgba(155, 185, 230, 0.85)',
           }}
         >
           {config}
@@ -77,7 +82,8 @@ export function Header() {
             fontFamily: 'monospace',
             fontSize: '1.15em',
             fontWeight: 'bold',
-            opacity: 0.85,
+            color: Colors.selectedItem,
+            textShadow: '0 0 10px rgba(240, 184, 64, 0.4)',
           }}
         >
           {progress}
