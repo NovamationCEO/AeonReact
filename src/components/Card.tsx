@@ -1,7 +1,6 @@
 import { CircularProgress, useTheme } from '@mui/material'
 import React, { useContext } from 'react'
 import Box from '@mui/material/Box'
-import { useLongPress } from 'use-long-press'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faChevronDown,
@@ -15,8 +14,7 @@ import { z } from '../theme/z'
 import { CardValue } from '../types/CardValue'
 import { Flames } from './Flames'
 import { DealerContext } from '../DealerContext'
-
-const SWIPE_THRESHOLD = 45
+import { useCardGestures } from '../hooks/useCardGestures'
 
 export function Card(props: {
   cardValue: CardValue
@@ -39,22 +37,7 @@ export function Card(props: {
   } = useContext(DealerContext)
 
   const theme = useTheme()
-  const [showSpinner, setShowSpinner] = React.useState(false)
-  const [progress, setProgress] = React.useState(0)
   const [peek, setPeek] = React.useState(false)
-  const [swipeDir, setSwipeDir] = React.useState<'up' | 'down' | 'left' | 'right' | null>(null)
-  const killIt = React.useRef(false)
-  const longLength = 1000
-  const editPeekLength = 500
-  const longDelay = 300
-  const segPercent = 5
-  const refProgress = React.useRef(0)
-  const swipeStart = React.useRef<{ x: number; y: number } | null>(null)
-  const pointerDownTime = React.useRef(0)
-
-  React.useEffect(() => {
-    refProgress.current = progress
-  }, [progress])
 
   // ── Reorder operations ────────────────────────────────────────────────────
 
@@ -124,142 +107,26 @@ export function Card(props: {
     })
   }
 
-  // ── Swipe gesture handlers ────────────────────────────────────────────────
-
-  function startEditSpinner() {
-    setProgress(0)
-    killIt.current = false
-    setShowSpinner(true)
-    advanceEditSpinner(0)
-  }
-
-  function advanceEditSpinner(amount: number) {
-    if (killIt.current) return
-    const newAmount = Math.min(amount + segPercent + 1, 100)
-    const ticks = Math.floor(editPeekLength / (100 / segPercent))
-    setProgress(newAmount)
-    if (newAmount !== 100) {
-      setTimeout(() => advanceEditSpinner(newAmount), ticks)
-    }
-  }
-
-  function stopEditSpinner() {
-    killIt.current = true
-    setShowSpinner(false)
-    setProgress(0)
-  }
-
-  function onPointerDown(e: React.PointerEvent) {
-    swipeStart.current = { x: e.clientX, y: e.clientY }
-    pointerDownTime.current = Date.now()
-    ;(e.currentTarget as Element).setPointerCapture(e.pointerId)
-    if (!isUp && !forcePeek[currentIndex]) startEditSpinner()
-  }
-
-  function onPointerMove(e: React.PointerEvent) {
-    if (!swipeStart.current) return
-    const dx = e.clientX - swipeStart.current.x
-    const dy = e.clientY - swipeStart.current.y
-    const absDx = Math.abs(dx)
-    const absDy = Math.abs(dy)
-    if (Math.max(absDx, absDy) < 12) {
-      setSwipeDir(null)
-      return
-    }
-    // Movement detected — a swipe is in progress, not a hold
-    if (!killIt.current) stopEditSpinner()
-    if (isUp) {
-      setSwipeDir(absDy >= absDx ? (dy < 0 ? 'up' : 'down') : null)
-    } else if (forcePeek[currentIndex]) {
-      setSwipeDir(absDx >= absDy ? (dx < 0 ? 'left' : 'right') : null)
-    }
-  }
-
-  function onPointerUp(e: React.PointerEvent) {
-    if (!swipeStart.current) return
-    const dx = e.clientX - swipeStart.current.x
-    const dy = e.clientY - swipeStart.current.y
-    swipeStart.current = null
-    setSwipeDir(null)
-    stopEditSpinner()
-
-    const dist = Math.max(Math.abs(dx), Math.abs(dy))
-
-    if (dist < SWIPE_THRESHOLD) {
-      const held = Date.now() - pointerDownTime.current
-      if (!isUp && !forcePeek[currentIndex] && held >= editPeekLength) forcePeekMe()
-      return
-    }
-
-    if (isUp) {
-      if (Math.abs(dy) > Math.abs(dx)) {
-        dy < 0 ? sendToTop() : sendToBottom()
-      }
-    } else if (forcePeek[currentIndex]) {
-      if (Math.abs(dx) > Math.abs(dy)) {
-        dx < 0 ? slide(false) : slide(true)
-      }
-    }
-  }
-
-  function onPointerCancel() {
-    swipeStart.current = null
-    setSwipeDir(null)
-    stopEditSpinner()
-  }
-
-  // ── Long-press / draw (normal mode only) ──────────────────────────────────
-
   function forcePeekMe() {
     const newForcePeek = [...forcePeek]
     newForcePeek[currentIndex] = true
     setForcePeek(newForcePeek)
   }
 
-  function startSpinner() {
-    if (isUp) return
-    setProgress(0)
-    killIt.current = false
-    setShowSpinner(true)
-    setTimeout(() => advanceSpinner(0), longDelay)
-  }
+  // ── Gesture detection (all interaction state lives in the hook) ───────────
 
-  function advanceSpinner(amount: number) {
-    if (killIt.current) return
-    const newAmount = Math.min(amount + segPercent + 1, 100)
-    const ticks = Math.floor((longLength - longDelay) / (100 / segPercent))
-    setProgress(newAmount)
-    if (newAmount !== 100) {
-      setTimeout(() => advanceSpinner(newAmount), ticks)
-    }
-  }
-
-  function updateSpinner(peekStatus: boolean = false) {
-    setShowSpinner(false)
-    killIt.current = true
-    setPeek(peekStatus)
-  }
-
-  const onPress = useLongPress(() => updateSpinner(true), {
-    threshold: longLength,
-    onStart: startSpinner,
-    onCancel: () => {
-      updateSpinner(false)
-      if (refProgress.current === 0) {
-        if (editModeOn) {
-          forcePeekMe()
-        } else {
-          drawCard()
-        }
-      }
-      setProgress(0)
-    },
-    onFinish: () => {
-      updateSpinner(false)
-      if (editModeOn) forcePeekMe()
-    },
-    cancelOnMovement: 20,
-  })
+  const { normalModeHandlers, editModeHandlers, swipeDir, showSpinner, progress } =
+    useCardGestures({
+      isUp,
+      editModeOn,
+      forcePeekValue: forcePeek[currentIndex],
+      onDraw: drawCard,
+      onForcePeek: forcePeekMe,
+      onPeekChange: setPeek,
+      onSendToTop: sendToTop,
+      onSendToBottom: sendToBottom,
+      onSlide: slide,
+    })
 
   // ── Derived display state ─────────────────────────────────────────────────
 
@@ -318,9 +185,7 @@ export function Card(props: {
           userSelect: 'none',
           touchAction: editModeOn ? 'none' : 'auto',
         }}
-        {...(editModeOn
-          ? { onPointerDown, onPointerMove, onPointerUp, onPointerCancel }
-          : onPress())}
+        {...(editModeOn ? editModeHandlers : normalModeHandlers())}
       >
         {/* Spinner overlay */}
         <Box
@@ -449,7 +314,6 @@ export function Card(props: {
               </Box>
             </Box>
           </Box>
-
 
           {/* Peek overlay: colored card face + number, no flip, no flames */}
           {showPeekOverlay && (

@@ -1,8 +1,9 @@
 import { Box, Button, IconButton, Tooltip } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShuffle } from '@fortawesome/free-solid-svg-icons'
-import { useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import { DealerContext } from '../DealerContext'
+import { useShakeDetector } from '../hooks/useShakeDetector'
 
 export function EditToggle() {
   const {
@@ -24,12 +25,21 @@ export function EditToggle() {
       ;[faceDownIds[i], faceDownIds[j]] = [faceDownIds[j], faceDownIds[i]]
     }
 
+    navigator.vibrate?.([20, 15, 20, 15, 20, 15, 20])
+
     setPendingShuffle({
       deck: [...deck.slice(0, cut), ...faceDown],
       deckIds: [...deckIds.slice(0, cut), ...faceDownIds],
       forcePeek: [...forcePeek.slice(0, cut), ...Array(faceDown.length).fill(false)],
     })
   }
+
+  useShakeDetector(
+    useCallback(() => {
+      if (editModeOn && faceDownCount > 1) shuffleFaceDown()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [editModeOn, faceDownCount])
+  )
 
   return (
     <Box

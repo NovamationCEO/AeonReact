@@ -1,4 +1,5 @@
 import { CardValue } from '../types/CardValue'
+import { nemesisVariants } from './nemesisVariants'
 
 export const decks: { [x: string]: CardValue[] } = {
   oneplayer: ['1', '1', '1'],
@@ -8,10 +9,6 @@ export const decks: { [x: string]: CardValue[] } = {
   fourplayerAB: ['1/2', '1/2', '3/4', '3/4'],
 }
 
-export const nemesisDecks: { [x: string]: CardValue[] } = {
-  base: ['N', 'N'],
-  nx: ['N', 'X'],
-  nd: ['N', 'Thief'],
-  mb: ['Myth', 'Bone'],
-  intensity: ['+2', '-1'],
-}
+export const nemesisDecks: { [x: string]: CardValue[] } = Object.fromEntries(
+  Object.entries(nemesisVariants).map(([k, v]) => [k, v.cards])
+)

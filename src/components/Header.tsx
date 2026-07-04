@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box'
 import { useContext } from 'react'
 import { DealerContext } from '../DealerContext'
-import { DeckType, NemesisDeckType } from '../types/DeckType'
+import { DeckType } from '../types/DeckType'
+import { nemesisVariants } from '../constants/nemesisVariants'
 import { Colors } from '../theme/colors'
 
 const deckLabels: Record<DeckType, string> = {
@@ -12,15 +13,8 @@ const deckLabels: Record<DeckType, string> = {
   fourplayerAB: '4P Team',
 }
 
-const nemesisLabels: Record<NemesisDeckType, string> = {
-  base: 'Standard',
-  nx: 'Charged',
-  nd: 'Thief of Dreams',
-  mb: 'Myth & Bone',
-}
-
 export function Header() {
-  const { baseDeck, nemesisDeck, deck, deckIndex, hasFriend, hasFoe } =
+  const { baseDeck, nemesisDeck, deck, deckIndex, hasFriend, hasFoe, cycleCount } =
     useContext(DealerContext)
 
   const extras = [hasFriend && 'Friend', hasFoe && 'Foe']
@@ -28,7 +22,7 @@ export function Header() {
     .join(' · ')
   const config = [
     deckLabels[baseDeck],
-    nemesisLabels[nemesisDeck],
+    nemesisVariants[nemesisDeck].shortLabel,
     extras || null,
   ]
     .filter(Boolean)
@@ -77,16 +71,30 @@ export function Header() {
         </Box>
       </Box>
       {progress && (
-        <Box
-          sx={{
-            fontFamily: 'monospace',
-            fontSize: '1.15em',
-            fontWeight: 'bold',
-            color: Colors.selectedItem,
-            textShadow: '0 0 10px rgba(240, 184, 64, 0.4)',
-          }}
-        >
-          {progress}
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '1px' }}>
+          <Box
+            sx={{
+              fontFamily: 'monospace',
+              fontSize: '1.15em',
+              fontWeight: 'bold',
+              color: Colors.selectedItem,
+              textShadow: '0 0 10px rgba(240, 184, 64, 0.4)',
+            }}
+          >
+            {progress}
+          </Box>
+          {cycleCount > 1 && (
+            <Box
+              sx={{
+                fontFamily: 'monospace',
+                fontSize: '0.62em',
+                color: 'rgba(240,184,64,0.55)',
+                letterSpacing: '0.04em',
+              }}
+            >
+              ×{cycleCount}
+            </Box>
+          )}
         </Box>
       )}
     </Box>

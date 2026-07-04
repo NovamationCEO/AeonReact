@@ -10,6 +10,7 @@ import { NemesisDeckTypeButton } from './NemesisDeckTypeButton'
 import { StyleButton } from './StyleButton'
 import { BgStyleButton } from './BgStyleButton'
 import { DealerContext } from '../DealerContext'
+import { nemesisVariants, NemesisDeckType } from '../constants/nemesisVariants'
 
 function SectionLabel({ label }: { label: string }) {
   return (
@@ -141,23 +142,9 @@ export function LeftMenu() {
 
             <SectionLabel label="Nemesis Variant" />
             <MenuRow colWidth={'100%'}>
-              <NemesisDeckTypeButton
-                targetDeck={'base'}
-                title={'Standard Nemesis Deck'}
-              />
-              <NemesisDeckTypeButton
-                targetDeck={'nx'}
-                title={'Charged Nemesis Card'}
-              />
-              <NemesisDeckTypeButton targetDeck={'nd'} title={'Thief of Dreams'} />
-              <NemesisDeckTypeButton
-                targetDeck={'mb'}
-                title={'Paradox of Myth and Bone'}
-              />
-              <NemesisDeckTypeButton
-                targetDeck={'intensity'}
-                title={'Intensity'}
-              />
+              {(Object.keys(nemesisVariants) as NemesisDeckType[]).map(key => (
+                <NemesisDeckTypeButton key={key} targetDeck={key} />
+              ))}
             </MenuRow>
 
             <SectionLabel label="Optional Cards" />

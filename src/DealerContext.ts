@@ -36,4 +36,6 @@ export const DealerContext = createContext({
   setHasFoe: (_: boolean) => {},
   intensityValue: 1,
   setIntensityValue: (_: number | ((prev: number) => number)) => {},
+  cycleCount: 1,
+  setCycleCount: (_: number) => {},
 })

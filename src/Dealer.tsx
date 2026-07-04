@@ -4,6 +4,9 @@ import { CardStyle } from './types/CardStyle'
 import { CardValue } from './types/CardValue'
 import { DeckType, NemesisDeckType } from './types/DeckType'
 import { decks, nemesisDecks } from './constants/decks'
+import { nemesisVariants } from './constants/nemesisVariants'
+import { INTENSITY_MIN, INTENSITY_MAX } from './constants/intensity'
+import { useLocalStorage } from './hooks/useLocalStorage'
 import { DealerContext } from './DealerContext'
 
 function shuffleDeck(cards: CardValue[]): CardValue[] {
@@ -28,13 +31,20 @@ function buildDeck(
   )
 }
 
+function vibrate(pattern: number | number[]) {
+  navigator.vibrate?.(pattern)
+}
+
 export function Dealer(props: { children: React.ReactNode }) {
   const { children } = props
 
-  const [baseDeck, setBaseDeck] = React.useState<DeckType>('twoplayer')
-  const [nemesisDeck, setNemesisDeck] = React.useState<NemesisDeckType>('base')
-  const [cardStyle, setCardStyle] = React.useState<CardStyle>('cracks')
-  const [bgStyle, setBgStyle] = React.useState<BgStyle>('velvet')
+  const [baseDeck, setBaseDeck] = useLocalStorage<DeckType>('baseDeck', 'twoplayer')
+  const [nemesisDeck, setNemesisDeck] = useLocalStorage<NemesisDeckType>('nemesisDeck', 'base')
+  const [cardStyle, setCardStyle] = useLocalStorage<CardStyle>('cardStyle', 'cracks')
+  const [bgStyle, setBgStyle] = useLocalStorage<BgStyle>('bgStyle', 'velvet')
+  const [hasFriend, setHasFriend] = useLocalStorage<boolean>('hasFriend', false)
+  const [hasFoe, setHasFoe] = useLocalStorage<boolean>('hasFoe', false)
+
   const [deck, setDeck] = React.useState<CardValue[]>([])
   const [deckIds, setDeckIds] = React.useState<string[]>([])
   const [deckIndex, setDeckIndex] = React.useState(0)
@@ -42,9 +52,8 @@ export function Dealer(props: { children: React.ReactNode }) {
   const [isDebouncing, setIsDebouncing] = React.useState(false)
   const [editModeOn, setEditModeOn] = React.useState(false)
   const [forcePeek, setForcePeek] = React.useState<boolean[]>([])
-  const [hasFriend, setHasFriend] = React.useState(false)
-  const [hasFoe, setHasFoe] = React.useState(false)
   const [intensityValue, setIntensityValue] = React.useState(1)
+  const [cycleCount, setCycleCount] = React.useState(1)
   const [pendingShuffle, setPendingShuffle] = React.useState<{
     deck: CardValue[], deckIds: string[], forcePeek: boolean[]
   } | null>(null)
@@ -56,6 +65,7 @@ export function Dealer(props: { children: React.ReactNode }) {
     setForcePeek(newDeck.map(() => false))
     setDeckIndex(0)
     setIntensityValue(1)
+    setCycleCount(1)
   }, [baseDeck, nemesisDeck, hasFriend, hasFoe])
 
   React.useEffect(() => {
@@ -70,9 +80,13 @@ export function Dealer(props: { children: React.ReactNode }) {
   }, [editModeOn])
 
   function applyIntensityCard(card: CardValue) {
-    if (nemesisDeck !== 'intensity') return
-    if (card === '+2') setIntensityValue(v => Math.min(6, v + 2))
-    else if (card === '-1') setIntensityValue(v => Math.max(1, v - 1))
+    if (!nemesisVariants[nemesisDeck].hasIntensity) return
+    if (card === '+2') setIntensityValue(v => Math.min(INTENSITY_MAX, v + 2))
+    else if (card === '-1') setIntensityValue(v => Math.max(INTENSITY_MIN, v - 1))
+  }
+
+  function isNemesisCard(card: CardValue): boolean {
+    return (nemesisDecks[nemesisDeck] as CardValue[]).includes(card)
   }
 
   function drawCard() {
@@ -86,8 +100,11 @@ export function Dealer(props: { children: React.ReactNode }) {
       setDeckIds(newDeck.map((_, i) => `${Date.now()}-${i}`))
       setForcePeek(newDeck.map(() => false))
       applyIntensityCard(newDeck[0])
+      setCycleCount(c => c + 1)
+      vibrate([30, 15, 30, 15, 30])
     } else {
       applyIntensityCard(deck[newIndex])
+      vibrate(isNemesisCard(deck[newIndex]) ? 60 : 20)
     }
     setTimeout(() => setIsDebouncing(false), 400)
   }
@@ -122,6 +139,8 @@ export function Dealer(props: { children: React.ReactNode }) {
     setHasFoe,
     intensityValue,
     setIntensityValue,
+    cycleCount,
+    setCycleCount,
     pendingShuffle,
     setPendingShuffle,
   }
