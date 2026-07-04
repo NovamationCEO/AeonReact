@@ -8,7 +8,7 @@ function makeLoop(loopColor: string = '#2a2d38'): CSSProperties {
     backgroundImage:
       `radial-gradient(100% 100% at 100% 100%, ${lVal}),` +
       `radial-gradient(100% 100% at 0    0   , ${lVal}),` +
-      `radial-gradient(100% 100%,#0000 22%, ${loopColor} 23% 29%, #0000 30% 34%, #2a2d38 35% 41%,#0000 42%)`,
+      `radial-gradient(100% 100%,#0000 22%, ${loopColor} 23% 29%, #0000 30% 34%, #363a52 35% 41%,#0000 42%)`,
     backgroundColor: cardColor,
     backgroundSize: `${textureSize * 2}px ${textureSize * 2}px`,
     backgroundPosition: `${textureSize}px ${textureSize}px, ${textureSize}px ${textureSize}px, 0px 0px`,
