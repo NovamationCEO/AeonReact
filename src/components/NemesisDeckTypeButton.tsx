@@ -23,7 +23,7 @@ export function NemesisDeckTypeButton(props: {
         justifyContent: 'center',
         alignItems: 'center',
         fontFamily: 'sans-serif',
-        fontSize: '20px',
+        fontSize: { xs: '15px', sm: '20px' },
         bgcolor: isOn ? Colors.aeonWhite : Colors.menu,
         cursor: 'pointer',
       }}
