@@ -8,11 +8,11 @@ export function MenuRow(props: { children: ReactNode; colWidth?: string }) {
     <Box
       sx={{
         display: 'grid',
-        gridAutoRows: '60px',
+        gridAutoRows: '52px',
         gridTemplateColumns: `repeat(auto-fill, ${colWidth})`,
         gap: '10px',
         alignItems: 'center',
-        padding: '10px',
+        padding: '8px 10px',
         borderRadius: '40px',
         bgcolor: 'rgba(255, 255, 255, 0.06)',
         border: '1px solid rgba(255, 255, 255, 0.1)',
