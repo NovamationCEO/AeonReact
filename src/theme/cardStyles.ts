@@ -1,9 +1,8 @@
 import { CSSProperties } from 'react'
 
-function makeLoop(): CSSProperties {
+function makeLoop(loopColor: string = '#2a2d38'): CSSProperties {
   const textureSize = 13
-  const loopColor = '#6B5344'
-  const cardColor = '#F8ECC9'
+  const cardColor = '#191b22'
   const lVal = `#0000 46%, ${loopColor} 47% 53%, #0000 54%`
   const cardTexture: CSSProperties = {
     background:
