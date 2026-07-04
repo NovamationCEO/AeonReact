@@ -3,6 +3,8 @@
 export const flameSets = {
   N: ['red', 'black', 'yellow', 'orange'],
   n: ['fireBrick', 'gray', 'khaki', 'lightSalmon'],
+  '+2': ['red', 'black', 'yellow', 'orange'],
+  '-1': ['red', 'black', 'orange', 'darkOrange'],
   X: ['red', 'black', 'magenta', 'darkOrange'],
   '1': ['blue', 'white', 'blueviolet', 'skyblue'],
   '2': ['green', 'white', 'yellow', 'lightseagreen'],

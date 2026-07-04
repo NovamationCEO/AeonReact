@@ -154,6 +154,10 @@ export function LeftMenu() {
                 targetDeck={'mb'}
                 title={'Paradox of Myth and Bone'}
               />
+              <NemesisDeckTypeButton
+                targetDeck={'intensity'}
+                title={'Intensity'}
+              />
             </MenuRow>
 
             <SectionLabel label="Optional Cards" />

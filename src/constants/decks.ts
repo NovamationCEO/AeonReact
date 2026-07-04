@@ -13,4 +13,5 @@ export const nemesisDecks: { [x: string]: CardValue[] } = {
   nx: ['N', 'X'],
   nd: ['N', 'Thief'],
   mb: ['Myth', 'Bone'],
+  intensity: ['+2', '-1'],
 }
