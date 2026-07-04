@@ -1,4 +1,5 @@
 import React from 'react'
+import { BgStyle } from './types/BgStyle'
 import { CardStyle } from './types/CardStyle'
 import { CardValue } from './types/CardValue'
 import { DeckType, NemesisDeckType } from './types/DeckType'
@@ -33,6 +34,7 @@ export function Dealer(props: { children: React.ReactNode }) {
   const [baseDeck, setBaseDeck] = React.useState<DeckType>('twoplayer')
   const [nemesisDeck, setNemesisDeck] = React.useState<NemesisDeckType>('base')
   const [cardStyle, setCardStyle] = React.useState<CardStyle>('cracks')
+  const [bgStyle, setBgStyle] = React.useState<BgStyle>('velvet')
   const [deck, setDeck] = React.useState<CardValue[]>([])
   const [deckIds, setDeckIds] = React.useState<string[]>([])
   const [deckIndex, setDeckIndex] = React.useState(0)
@@ -86,6 +88,8 @@ export function Dealer(props: { children: React.ReactNode }) {
     setNemesisDeck,
     cardStyle,
     setCardStyle,
+    bgStyle,
+    setBgStyle,
     deck,
     setDeck,
     deckIds,

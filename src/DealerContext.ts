@@ -1,3 +1,4 @@
+import { BgStyle } from './types/BgStyle'
 import { CardStyle } from './types/CardStyle'
 import { CardValue } from './types/CardValue'
 import { DeckType, NemesisDeckType } from './types/DeckType'
@@ -10,6 +11,8 @@ export const DealerContext = createContext({
   setNemesisDeck: (_: NemesisDeckType) => {},
   cardStyle: 'cracks' as CardStyle,
   setCardStyle: (_: CardStyle) => {},
+  bgStyle: 'velvet' as BgStyle,
+  setBgStyle: (_: BgStyle) => {},
   deck: [] as CardValue[],
   setDeck: (_: CardValue[]) => {},
   deckIds: [] as string[],

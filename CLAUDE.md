@@ -24,6 +24,7 @@ Vite 8 · React 19 · MUI 9 · TypeScript 5 · Vitest 4 · use-long-press 3 · F
 | `editModeOn` | `boolean` | Reorder mode |
 | `baseDeck` / `nemesisDeck` | enum types | Deck configuration |
 | `hasFriend` / `hasFoe` | boolean | Optional extra cards |
+| `bgStyle` | `BgStyle` | Selected page background (velvet/arcane/felt/brocade) |
 
 All state lives in `Dealer.tsx`, provided via `DealerContext.ts`.
 
@@ -106,9 +107,10 @@ Every reorder operation (`sendToTop`, `sendToBottom`, `slide`) must update all t
 |---|---|
 | `cardStyles.ts` | 5 patterns: `loops`, `cracks`, `scales`, `diamonds`, `shimmer`. Called as `cardStyles[style](accentColor?)`. Back face: no arg. Front face: `flameSets[cardValue][3]` as accent. |
 | `flameSets.ts` | Maps `CardValue` → `[c1, c2, c3, c4]`. Index 3 = card-style accent color. |
+| `backgroundStyles.ts` | 4 page backgrounds: `velvet` (steel-blue tufted), `arcane` (indigo starfield), `felt` (casino green), `brocade` (burgundy gold lattice). Each is a `() => CSSProperties` returning only background-related CSS. `BgStyle = keyof typeof backgroundStyles`. |
+| `backgroundStyle.ts` | Layout-only CSS (position, flex, size, overflow) — no background properties. Spread first in `AppContent`, then spread the selected `backgroundStyles[bgStyle]()` on top. |
 | `z.ts` | z-index constants: card=1, editOverlay=101, leftMenu=100, scrim=99 |
 | `colors.ts` | Shared color tokens |
-| `backgroundStyle.ts` | Page background radial-gradient tile |
 | `keyframes.css` | CSS keyframe animations (loopsDrift, cracksPulse, etc.) |
 
 ---

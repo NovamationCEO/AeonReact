@@ -8,6 +8,7 @@ import { DeckTypeButton } from './DeckTypeButton'
 import { MenuRow } from './MenuRow'
 import { NemesisDeckTypeButton } from './NemesisDeckTypeButton'
 import { StyleButton } from './StyleButton'
+import { BgStyleButton } from './BgStyleButton'
 import { DealerContext } from '../DealerContext'
 
 function SectionLabel({ label }: { label: string }) {
@@ -109,6 +110,14 @@ export function LeftMenu() {
           <StyleButton targetStyle={'scales'} />
           <StyleButton targetStyle={'diamonds'} />
           <StyleButton targetStyle={'shimmer'} />
+        </MenuRow>
+
+        <SectionLabel label="Background" />
+        <MenuRow>
+          <BgStyleButton targetStyle={'velvet'} />
+          <BgStyleButton targetStyle={'arcane'} />
+          <BgStyleButton targetStyle={'felt'} />
+          <BgStyleButton targetStyle={'brocade'} />
         </MenuRow>
 
         <SectionLabel label="Players" />
