@@ -399,21 +399,34 @@ export function Card(props: {
           </Box>
 
 
-          {/* Peek overlay: shows card value without triggering the flip */}
+          {/* Peek overlay: colored card face + number, no flip, no flames */}
           {showPeekOverlay && (
             <Box
               sx={{
                 position: 'absolute',
                 top: 0, left: 0, right: 0, bottom: 0,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
                 borderRadius: '12px',
                 overflow: 'hidden',
-                background: 'rgba(0,0,0,0.4)',
               }}
             >
-              <Box sx={numberSx}>{cardValue}</Box>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0, left: 0, right: 0, bottom: 0,
+                  ...cardStyles[cardStyle](flameSets[cardValue][3]),
+                }}
+              />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0, left: 0, right: 0, bottom: 0,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Box sx={numberSx}>{cardValue}</Box>
+              </Box>
             </Box>
           )}
 
