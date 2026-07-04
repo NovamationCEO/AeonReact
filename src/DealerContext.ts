@@ -16,7 +16,7 @@ export const DealerContext = createContext({
   deck: [] as CardValue[],
   setDeck: (_: CardValue[]) => {},
   deckIds: [] as string[],
-  setDeckIds: (_: string[]) => {},
+  setDeckIds: (_: string[] | ((prev: string[]) => string[])) => {},
   pendingShuffle: null as { deck: CardValue[], deckIds: string[], forcePeek: boolean[] } | null,
   setPendingShuffle: (_: { deck: CardValue[], deckIds: string[], forcePeek: boolean[] } | null) => {},
   deckIndex: 0,
@@ -35,5 +35,5 @@ export const DealerContext = createContext({
   hasFoe: false,
   setHasFoe: (_: boolean) => {},
   intensityValue: 1,
-  setIntensityValue: (_: number) => {},
+  setIntensityValue: (_: number | ((prev: number) => number)) => {},
 })
