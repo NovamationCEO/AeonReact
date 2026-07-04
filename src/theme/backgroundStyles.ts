@@ -43,6 +43,7 @@ function arcane(): CSSProperties {
     ].join(', '),
     backgroundColor: 'hsl(238, 48%, 7%)',
     backgroundSize: '200px 200px',
+    animation: 'arcaneDrift 120s linear infinite',
   }
 }
 
