@@ -1,6 +1,6 @@
 import { faGear } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Box, FormControlLabel, Switch } from '@mui/material'
+import { Box } from '@mui/material'
 import { useContext } from 'react'
 import { Colors } from '../theme/colors'
 import { z } from '../theme/z'
@@ -136,38 +136,41 @@ export function LeftMenu() {
 
         <SectionLabel label="Optional Cards" />
         <MenuRow colWidth={'100%'}>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={hasFriend}
-                onChange={(_evt, val) => setHasFriend(val)}
-                sx={{
-                  '& .MuiSwitch-switchBase.Mui-checked': { color: '#f0b840' },
-                  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                    bgcolor: '#f0b840',
-                  },
-                }}
-              />
-            }
-            label="Friend"
-            sx={{ color: 'rgba(255,255,255,0.85)' }}
-          />
-          <FormControlLabel
-            control={
-              <Switch
-                checked={hasFoe}
-                onChange={(_evt, val) => setHasFoe(val)}
-                sx={{
-                  '& .MuiSwitch-switchBase.Mui-checked': { color: '#f0b840' },
-                  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                    bgcolor: '#f0b840',
-                  },
-                }}
-              />
-            }
-            label="Foe"
-            sx={{ color: 'rgba(255,255,255,0.85)' }}
-          />
+          <Box
+            sx={{
+              display: 'flex',
+              borderRadius: '25px',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              overflow: 'hidden',
+              height: '50px',
+            }}
+          >
+            {([['Friend', hasFriend, setHasFriend], ['Foe', hasFoe, setHasFoe]] as const).map(
+              ([label, isOn, setter], i) => (
+                <Box
+                  key={label}
+                  onClick={() => setter(!isOn)}
+                  sx={{
+                    flex: 1,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    fontFamily: 'sans-serif',
+                    fontSize: '16px',
+                    fontWeight: isOn ? 'bold' : 'normal',
+                    color: isOn ? '#f0b840' : 'rgba(255,255,255,0.7)',
+                    bgcolor: isOn ? 'rgba(240,184,64,0.15)' : 'rgba(255,255,255,0.04)',
+                    borderRight: i === 0 ? '1px solid rgba(255,255,255,0.2)' : 'none',
+                    cursor: 'pointer',
+                    transition: '0.2s ease background-color, 0.2s ease color',
+                    userSelect: 'none',
+                  }}
+                >
+                  {label}
+                </Box>
+              )
+            )}
+          </Box>
         </MenuRow>
         </Box>
       </Box>
