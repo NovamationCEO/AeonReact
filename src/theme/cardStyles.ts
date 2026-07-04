@@ -8,7 +8,7 @@ function makeLoop(loopColor: string = '#2a2d38'): CSSProperties {
     backgroundImage:
       `radial-gradient(100% 100% at 100% 100%, ${lVal}),` +
       `radial-gradient(100% 100% at 0    0   , ${lVal}),` +
-      `radial-gradient(100% 100%,#0000 22%, ${loopColor} 23% 29%, #0000 30% 34%, ${loopColor} 35% 41%,#0000 42%)`,
+      `radial-gradient(100% 100%,#0000 22%, ${loopColor} 23% 29%, #0000 30% 34%, #2a2d38 35% 41%,#0000 42%)`,
     backgroundColor: cardColor,
     backgroundSize: `${textureSize * 2}px ${textureSize * 2}px`,
     backgroundPosition: `${textureSize}px ${textureSize}px, ${textureSize}px ${textureSize}px, 0px 0px`,
@@ -39,7 +39,54 @@ function makeCracks(crackColor: string = '#20222a'): CSSProperties {
   return cardTexture
 }
 
+function makeScales(accentColor: string = '#252835'): CSSProperties {
+  const w = 60, h = 30, c = '#191b22'
+  return {
+    backgroundImage: [
+      `radial-gradient(circle at 100% 150%, ${c} 24%, ${accentColor} 25% 28%, transparent 29%)`,
+      `radial-gradient(circle at 0% 150%, ${c} 24%, ${accentColor} 25% 28%, transparent 29%)`,
+      `radial-gradient(circle at 50% 100%, transparent 10%, ${accentColor} 11% 14%, transparent 15%)`,
+    ].join(', '),
+    backgroundColor: c,
+    backgroundSize: `${w}px ${h}px`,
+    backgroundPosition: '0px 0px, 0px 0px, 0px 0px',
+    animation: 'scalesDrift 20s linear infinite',
+  }
+}
+
+function makeDiamonds(accentColor: string = '#252835'): CSSProperties {
+  const s = 28, c = '#191b22'
+  const line = `transparent calc(50% - 1.5px), ${accentColor} calc(50% - 1.5px) calc(50% + 1.5px), transparent calc(50% + 1.5px)`
+  return {
+    backgroundImage: [
+      `linear-gradient(45deg, ${line})`,
+      `linear-gradient(-45deg, ${line})`,
+    ].join(', '),
+    backgroundColor: c,
+    backgroundSize: `${s}px ${s}px`,
+    backgroundPosition: '0px 0px, 0px 0px',
+    animation: 'diamondsDrift 22s linear infinite',
+  }
+}
+
+function makeShimmer(glowColor: string = '#2a2d40'): CSSProperties {
+  const s = 60, c = '#191b22'
+  return {
+    backgroundImage: [
+      `radial-gradient(circle at 25% 25%, ${glowColor} 0%, transparent 50%)`,
+      `radial-gradient(circle at 75% 75%, ${glowColor} 0%, transparent 50%)`,
+    ].join(', '),
+    backgroundColor: c,
+    backgroundSize: `${s}px ${s}px`,
+    backgroundPosition: '0px 0px, 0px 0px',
+    animation: 'shimmerPulse 4s ease-in-out infinite',
+  }
+}
+
 export const cardStyles = {
   loops: makeLoop,
   cracks: makeCracks,
+  scales: makeScales,
+  diamonds: makeDiamonds,
+  shimmer: makeShimmer,
 }

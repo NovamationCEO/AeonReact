@@ -8,6 +8,21 @@
   50%       { filter: brightness(1.15); }
 }
 
+@keyframes scalesDrift {
+  0%   { background-position: 0px 0px, 0px 0px, 0px 0px; }
+  100% { background-position: 0px -30px, 0px -30px, 0px -30px; }
+}
+
+@keyframes diamondsDrift {
+  0%   { background-position: 0px 0px, 0px 0px; }
+  100% { background-position: 28px 28px, 28px 28px; }
+}
+
+@keyframes shimmerPulse {
+  0%, 100% { filter: brightness(0.65); }
+  50%       { filter: brightness(1.45); }
+}
+
 @keyframes pulse {
   from {
     transform: scale(1);

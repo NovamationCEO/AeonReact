@@ -106,6 +106,9 @@ export function LeftMenu() {
         <MenuRow>
           <StyleButton targetStyle={'cracks'} />
           <StyleButton targetStyle={'loops'} />
+          <StyleButton targetStyle={'scales'} />
+          <StyleButton targetStyle={'diamonds'} />
+          <StyleButton targetStyle={'shimmer'} />
         </MenuRow>
 
         <SectionLabel label="Players" />
