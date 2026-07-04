@@ -4,5 +4,5 @@ export const Colors = {
   menuDark: '#ddc5a8',
   card: 'antiquewhite',
   header: 'midnightblue',
-  selectedItem: 'green',
+  selectedItem: '#f0b840',
 }

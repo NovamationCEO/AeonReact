@@ -14,7 +14,9 @@ export function MenuRow(props: { children: ReactNode; colWidth?: string }) {
         alignItems: 'center',
         padding: '10px',
         borderRadius: '40px',
-        bgcolor: Colors.menuDark,
+        bgcolor: 'rgba(255, 255, 255, 0.06)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.05)',
         margin: '5px',
       }}
     >

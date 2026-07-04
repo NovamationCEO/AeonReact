@@ -15,13 +15,14 @@ function SectionLabel({ label }: { label: string }) {
     <Box
       sx={{
         fontFamily: 'sans-serif',
-        fontSize: '0.7em',
-        color: 'rgba(0,0,0,0.5)',
-        letterSpacing: '0.08em',
+        fontSize: '0.68em',
+        color: 'rgba(155, 185, 230, 0.85)',
+        letterSpacing: '0.12em',
         textTransform: 'uppercase',
         paddingLeft: '14px',
         paddingTop: '10px',
         paddingBottom: '2px',
+        textShadow: '0 0 8px rgba(100, 150, 255, 0.4)',
       }}
     >
       {label}
@@ -54,7 +55,9 @@ export function LeftMenu() {
         maxWidth: '500px',
         left: 0,
         top: 0,
-        bgcolor: Colors.menu,
+        background: 'rgba(8, 10, 40, 0.72)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
         borderRadius: '0px 50px 50px 0px',
         overflow: 'visible',
         display: 'flex',
@@ -62,6 +65,8 @@ export function LeftMenu() {
         transform: `translateX(${xPos}%)`,
         zIndex: z.leftMenu,
         flexDirection: 'column',
+        boxShadow:
+          '8px 0 32px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.1)',
       }}
     >
       <Box
@@ -86,9 +91,12 @@ export function LeftMenu() {
             fontFamily:
               'Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif',
             fontWeight: 'bold',
-            fontSize: '1.15em',
-            color: 'rgba(0,0,0,0.65)',
-            padding: '4px 10px 4px',
+            fontSize: '1.25em',
+            color: 'rgba(255, 255, 255, 0.95)',
+            letterSpacing: '0.05em',
+            padding: '4px 10px 12px',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+            textShadow: '0 0 14px rgba(140, 180, 255, 0.5)',
           }}
         >
           Setup
@@ -133,18 +141,32 @@ export function LeftMenu() {
               <Switch
                 checked={hasFriend}
                 onChange={(_evt, val) => setHasFriend(val)}
+                sx={{
+                  '& .MuiSwitch-switchBase.Mui-checked': { color: '#f0b840' },
+                  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                    bgcolor: '#f0b840',
+                  },
+                }}
               />
             }
             label="Friend"
+            sx={{ color: 'rgba(255,255,255,0.85)' }}
           />
           <FormControlLabel
             control={
               <Switch
                 checked={hasFoe}
                 onChange={(_evt, val) => setHasFoe(val)}
+                sx={{
+                  '& .MuiSwitch-switchBase.Mui-checked': { color: '#f0b840' },
+                  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                    bgcolor: '#f0b840',
+                  },
+                }}
               />
             }
             label="Foe"
+            sx={{ color: 'rgba(255,255,255,0.85)' }}
           />
         </MenuRow>
         </Box>
@@ -155,9 +177,10 @@ export function LeftMenu() {
         role={'button'}
         aria-label={menuVisible ? 'Close settings' : 'Open settings'}
         sx={{
-          bgcolor: Colors.menu,
+          bgcolor: 'rgba(8, 10, 40, 0.82)',
           color: Colors.aeonWhite,
-          boxShadow: 'none',
+          boxShadow:
+            '0 2px 14px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.1)',
           position: 'absolute',
           display: 'flex',
           top: '60px',
@@ -172,7 +195,7 @@ export function LeftMenu() {
           transition: '0.7s ease transform',
         }}
       >
-        <FontAwesomeIcon icon={faGear} size={'2x'} color={'black'} />
+        <FontAwesomeIcon icon={faGear} size={'2x'} color={'rgba(255,255,255,0.85)'} />
       </Box>
     </Box>
   )

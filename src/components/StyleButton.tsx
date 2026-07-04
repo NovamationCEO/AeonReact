@@ -18,7 +18,7 @@ export function StyleButton(props: { targetStyle: CardStyle }) {
         width: '50px',
         height: '50px',
         border: `3px solid ${
-          cardStyle === targetStyle ? Colors.selectedItem : Colors.menuDark
+          cardStyle === targetStyle ? '#f0b840' : 'rgba(255, 255, 255, 0.2)'
         }`,
         ...cardStyles[targetStyle]('gray'),
         cursor: 'pointer',

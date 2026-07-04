@@ -19,12 +19,13 @@ export function NemesisDeckTypeButton(props: {
         display: 'flex',
         borderRadius: '25px',
         height: '50px',
-        border: `3px solid ${isOn ? Colors.selectedItem : Colors.menuDark}`,
+        border: `3px solid ${isOn ? '#f0b840' : 'rgba(255, 255, 255, 0.2)'}`,
         justifyContent: 'center',
         alignItems: 'center',
         fontFamily: 'sans-serif',
         fontSize: { xs: '15px', sm: '20px' },
-        bgcolor: isOn ? Colors.aeonWhite : Colors.menu,
+        color: 'rgba(255, 255, 255, 0.9)',
+        bgcolor: isOn ? 'rgba(240, 184, 64, 0.15)' : 'rgba(255, 255, 255, 0.06)',
         cursor: 'pointer',
       }}
     >
