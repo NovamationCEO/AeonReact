@@ -32,6 +32,8 @@ export function Card(props: {
     setForcePeek,
     deck,
     setDeck,
+    deckIds,
+    setDeckIds,
     deckIndex,
     setDeckIndex,
   } = useContext(DealerContext)
@@ -68,6 +70,12 @@ export function Card(props: {
     setForcePeek(doSendToTop(forcePeek, true))
     setDeckIndex(Math.max(deckIndex - 1, 0))
     setDeck(doSendToTop(deck))
+    setDeckIds(prev => {
+      const r = [...prev]
+      const [v] = r.splice(currentIndex, 1)
+      r.splice(deckIndex, 0, v)
+      return r
+    })
   }
 
   function doShift(arr: CardValue[], shift: number): CardValue[]
@@ -84,6 +92,12 @@ export function Card(props: {
     const shift = isRight ? 1 : -1
     setForcePeek(doShift(forcePeek, shift, true))
     setDeck(doShift(deck, shift))
+    setDeckIds(prev => {
+      const r = [...prev]
+      const [v] = r.splice(currentIndex, 1)
+      r.splice(currentIndex + shift, 0, v)
+      return r
+    })
   }
 
   function doSendToBottom(arr: CardValue[]): CardValue[]
@@ -100,6 +114,12 @@ export function Card(props: {
     setDeckIndex(Math.max(deckIndex - 1, 0))
     setDeck(doSendToBottom(deck))
     setForcePeek(doSendToBottom(forcePeek, true))
+    setDeckIds(prev => {
+      const r = [...prev]
+      const [v] = r.splice(currentIndex, 1)
+      r.push(v)
+      return r
+    })
   }
 
   // ── Swipe gesture handlers ────────────────────────────────────────────────

@@ -34,6 +34,7 @@ export function Dealer(props: { children: React.ReactNode }) {
   const [nemesisDeck, setNemesisDeck] = React.useState<NemesisDeckType>('base')
   const [cardStyle, setCardStyle] = React.useState<CardStyle>('cracks')
   const [deck, setDeck] = React.useState<CardValue[]>([])
+  const [deckIds, setDeckIds] = React.useState<string[]>([])
   const [deckIndex, setDeckIndex] = React.useState(0)
   const [menuVisible, setMenuVisible] = React.useState(false)
   const [isDebouncing, setIsDebouncing] = React.useState(false)
@@ -45,6 +46,7 @@ export function Dealer(props: { children: React.ReactNode }) {
   React.useEffect(() => {
     const newDeck = buildDeck(baseDeck, nemesisDeck, hasFriend, hasFoe)
     setDeck(newDeck)
+    setDeckIds(newDeck.map((_, i) => `${Date.now()}-${i}`))
     setForcePeek(newDeck.map(() => false))
     setDeckIndex(0)
   }, [baseDeck, nemesisDeck, hasFriend, hasFoe])
@@ -68,6 +70,7 @@ export function Dealer(props: { children: React.ReactNode }) {
     if (!newIndex) {
       const newDeck = buildDeck(baseDeck, nemesisDeck, hasFriend, hasFoe)
       setDeck(newDeck)
+      setDeckIds(newDeck.map((_, i) => `${Date.now()}-${i}`))
       setForcePeek(newDeck.map(() => false))
     }
     setTimeout(() => setIsDebouncing(false), 400)
@@ -82,6 +85,8 @@ export function Dealer(props: { children: React.ReactNode }) {
     setCardStyle,
     deck,
     setDeck,
+    deckIds,
+    setDeckIds,
     deckIndex,
     setDeckIndex,
     menuVisible,

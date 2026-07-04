@@ -12,6 +12,8 @@ export const DealerContext = createContext({
   setCardStyle: (_: CardStyle) => {},
   deck: [] as CardValue[],
   setDeck: (_: CardValue[]) => {},
+  deckIds: [] as string[],
+  setDeckIds: (_: string[]) => {},
   deckIndex: 0,
   setDeckIndex: (_: number) => {},
   menuVisible: false,
