@@ -123,6 +123,7 @@ export function Card(props: {
             color: 'white',
             opacity: showSpinner ? 1 : 0,
             transition: '0.3s ease opacity',
+            pointerEvents: 'none',
           }}
         >
           <CircularProgress variant="determinate" value={progress} size={80} />
@@ -138,6 +139,13 @@ export function Card(props: {
             justifyContent: 'center',
             alignItems: 'center',
             overflow: 'hidden',
+            borderRadius: '12px',
+            boxShadow: '0 6px 20px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.3)',
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+            '&:hover': {
+              transform: 'translateY(-3px)',
+              boxShadow: '0 14px 32px rgba(0,0,0,0.65), 0 4px 10px rgba(0,0,0,0.4)',
+            },
           }}
         >
           <Box
@@ -155,6 +163,18 @@ export function Card(props: {
               ...(isUp || peek
                 ? cardStyles[cardStyle](flameSets[cardValue][3])
                 : cardStyles[cardStyle]()),
+            }}
+          />
+          <Box
+            sx={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: '100%',
+              height: '100%',
+              background:
+                'linear-gradient(135deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.05) 35%, transparent 60%)',
+              pointerEvents: 'none',
             }}
           />
           {(isUp || peek || forcePeek[currentIndex]) && (
