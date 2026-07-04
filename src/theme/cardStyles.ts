@@ -4,16 +4,17 @@ function makeLoop(loopColor: string = '#2a2d38'): CSSProperties {
   const textureSize = 13
   const cardColor = '#191b22'
   const lVal = `#0000 46%, ${loopColor} 47% 53%, #0000 54%`
-  const cardTexture: CSSProperties = {
-    background:
-      `radial-gradient(100% 100% at 100% 100%, ${lVal}) ${textureSize}px ${textureSize}px,` +
-      `radial-gradient(100% 100% at 0    0   , ${lVal}) ${textureSize}px ${textureSize}px,` +
-      `radial-gradient(100% 100%,#0000 22%, ${loopColor} 23% 29%, #0000 30% 34%, ${loopColor} 35% 41%,#0000 42%) ` +
-      `${cardColor}`,
+  return {
+    backgroundImage:
+      `radial-gradient(100% 100% at 100% 100%, ${lVal}),` +
+      `radial-gradient(100% 100% at 0    0   , ${lVal}),` +
+      `radial-gradient(100% 100%,#0000 22%, ${loopColor} 23% 29%, #0000 30% 34%, ${loopColor} 35% 41%,#0000 42%)`,
+    backgroundColor: cardColor,
     backgroundSize: `${textureSize * 2}px ${textureSize * 2}px`,
+    backgroundPosition: `${textureSize}px ${textureSize}px, ${textureSize}px ${textureSize}px, 0px 0px`,
     filter: 'blur(1px)',
+    animation: 'loopsDrift 30s linear infinite',
   }
-  return cardTexture
 }
 
 function makeCracks(crackColor: string = '#20222a'): CSSProperties {
@@ -33,6 +34,7 @@ function makeCracks(crackColor: string = '#20222a'): CSSProperties {
         textureSize / 2
       }px / ${textureSize}px ${textureSize}px ${cardColor}`,
     backgroundAttachment: 'fixed',
+    animation: 'cracksPulse 5s ease-in-out infinite',
   }
   return cardTexture
 }
