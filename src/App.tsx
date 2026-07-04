@@ -9,6 +9,7 @@ import { DealerContext } from './DealerContext'
 import { backgroundStyle } from './theme/backgroundStyle'
 import { backgroundStyles } from './theme/backgroundStyles'
 import { EditToggle } from './components/EditToggle'
+import { IntensityWidget } from './components/IntensityWidget'
 
 function AppContent() {
   const { bgStyle } = useContext(DealerContext)
@@ -26,6 +27,7 @@ function AppContent() {
       >
         <LeftMenu />
         <LeftMenuScrim />
+        <IntensityWidget />
         <CardRow />
         <EditToggle />
       </Box>

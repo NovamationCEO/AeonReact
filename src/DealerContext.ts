@@ -34,4 +34,6 @@ export const DealerContext = createContext({
   setHasFriend: (_: boolean) => {},
   hasFoe: false,
   setHasFoe: (_: boolean) => {},
+  intensityValue: 1,
+  setIntensityValue: (_: number) => {},
 })

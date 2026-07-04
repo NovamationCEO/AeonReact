@@ -44,6 +44,7 @@ export function Dealer(props: { children: React.ReactNode }) {
   const [forcePeek, setForcePeek] = React.useState<boolean[]>([])
   const [hasFriend, setHasFriend] = React.useState(false)
   const [hasFoe, setHasFoe] = React.useState(false)
+  const [intensityValue, setIntensityValue] = React.useState(1)
   const [pendingShuffle, setPendingShuffle] = React.useState<{
     deck: CardValue[], deckIds: string[], forcePeek: boolean[]
   } | null>(null)
@@ -54,6 +55,7 @@ export function Dealer(props: { children: React.ReactNode }) {
     setDeckIds(newDeck.map((_, i) => `${Date.now()}-${i}`))
     setForcePeek(newDeck.map(() => false))
     setDeckIndex(0)
+    setIntensityValue(1)
   }, [baseDeck, nemesisDeck, hasFriend, hasFoe])
 
   React.useEffect(() => {
@@ -67,6 +69,12 @@ export function Dealer(props: { children: React.ReactNode }) {
     return () => document.removeEventListener('touchmove', prevent)
   }, [editModeOn])
 
+  function applyIntensityCard(card: CardValue) {
+    if (nemesisDeck !== 'intensity') return
+    if (card === '+2') setIntensityValue(v => Math.min(6, v + 2))
+    else if (card === '-1') setIntensityValue(v => Math.max(1, v - 1))
+  }
+
   function drawCard() {
     if (isDebouncing) return
     setIsDebouncing(true)
@@ -77,6 +85,9 @@ export function Dealer(props: { children: React.ReactNode }) {
       setDeck(newDeck)
       setDeckIds(newDeck.map((_, i) => `${Date.now()}-${i}`))
       setForcePeek(newDeck.map(() => false))
+      applyIntensityCard(newDeck[0])
+    } else {
+      applyIntensityCard(deck[newIndex])
     }
     setTimeout(() => setIsDebouncing(false), 400)
   }
@@ -109,6 +120,8 @@ export function Dealer(props: { children: React.ReactNode }) {
     setHasFriend,
     hasFoe,
     setHasFoe,
+    intensityValue,
+    setIntensityValue,
     pendingShuffle,
     setPendingShuffle,
   }
