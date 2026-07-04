@@ -136,7 +136,6 @@ export function Card(props: {
     const dist = Math.max(Math.abs(dx), Math.abs(dy))
 
     if (dist < SWIPE_THRESHOLD) {
-      // Tap: reveal unknown face-down card so it can be reordered
       if (!isUp && !forcePeek[currentIndex]) forcePeekMe()
       return
     }
@@ -214,6 +213,7 @@ export function Card(props: {
 
   const showUpDown = editModeOn && isUp
   const showLeftRight = editModeOn && !isUp && forcePeek[currentIndex]
+  const showPeekOverlay = (peek || forcePeek[currentIndex]) && !isUp
 
   function chevronColor(dir: 'up' | 'down' | 'left' | 'right') {
     if (swipeDir === dir) return 'rgba(255,255,255,1.0)'
@@ -223,6 +223,27 @@ export function Card(props: {
 
   function chevronScale(dir: 'up' | 'down' | 'left' | 'right') {
     return swipeDir === dir ? 'scale(1.4)' : 'scale(1)'
+  }
+
+  const numberSx = {
+    fontWeight: 'bold',
+    fontSize: `${710 - 100 * cardValue.length}%`,
+    alignSelf: 'center',
+    display: 'flex',
+    color: 'white',
+    zIndex: z.cardNumber,
+    position: 'relative' as const,
+    textShadow:
+      '-1px -1px 15px darkslategray,' +
+      '1px -1px 15px darkslategray, -1px 1px 25px darkslategray,' +
+      '1px 1px 15px darkslategray',
+    [theme.breakpoints.down('sm')]: {
+      textShadow:
+        '-1px -1px 10px darkslategray,' +
+        '1px -1px 10px darkslategray, -1px 1px 5px darkslategray,' +
+        '1px 1px 10px darkslategray',
+    },
+    transition: '0.5s ease text-shadow',
   }
 
   return (
@@ -249,6 +270,7 @@ export function Card(props: {
           ? { onPointerDown, onPointerMove, onPointerUp, onPointerCancel }
           : onPress())}
       >
+        {/* Spinner overlay */}
         <Box
           sx={{
             position: 'absolute',
@@ -268,6 +290,8 @@ export function Card(props: {
         >
           <CircularProgress variant="determinate" value={progress} size={80} />
         </Box>
+
+        {/* Aspect-ratio card container — transparent, no clip; faces carry the shadow */}
         <Box
           sx={{
             position: 'relative',
@@ -278,46 +302,122 @@ export function Card(props: {
             width: '100%',
             justifyContent: 'center',
             alignItems: 'center',
-            overflow: 'hidden',
-            borderRadius: '12px',
-            boxShadow: '0 6px 20px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.3)',
-            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-            '&:hover': {
-              transform: 'translateY(-3px)',
-              boxShadow: '0 14px 32px rgba(0,0,0,0.65), 0 4px 10px rgba(0,0,0,0.4)',
-            },
+            transition: 'transform 0.2s ease',
+            '&:hover': { transform: 'translateY(-3px)' },
           }}
         >
+          {/* Perspective wrapper */}
           <Box
             sx={{
               position: 'absolute',
-              display: 'flex',
-              left: 0,
-              top: 0,
-              width: '100%',
-              height: 0,
-              paddingTop: '75%',
-              paddingBottom: '75%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              ...(isUp || peek
-                ? cardStyles[cardStyle](flameSets[cardValue][3])
-                : cardStyles[cardStyle]()),
+              top: 0, left: 0, right: 0, bottom: 0,
+              perspective: '800px',
             }}
-          />
-          <Box
-            sx={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              width: '100%',
-              height: '100%',
-              background:
-                'linear-gradient(135deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.05) 35%, transparent 60%)',
-              pointerEvents: 'none',
-            }}
-          />
+          >
+            {/* Flip inner — rotates to reveal front vs back face */}
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 0, left: 0, right: 0, bottom: 0,
+                transformStyle: 'preserve-3d',
+                WebkitTransformStyle: 'preserve-3d',
+                transform: isUp ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                transition: 'transform 0.55s ease',
+              }}
+            >
+              {/* Back face: dark card pattern (shown when face-down) */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0, left: 0, right: 0, bottom: 0,
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden',
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.3)',
+                }}
+              >
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 0, left: 0, right: 0, bottom: 0,
+                    ...cardStyles[cardStyle](),
+                  }}
+                />
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 0, left: 0, right: 0, bottom: 0,
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.05) 35%, transparent 60%)',
+                    pointerEvents: 'none',
+                  }}
+                />
+              </Box>
 
+              {/* Front face: colored pattern + flames + number (shown when face-up) */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0, left: 0, right: 0, bottom: 0,
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden',
+                  transform: 'rotateY(180deg)',
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.3)',
+                }}
+              >
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 0, left: 0, right: 0, bottom: 0,
+                    ...cardStyles[cardStyle](flameSets[cardValue][3]),
+                  }}
+                />
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 0, left: 0, right: 0, bottom: 0,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Flames cardValue={cardValue} />
+                  <Box sx={numberSx}>{cardValue}</Box>
+                </Box>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 0, left: 0, right: 0, bottom: 0,
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.05) 35%, transparent 60%)',
+                    pointerEvents: 'none',
+                  }}
+                />
+              </Box>
+            </Box>
+          </Box>
+
+
+          {/* Peek overlay: shows card value without triggering the flip */}
+          {showPeekOverlay && (
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 0, left: 0, right: 0, bottom: 0,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                background: 'rgba(0,0,0,0.4)',
+              }}
+            >
+              <Box sx={numberSx}>{cardValue}</Box>
+            </Box>
+          )}
+
+          {/* Edit mode: up/down swipe affordances for face-up cards */}
           {showUpDown && (
             <>
               <Box
@@ -353,6 +453,7 @@ export function Card(props: {
             </>
           )}
 
+          {/* Edit mode: left/right swipe affordances for known face-down cards */}
           {showLeftRight && (
             <>
               <Box
@@ -386,36 +487,6 @@ export function Card(props: {
                 <FontAwesomeIcon icon={faChevronRight} />
               </Box>
             </>
-          )}
-
-          {(isUp || peek || forcePeek[currentIndex]) && (
-            <div>
-              {isUp && <Flames cardValue={cardValue} />}
-              <Box
-                sx={{
-                  fontWeight: 'bold',
-                  fontSize: `${710 - 100 * cardValue.length}%`,
-                  alignSelf: 'center',
-                  display: 'flex',
-                  color: 'white',
-                  zIndex: z.cardNumber,
-                  position: 'relative',
-                  textShadow:
-                    '-1px -1px 15px darkslategray,' +
-                    '1px -1px 15px darkslategray, -1px 1px 25px darkslategray,' +
-                    '1px 1px 15px darkslategray',
-                  [theme.breakpoints.down('sm')]: {
-                    textShadow:
-                      '-1px -1px 10px darkslategray,' +
-                      '1px -1px 10px darkslategray, -1px 1px 5px darkslategray,' +
-                      '1px 1px 10px darkslategray',
-                  },
-                  transition: '0.5s ease text-shadow',
-                }}
-              >
-                {cardValue}
-              </Box>
-            </div>
           )}
         </Box>
       </Box>
