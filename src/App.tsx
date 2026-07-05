@@ -9,6 +9,7 @@ import { DealerContext } from './DealerContext'
 import { backgroundStyle } from './theme/backgroundStyle'
 import { backgroundStyles } from './theme/backgroundStyles'
 import { EditToggle } from './components/EditToggle'
+import { GameSummary } from './components/GameSummary'
 import { HistoryPanel } from './components/HistoryPanel'
 import { IntensityWidget } from './components/IntensityWidget'
 
@@ -33,6 +34,7 @@ function AppContent() {
         <CardRow />
         <EditToggle />
       </Box>
+      <GameSummary />
     </Box>
   )
 }

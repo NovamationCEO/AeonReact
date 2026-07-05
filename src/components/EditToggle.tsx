@@ -88,7 +88,17 @@ export function EditToggle() {
         </Tooltip>
       )}
       <Button
-        onClick={() => setEditModeOn(!editModeOn)}
+        onClick={async () => {
+          if (!editModeOn) {
+            // iOS 13+ requires explicit permission before devicemotion events fire.
+            // Requesting it here because we're already inside a user gesture.
+            const DME = DeviceMotionEvent as unknown as { requestPermission?: () => Promise<string> }
+            if (typeof DME.requestPermission === 'function') {
+              try { await DME.requestPermission() } catch { /* denied — shake just won't fire */ }
+            }
+          }
+          setEditModeOn(!editModeOn)
+        }}
         sx={{
           pointerEvents: 'auto',
           borderRadius: '20px',

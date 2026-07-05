@@ -43,4 +43,6 @@ export const DealerContext = createContext({
   historyOpen: false,
   setHistoryOpen: (_: boolean) => {},
   endGame: () => {},
+  gameSummaryOpen: false,
+  setGameSummaryOpen: (_: boolean) => {},
 })

@@ -7,4 +7,5 @@ export const z = {
   editOverlay: 101,
   scrim: 99,
   historyPanel: 90,
+  gameSummary: 150,
 }

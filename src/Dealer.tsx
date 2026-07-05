@@ -59,6 +59,7 @@ export function Dealer(props: { children: React.ReactNode }) {
   } | null>(null)
   const [history, setHistory] = React.useState<CardValue[][]>([])
   const [historyOpen, setHistoryOpen] = React.useState(false)
+  const [gameSummaryOpen, setGameSummaryOpen] = React.useState(false)
 
   React.useEffect(() => {
     const newDeck = buildDeck(baseDeck, nemesisDeck, hasFriend, hasFoe)
@@ -125,6 +126,7 @@ export function Dealer(props: { children: React.ReactNode }) {
     setCycleCount(1)
     setHistory([[newDeck[0]]])
     setHistoryOpen(false)
+    setGameSummaryOpen(false)
     setEditModeOn(false)
   }
 
@@ -167,6 +169,8 @@ export function Dealer(props: { children: React.ReactNode }) {
     historyOpen,
     setHistoryOpen,
     endGame,
+    gameSummaryOpen,
+    setGameSummaryOpen,
   }
 
   return (

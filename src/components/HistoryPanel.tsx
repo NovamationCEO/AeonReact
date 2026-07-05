@@ -69,7 +69,7 @@ function HandSection({ cards, label }: { cards: CardValue[]; label: string }) {
 }
 
 export function HistoryPanel() {
-  const { historyOpen, setHistoryOpen, history, endGame } = useContext(DealerContext)
+  const { historyOpen, setHistoryOpen, history, setGameSummaryOpen } = useContext(DealerContext)
 
   if (!historyOpen) return null
 
@@ -104,7 +104,7 @@ export function HistoryPanel() {
         }}
       >
         <Button
-          onClick={endGame}
+          onClick={() => { setHistoryOpen(false); setGameSummaryOpen(true) }}
           sx={{
             width: '100%',
             mb: 2,
