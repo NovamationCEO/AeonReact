@@ -1,16 +1,23 @@
 import { Box, Button, IconButton, Tooltip } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShuffle } from '@fortawesome/free-solid-svg-icons'
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useRef, useState } from 'react'
 import { DealerContext } from '../DealerContext'
 import { useShakeDetector } from '../hooks/useShakeDetector'
+import { z } from '../theme/z'
+import { playShuffle } from '../utils/audio'
 
 export function EditToggle() {
   const {
     editModeOn, setEditModeOn,
     deck, deckIds, deckIndex, forcePeek,
     pendingShuffle, setPendingShuffle,
+    hapticEnabled,
+    audioEnabled,
   } = useContext(DealerContext)
+
+  const [shakeToastVisible, setShakeToastVisible] = useState(false)
+  const shakeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const faceDownCount = deck.length - (deckIndex + 1)
 
@@ -25,7 +32,8 @@ export function EditToggle() {
       ;[faceDownIds[i], faceDownIds[j]] = [faceDownIds[j], faceDownIds[i]]
     }
 
-    navigator.vibrate?.([20, 15, 20, 15, 20, 15, 20])
+    if (hapticEnabled) navigator.vibrate?.([20, 15, 20, 15, 20, 15, 20])
+    if (audioEnabled) playShuffle()
 
     setPendingShuffle({
       deck: [...deck.slice(0, cut), ...faceDown],
@@ -36,7 +44,12 @@ export function EditToggle() {
 
   useShakeDetector(
     useCallback(() => {
-      if (editModeOn && faceDownCount > 1) shuffleFaceDown()
+      if (editModeOn && faceDownCount > 1) {
+        shuffleFaceDown()
+        setShakeToastVisible(true)
+        if (shakeTimeoutRef.current) clearTimeout(shakeTimeoutRef.current)
+        shakeTimeoutRef.current = setTimeout(() => setShakeToastVisible(false), 1800)
+      }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [editModeOn, faceDownCount])
   )
@@ -56,6 +69,32 @@ export function EditToggle() {
         pointerEvents: 'none',
       }}
     >
+      {/* Shake-to-shuffle confirmation toast */}
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: 90,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: 'rgba(8,10,40,0.88)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          border: '1px solid rgba(255,255,255,0.15)',
+          borderRadius: '20px',
+          padding: '7px 18px',
+          color: 'rgba(255,255,255,0.85)',
+          fontFamily: 'sans-serif',
+          fontSize: '0.82em',
+          whiteSpace: 'nowrap',
+          pointerEvents: 'none',
+          opacity: shakeToastVisible ? 1 : 0,
+          transition: 'opacity 0.3s ease',
+          zIndex: z.editOverlay + 5,
+        }}
+      >
+        ↻ Shuffled
+      </Box>
+
       {editModeOn && (
         <Tooltip title="Shuffle face-down" placement="top" disableInteractive>
           <span style={{ pointerEvents: 'auto' }}>

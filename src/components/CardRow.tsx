@@ -11,7 +11,9 @@ export function CardRow() {
   } = useContext(DealerContext)
 
   const smallScreen = useMediaQuery('(max-width: 499px)')
-  const columnValues = `repeat(auto-fit, minmax(${smallScreen ? '98' : '120'}px, 1fr))`
+  const shortScreen = useMediaQuery('(orientation: landscape) and (max-height: 500px)')
+  const minCardPx = shortScreen ? 60 : smallScreen ? 98 : 120
+  const columnValues = `repeat(auto-fit, minmax(${minCardPx}px, 1fr))`
   const gridRef = useRef<HTMLDivElement>(null)
   const prevRectsRef = useRef<Map<string, DOMRect>>(new Map())
 

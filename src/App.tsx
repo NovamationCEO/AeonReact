@@ -12,6 +12,7 @@ import { EditToggle } from './components/EditToggle'
 import { GameSummary } from './components/GameSummary'
 import { HistoryPanel } from './components/HistoryPanel'
 import { IntensityWidget } from './components/IntensityWidget'
+import { ErrorBoundary } from './components/ErrorBoundary'
 
 function AppContent() {
   const { bgStyle } = useContext(DealerContext)
@@ -41,9 +42,11 @@ function AppContent() {
 
 function App() {
   return (
-    <Dealer>
-      <AppContent />
-    </Dealer>
+    <ErrorBoundary>
+      <Dealer>
+        <AppContent />
+      </Dealer>
+    </ErrorBoundary>
   )
 }
 

@@ -17,9 +17,9 @@ export function LeftMenuScrim() {
         left: 0,
         right: 0,
         zIndex: z.scrim,
-        opacity: Context.menuVisible ? 0.7 : 0,
+        opacity: Context.menuVisible !== false ? 0.7 : 0,
         transition: '0.75s ease opacity',
-        pointerEvents: Context.menuVisible ? 'auto' : 'none',
+        pointerEvents: Context.menuVisible !== false ? 'auto' : 'none',
       }}
     />
   )

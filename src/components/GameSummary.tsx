@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo, useRef } from 'react'
 import { DealerContext } from '../DealerContext'
 import { nemesisDecks } from '../constants/decks'
 import { flameSets } from '../theme/flameSets'
@@ -160,12 +160,31 @@ function BigNum({ value, label }: { value: number | string; label: string }) {
 export function GameSummary() {
   const { gameSummaryOpen, setGameSummaryOpen, history, nemesisDeck, endGame } =
     useContext(DealerContext)
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const prevFocusRef = useRef<HTMLElement | null>(null)
 
   const nemesisSet = useMemo(
     () => new Set(nemesisDecks[nemesisDeck] as CardValue[]),
     [nemesisDeck]
   )
   const stats = useMemo(() => computeStats(history, nemesisSet), [history, nemesisSet])
+
+  useEffect(() => {
+    if (gameSummaryOpen) {
+      prevFocusRef.current = document.activeElement as HTMLElement
+      dialogRef.current?.focus()
+    } else {
+      prevFocusRef.current?.focus()
+      prevFocusRef.current = null
+    }
+  }, [gameSummaryOpen])
+
+  useEffect(() => {
+    if (!gameSummaryOpen) return
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setGameSummaryOpen(false) }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [gameSummaryOpen, setGameSummaryOpen])
 
   if (!gameSummaryOpen) return null
 
@@ -174,11 +193,17 @@ export function GameSummary() {
 
   return (
     <Box
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Game Summary"
       sx={{
         position: 'absolute', inset: 0, zIndex: z.gameSummary,
         background: 'rgba(4, 6, 24, 0.93)',
         backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
         display: 'flex', flexDirection: 'column', color: 'white',
+        outline: 'none',
       }}
     >
       {/* Title bar */}
@@ -193,14 +218,18 @@ export function GameSummary() {
       }}>
         Game Summary
         <Box
+          component="button"
           onClick={() => setGameSummaryOpen(false)}
+          aria-label="Close"
           sx={{
             position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)',
             width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center',
             borderRadius: '50%', cursor: 'pointer',
             color: 'rgba(255,255,255,0.35)', fontSize: '1em',
+            background: 'none', border: 'none', padding: 0,
             transition: '0.15s ease color, 0.15s ease background',
             ':hover': { color: 'rgba(255,255,255,0.75)', background: 'rgba(255,255,255,0.09)' },
+            ':focus-visible': { outline: '2px solid rgba(255,255,255,0.4)', outlineOffset: '2px' },
           }}
         >
           ✕

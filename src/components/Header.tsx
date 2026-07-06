@@ -14,7 +14,7 @@ const deckLabels: Record<DeckType, string> = {
 }
 
 export function Header() {
-  const { baseDeck, nemesisDeck, deck, deckIndex, hasFriend, hasFoe, cycleCount, historyOpen, setHistoryOpen } =
+  const { baseDeck, nemesisDeck, deck, deckIndex, hasFriend, hasFoe, history, historyOpen, setHistoryOpen } =
     useContext(DealerContext)
 
   const extras = [hasFriend && 'Friend', hasFoe && 'Foe']
@@ -99,18 +99,16 @@ export function Header() {
           >
             {progress}
           </Box>
-          {cycleCount > 1 && (
-            <Box
-              sx={{
-                fontFamily: 'monospace',
-                fontSize: '0.62em',
-                color: 'rgba(240,184,64,0.55)',
-                letterSpacing: '0.04em',
-              }}
-            >
-              ×{cycleCount}
-            </Box>
-          )}
+          <Box
+            sx={{
+              fontFamily: 'monospace',
+              fontSize: '0.62em',
+              color: 'rgba(240,184,64,0.55)',
+              letterSpacing: '0.04em',
+            }}
+          >
+            Round {history.length}
+          </Box>
         </Box>
       )}
     </Box>

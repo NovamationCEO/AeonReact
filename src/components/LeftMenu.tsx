@@ -32,6 +32,21 @@ function SectionLabel({ label }: { label: string }) {
   )
 }
 
+const gearButtonBase = {
+  bgcolor: 'rgba(8, 10, 40, 0.82)',
+  boxShadow: '0 2px 14px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.1)',
+  position: 'absolute' as const,
+  display: 'flex',
+  right: '-24px',
+  justifyContent: 'center',
+  width: '50px',
+  height: '50px',
+  borderRadius: '50%',
+  alignItems: 'center',
+  cursor: 'pointer',
+  transition: '0.7s ease transform',
+}
+
 export function LeftMenu() {
   const {
     menuVisible,
@@ -40,12 +55,23 @@ export function LeftMenu() {
     setHasFriend,
     hasFoe,
     setHasFoe,
+    hapticEnabled,
+    setHapticEnabled,
+    audioEnabled,
+    setAudioEnabled,
   } = useContext(DealerContext)
 
-  const xPos = menuVisible ? 0 : -100
+  const xPos = menuVisible !== false ? 0 : -100
+  const xPosTop = menuVisible === 'appearance' ? 0 : -100
+  const xPosBottom = menuVisible === 'composition' ? 0 : -100
+  const showComposition = menuVisible === 'composition'
 
-  function toggleMenu() {
-    setMenuVisible(!menuVisible)
+  function toggleAppearance() {
+    setMenuVisible(menuVisible === 'appearance' ? false : 'appearance')
+  }
+
+  function toggleComposition() {
+    setMenuVisible(menuVisible === 'composition' ? false : 'composition')
   }
 
   return (
@@ -71,7 +97,7 @@ export function LeftMenu() {
           '8px 0 32px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.1)',
       }}
     >
-      {/* Clip wrapper: clips scrollable content to the rounded menu shape without affecting the gear icon */}
+      {/* Clip wrapper: clips scrollable content to the rounded menu shape without affecting the gear icons */}
       <Box
         sx={{
           flex: 1,
@@ -98,6 +124,7 @@ export function LeftMenu() {
               padding: '20px',
             }}
           >
+            {/* Title */}
             <Box
               sx={{
                 fontFamily:
@@ -111,108 +138,183 @@ export function LeftMenu() {
                 textShadow: '0 0 14px rgba(140, 180, 255, 0.5)',
               }}
             >
-              Setup
+              {showComposition ? 'Game Setup' : 'Appearance'}
             </Box>
 
-            <SectionLabel label="Card Style" />
-            <MenuRow>
-              <StyleButton targetStyle={'cracks'} />
-              <StyleButton targetStyle={'loops'} />
-              <StyleButton targetStyle={'scales'} />
-              <StyleButton targetStyle={'diamonds'} />
-              <StyleButton targetStyle={'shimmer'} />
-            </MenuRow>
+            {showComposition ? (
+              <>
+                {/* Warning banner */}
+                <Box
+                  sx={{
+                    mt: 1.5,
+                    mb: 0.5,
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    background: 'rgba(240,184,64,0.08)',
+                    border: '1px solid rgba(240,184,64,0.2)',
+                    fontSize: '0.72em',
+                    fontFamily: 'sans-serif',
+                    color: 'rgba(240,184,64,0.7)',
+                    lineHeight: 1.5,
+                  }}
+                >
+                  Changes here will reset your current game
+                </Box>
 
-            <SectionLabel label="Background" />
-            <MenuRow>
-              <BgStyleButton targetStyle={'velvet'} />
-              <BgStyleButton targetStyle={'arcane'} />
-              <BgStyleButton targetStyle={'felt'} />
-              <BgStyleButton targetStyle={'brocade'} />
-            </MenuRow>
+                <SectionLabel label="Players" />
+                <MenuRow>
+                  <DeckTypeButton targetDeck={'oneplayer'} title={'1'} />
+                  <DeckTypeButton targetDeck={'twoplayer'} title={'2'} />
+                  <DeckTypeButton targetDeck={'threeplayer'} title={'3'} />
+                  <DeckTypeButton targetDeck={'fourplayer'} title={'4'} />
+                  <DeckTypeButton targetDeck={'fourplayerAB'} title={'AB'} />
+                </MenuRow>
 
-            <SectionLabel label="Players" />
-            <MenuRow>
-              <DeckTypeButton targetDeck={'oneplayer'} title={'1'} />
-              <DeckTypeButton targetDeck={'twoplayer'} title={'2'} />
-              <DeckTypeButton targetDeck={'threeplayer'} title={'3'} />
-              <DeckTypeButton targetDeck={'fourplayer'} title={'4'} />
-              <DeckTypeButton targetDeck={'fourplayerAB'} title={'AB'} />
-            </MenuRow>
+                <SectionLabel label="Nemesis Variant" />
+                <MenuRow colWidth={'100%'}>
+                  {(Object.keys(nemesisVariants) as NemesisDeckType[]).map(key => (
+                    <NemesisDeckTypeButton key={key} targetDeck={key} />
+                  ))}
+                </MenuRow>
 
-            <SectionLabel label="Nemesis Variant" />
-            <MenuRow colWidth={'100%'}>
-              {(Object.keys(nemesisVariants) as NemesisDeckType[]).map(key => (
-                <NemesisDeckTypeButton key={key} targetDeck={key} />
-              ))}
-            </MenuRow>
+                <SectionLabel label="Optional Cards" />
+                <MenuRow colWidth={'100%'}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      borderRadius: '25px',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      overflow: 'hidden',
+                      height: '50px',
+                    }}
+                  >
+                    {([['Friend', hasFriend, setHasFriend], ['Foe', hasFoe, setHasFoe]] as const).map(
+                      ([label, isOn, setter], i) => (
+                        <Box
+                          key={label}
+                          onClick={() => setter(!isOn)}
+                          sx={{
+                            flex: 1,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            fontFamily: 'sans-serif',
+                            fontSize: '16px',
+                            fontWeight: isOn ? 'bold' : 'normal',
+                            color: isOn ? '#f0b840' : 'rgba(255,255,255,0.7)',
+                            bgcolor: isOn ? 'rgba(240,184,64,0.15)' : 'rgba(255,255,255,0.04)',
+                            borderRight: i === 0 ? '1px solid rgba(255,255,255,0.2)' : 'none',
+                            cursor: 'pointer',
+                            transition: '0.2s ease background-color, 0.2s ease color',
+                            userSelect: 'none',
+                          }}
+                        >
+                          {label}
+                        </Box>
+                      )
+                    )}
+                  </Box>
+                </MenuRow>
+              </>
+            ) : (
+              <>
+                <SectionLabel label="Card Style" />
+                <MenuRow>
+                  <StyleButton targetStyle={'cracks'} />
+                  <StyleButton targetStyle={'loops'} />
+                  <StyleButton targetStyle={'scales'} />
+                  <StyleButton targetStyle={'diamonds'} />
+                  <StyleButton targetStyle={'shimmer'} />
+                </MenuRow>
 
-            <SectionLabel label="Optional Cards" />
-            <MenuRow colWidth={'100%'}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  borderRadius: '25px',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  overflow: 'hidden',
-                  height: '50px',
-                }}
-              >
-                {([['Friend', hasFriend, setHasFriend], ['Foe', hasFoe, setHasFoe]] as const).map(
-                  ([label, isOn, setter], i) => (
+                <SectionLabel label="Background" />
+                <MenuRow>
+                  <BgStyleButton targetStyle={'velvet'} />
+                  <BgStyleButton targetStyle={'arcane'} />
+                  <BgStyleButton targetStyle={'felt'} />
+                  <BgStyleButton targetStyle={'brocade'} />
+                </MenuRow>
+
+                <SectionLabel label="Feedback" />
+                <MenuRow colWidth={'100%'}>
+                  {([
+                    ['Vibration', hapticEnabled, () => setHapticEnabled(!hapticEnabled)],
+                    ['Sound Effects', audioEnabled, () => setAudioEnabled(!audioEnabled)],
+                  ] as const).map(([label, isOn, toggle]) => (
                     <Box
                       key={label}
-                      onClick={() => setter(!isOn)}
+                      onClick={toggle}
                       sx={{
-                        flex: 1,
                         display: 'flex',
-                        justifyContent: 'center',
+                        borderRadius: '25px',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        height: '50px',
                         alignItems: 'center',
-                        fontFamily: 'sans-serif',
-                        fontSize: '16px',
-                        fontWeight: isOn ? 'bold' : 'normal',
-                        color: isOn ? '#f0b840' : 'rgba(255,255,255,0.7)',
-                        bgcolor: isOn ? 'rgba(240,184,64,0.15)' : 'rgba(255,255,255,0.04)',
-                        borderRight: i === 0 ? '1px solid rgba(255,255,255,0.2)' : 'none',
+                        justifyContent: 'space-between',
+                        padding: '0 16px',
                         cursor: 'pointer',
-                        transition: '0.2s ease background-color, 0.2s ease color',
+                        bgcolor: isOn ? 'rgba(240,184,64,0.15)' : 'rgba(255,255,255,0.04)',
+                        transition: '0.2s ease background-color',
                         userSelect: 'none',
                       }}
                     >
-                      {label}
+                      <Box
+                        sx={{
+                          fontFamily: 'sans-serif',
+                          fontSize: '16px',
+                          fontWeight: isOn ? 'bold' : 'normal',
+                          color: isOn ? '#f0b840' : 'rgba(255,255,255,0.7)',
+                          transition: '0.2s ease color',
+                        }}
+                      >
+                        {label}
+                      </Box>
+                      <Box
+                        sx={{
+                          fontFamily: 'sans-serif',
+                          fontSize: '0.75em',
+                          color: isOn ? 'rgba(240,184,64,0.6)' : 'rgba(255,255,255,0.25)',
+                          transition: '0.2s ease color',
+                        }}
+                      >
+                        {isOn ? 'ON' : 'OFF'}
+                      </Box>
                     </Box>
-                  )
-                )}
-              </Box>
-            </MenuRow>
+                  ))}
+                </MenuRow>
+              </>
+            )}
           </Box>
         </Box>
       </Box>
 
+      {/* Top gear — Appearance */}
       <Box
-        onClick={toggleMenu}
+        onClick={toggleAppearance}
         role={'button'}
-        aria-label={menuVisible ? 'Close settings' : 'Open settings'}
+        aria-label={menuVisible === 'appearance' ? 'Close appearance settings' : 'Open appearance settings'}
         sx={{
-          bgcolor: 'rgba(8, 10, 40, 0.82)',
+          ...gearButtonBase,
           color: Colors.aeonWhite,
-          boxShadow:
-            '0 2px 14px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.1)',
-          position: 'absolute',
-          display: 'flex',
           top: '60px',
-          right: '-24px',
-          justifyContent: 'center',
-          width: '50px',
-          height: '50px',
-          borderRadius: '50%',
-          alignItems: 'center',
-          cursor: 'pointer',
-          transform: `rotate(${xPos * 2}deg)`,
-          transition: '0.7s ease transform',
+          transform: `rotate(${xPosTop * 2}deg)`,
         }}
       >
         <FontAwesomeIcon icon={faGear} size={'2x'} color={'rgba(255,255,255,0.85)'} />
+      </Box>
+
+      {/* Bottom gear — Game Setup */}
+      <Box
+        onClick={toggleComposition}
+        role={'button'}
+        aria-label={menuVisible === 'composition' ? 'Close game setup' : 'Open game setup'}
+        sx={{
+          ...gearButtonBase,
+          bottom: '80px',
+          transform: `rotate(${xPosBottom * 2}deg)`,
+        }}
+      >
+        <FontAwesomeIcon icon={faGear} size={'2x'} color={'rgba(240,184,64,0.85)'} />
       </Box>
     </Box>
   )

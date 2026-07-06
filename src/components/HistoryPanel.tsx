@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import { useContext } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import { DealerContext } from '../DealerContext'
 import { flameSets } from '../theme/flameSets'
 import { z } from '../theme/z'
@@ -70,6 +70,25 @@ function HandSection({ cards, label }: { cards: CardValue[]; label: string }) {
 
 export function HistoryPanel() {
   const { historyOpen, setHistoryOpen, history, setGameSummaryOpen } = useContext(DealerContext)
+  const panelRef = useRef<HTMLDivElement>(null)
+  const prevFocusRef = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    if (historyOpen) {
+      prevFocusRef.current = document.activeElement as HTMLElement
+      panelRef.current?.focus()
+    } else {
+      prevFocusRef.current?.focus()
+      prevFocusRef.current = null
+    }
+  }, [historyOpen])
+
+  useEffect(() => {
+    if (!historyOpen) return
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setHistoryOpen(false) }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [historyOpen, setHistoryOpen])
 
   if (!historyOpen) return null
 
@@ -86,6 +105,11 @@ export function HistoryPanel() {
       }}
     >
       <Box
+        ref={panelRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Card draw history"
         onClick={e => e.stopPropagation()}
         sx={{
           position: 'absolute',
@@ -101,6 +125,7 @@ export function HistoryPanel() {
           boxShadow: '0 12px 40px rgba(0,0,0,0.6)',
           padding: '16px',
           color: 'white',
+          outline: 'none',
         }}
       >
         <Button
